@@ -58,3 +58,84 @@ export function envelope({ source, account, range, rows, extra = {} }) {
     ...extra,
   };
 }
+
+/* ============================================================
+   Shopify shaping.
+
+   The rule this exists to enforce: Shopify's all-channel totals
+   mix online, retail and draft orders. Zuri read as a digital
+   winner on that view and was almost entirely retail. Every
+   figure below is split by channel before it means anything.
+   ============================================================ */
+
+/* Retail orders originate from the POS app; drafts from the admin.
+   Anything else is treated as online. */
+export function channelOf(order) {
+  const app = (order?.app?.name || "").toLowerCase();
+  if (!app) return "unknown";
+  if (app.includes("point of sale") || app.includes("pos")) return "retail";
+  if (app.includes("draft")) return "draft";
+  return "online";
+}
+
+const money = (o) => Number(o?.currentTotalPriceSet?.shopMoney?.amount || 0);
+
+export function summariseOrders(orders = []) {
+  const channels = {};
+  const products = new Map();
+  let newCustomers = 0;
+  let returningCustomers = 0;
+
+  for (const o of orders) {
+    const ch = channelOf(o);
+    const amount = money(o);
+    const c = (channels[ch] ||= { channel: ch, revenue: 0, orders: 0 });
+    c.revenue += amount;
+    c.orders += 1;
+
+    /* numberOfOrders counts the customer's lifetime orders, so 1
+       means this order was their first. Guest orders have no
+       customer object and are counted in neither bucket. */
+    const n = o?.customer?.numberOfOrders;
+    if (n != null) (Number(n) <= 1 ? newCustomers++ : returningCustomers++);
+
+    for (const li of o?.lineItems?.nodes || []) {
+      const key = li.title;
+      const p = products.get(key) || { title: key, sku: li.sku || null, type: li.product?.productType || null, units: 0, revenue: 0, online: 0, retail: 0 };
+      const lineRevenue = Number(li?.discountedTotalSet?.shopMoney?.amount || 0);
+      p.units += Number(li.quantity || 0);
+      p.revenue += lineRevenue;
+      if (ch === "retail") p.retail += Number(li.quantity || 0);
+      if (ch === "online") p.online += Number(li.quantity || 0);
+      products.set(key, p);
+    }
+  }
+
+  const totalRevenue = Object.values(channels).reduce((a, c) => a + c.revenue, 0);
+  const totalOrders = Object.values(channels).reduce((a, c) => a + c.orders, 0);
+  const online = channels.online || { revenue: 0, orders: 0 };
+
+  const top = [...products.values()]
+    .map((p) => ({ ...p, onlineShare: p.units ? p.online / p.units : null }))
+    .sort((a, b) => b.units - a.units);
+
+  return {
+    channels: Object.values(channels)
+      .map((c) => ({ ...c, share: totalRevenue ? c.revenue / totalRevenue : 0, aov: c.orders ? c.revenue / c.orders : null }))
+      .sort((a, b) => b.revenue - a.revenue),
+    totals: {
+      revenue: totalRevenue,
+      orders: totalOrders,
+      aov: totalOrders ? totalRevenue / totalOrders : null,
+      onlineRevenue: online.revenue,
+      onlineOrders: online.orders,
+      onlineAov: online.orders ? online.revenue / online.orders : null,
+      newCustomers,
+      returningCustomers,
+      newCustomerShare: newCustomers + returningCustomers ? newCustomers / (newCustomers + returningCustomers) : null,
+    },
+    products: top,
+    /* Products whose volume is mostly retail — the Zuri check. */
+    retailDriven: top.filter((p) => p.units >= 5 && p.onlineShare != null && p.onlineShare < 0.35).map((p) => p.title),
+  };
+}
