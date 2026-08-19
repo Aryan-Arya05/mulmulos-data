@@ -89,13 +89,89 @@ const money = (o) => Number(o?.currentTotalPriceSet?.shopMoney?.amount || 0);
 
 export const isDraftApp = (o) => /draft/i.test(o?.app?.name || "");
 
+/* The 26-store roster. Notes are typed by hand under time pressure,
+   so a store is matched by closest fit rather than exact string —
+   CHHATARPUR and CHHATTARPUR are one store, and counting them apart
+   put the wrong store at the top of the league table. */
+export const STORE_ROSTER = [
+  "AHMEDABAD", "BANGALORE JP", "BANGALORE STAND ALONE", "SAKET", "PROMENADE",
+  "CHHATTARPUR", "GURGAON", "HYDERABAD", "KOLKATA", "JIO", "JUHU", "KALAGHODA",
+  "LOWER PAREL", "KEMPS CORNER", "MALL OF INDIA", "LUDHIANA", "CHENNAI",
+  "LUCKNOW", "JAIPUR", "RAIPUR", "GK", "MOHALI", "SOUTH EX", "CHANDIGARH",
+  "KHAN MARKET", "SUMMIT",
+];
+
+/* Words that describe the format, not the location. */
+const STORE_NOISE = /\b(STORE|STUDIO|OUTLET|SHOP|MALL|BOUTIQUE)\b/g;
+
+/* Damerau-Levenshtein (optimal string alignment) rather than plain
+   edit distance: a swapped pair of letters is the commonest typing
+   error, and LUCKONW → LUCKNOW should cost one, not two. */
+function editDistance(a, b) {
+  if (a === b) return 0;
+  const m = a.length, n = b.length;
+  if (!m || !n) return m || n;
+  const d = Array.from({ length: m + 1 }, (_, i) => [i, ...Array(n).fill(0)]);
+  for (let j = 0; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+        d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1); // transposition
+      }
+    }
+  }
+  return d[m][n];
+}
+
+/**
+ * Map a hand-typed store name onto the roster.
+ * Returns { store, raw, matched } — an unrecognised name is KEPT under
+ * its own raw value and flagged, never dropped, because a store we
+ * cannot name is still revenue we must count.
+ */
+export function normaliseStore(raw) {
+  if (!raw) return null;
+  const cleaned = String(raw).toUpperCase().replace(/[^A-Z0-9 ]/g, " ").replace(STORE_NOISE, " ").replace(/\s+/g, " ").trim();
+  if (!cleaned) return null;
+
+  if (STORE_ROSTER.includes(cleaned)) return { store: cleaned, raw, matched: "exact" };
+
+  /* A roster name contained in the typed name, or vice versa. */
+  for (const r of STORE_ROSTER) {
+    if (cleaned.includes(r) || r.includes(cleaned)) return { store: r, raw, matched: "contains" };
+  }
+
+  /* Closest edit distance, tolerant in proportion to length: about
+     one typo per five characters, capped at three. */
+  let best = null, bestD = Infinity;
+  for (const r of STORE_ROSTER) {
+    const d = editDistance(cleaned, r);
+    if (d < bestD) { bestD = d; best = r; }
+  }
+  const tolerance = Math.min(3, Math.max(1, Math.floor(Math.max(cleaned.length, best?.length || 0) / 5)));
+  if (best && bestD <= tolerance) return { store: best, raw, matched: `fuzzy(${bestD})` };
+
+  return { store: cleaned, raw, matched: "unmatched" };
+}
+
 /** "REC AT JUHU STORE 16900" → "JUHU". Store names are typed by hand,
     so this normalises rather than matching a fixed roster. */
 export function retailStoreOf(order) {
   const m = /rec\s*at\s+(.+?)(?:\s+store)?\s*(?:\d|cod|$)/i.exec(order?.note || "");
   if (!m) return null;
-  const raw = m[1].replace(/\bstore\b/i, "").trim();
-  return raw ? raw.toUpperCase().replace(/\s+/g, " ") : null;
+  const raw = m[1].trim();
+  if (!raw) return null;
+  const n = normaliseStore(raw);
+  return n ? n.store : null;
+}
+
+/** Same match, but keeps the provenance so merges stay auditable. */
+export function retailStoreDetail(order) {
+  const m = /rec\s*at\s+(.+?)(?:\s+store)?\s*(?:\d|cod|$)/i.exec(order?.note || "");
+  if (!m) return null;
+  return normaliseStore(m[1].trim());
 }
 
 /** Gift shows up two independent ways and they do not always co-occur. */
@@ -193,7 +269,7 @@ export function summariseOrders(orders = [], index = null) {
   const unclassified = [];
   let newCustomers = 0, returningCustomers = 0;
   let rebookCount = 0, rebookValue = 0;
-  let giftGross = 0, giftCash = 0;
+  let giftGross = 0, giftCash = 0, giftWaived = 0;
 
   for (const o of orders) {
     if (CANCELLED(o)) continue; // never count a cancelled order as revenue
@@ -208,9 +284,12 @@ export function summariseOrders(orders = [], index = null) {
     if (bucket === "draft_unclassified") unclassified.push({ name: o.name, amount, note: o.note || null });
 
     if (bucket === "gift") {
-      const sub = Number(o?.subtotalPriceSet?.shopMoney?.amount || amount);
-      giftGross += sub;
+      /* subtotalPriceSet is already NET of the gift discount, so the
+         value actually gifted is what was paid plus what was waived. */
+      const waived = Number(o?.totalDiscountsSet?.shopMoney?.amount || 0);
+      giftGross += amount + waived;
       giftCash += amount;
+      giftWaived += waived;
     }
     if (bucket === "stylist" && detail) {
       const k = detail.toUpperCase();
@@ -219,8 +298,10 @@ export function summariseOrders(orders = [], index = null) {
       stylists.set(k, st);
     }
     if (bucket === "retail_assist" && detail) {
-      const sv = stores.get(detail) || { store: detail, revenue: 0, orders: 0 };
+      const rec = retailStoreDetail(o);
+      const sv = stores.get(detail) || { store: detail, revenue: 0, orders: 0, variants: new Set(), matched: rec?.matched };
       sv.revenue += amount; sv.orders += 1;
+      if (rec?.raw) sv.variants.add(String(rec.raw).toUpperCase().replace(/\s+/g, " ").trim());
       stores.set(detail, sv);
     }
 
@@ -261,9 +342,12 @@ export function summariseOrders(orders = [], index = null) {
       revenueExcludingRebooks: total - rebookValue,
       giftGrossValue: giftGross,
       giftCashReceived: giftCash,
+      giftValueWaived: giftWaived,
     },
     stylists: [...stylists.values()].sort((a, b) => b.revenue - a.revenue),
-    stores: [...stores.values()].sort((a, b) => b.revenue - a.revenue),
+    stores: [...stores.values()]
+      .map((sv) => ({ ...sv, variants: [...sv.variants], merged: sv.variants.size > 1 }))
+      .sort((a, b) => b.revenue - a.revenue),
     products: top,
     /* Volume that is NOT digital — the Zuri check, now precise. */
     nonDigital: top.filter((p) => p.units >= 5 && p.digitalShare != null && p.digitalShare < 0.35)
