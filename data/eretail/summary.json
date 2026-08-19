@@ -1,0 +1,30 @@
+{
+  "source": "eRetail yearly Excel exports",
+  "generatedAt": "2026-08-19T11:09:14.895915Z",
+  "coverage": {
+    "from": "2020-02-08",
+    "to": "2026-07-31",
+    "days": 2355,
+    "months": 78
+  },
+  "rows": {
+    "read": 2005191,
+    "kept": 880244,
+    "skipped_status": 173014,
+    "skipped_sto": 951933
+  },
+  "badDateSamples": [],
+  "knownIssues": [
+    "Excel corrupted the source exports: dates with day <= 12 were converted to MM/DD and are stored with day and month swapped. This ingest swaps them back. Verified: no datetime cell has day > 12 and no string cell has day < 13, across 1.87M rows."
+  ],
+  "rules": {
+    "excludedChannels": [
+      "STO"
+    ],
+    "excludedStatus": [
+      "Cancelled",
+      "Shipped & Returned"
+    ],
+    "revenue": "listValue = MRP x quantity. LIST price, not money received \u2014 the export carries no selling price, so this will not reconcile against Shopify."
+  }
+}
