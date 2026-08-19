@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MulmulOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070d1a; --deep:#04070f; --surface:#0c1526; --surfaceHi:#111c31;
+  --border:#1c2a44; --borderHi:#27395a;
+  --text:#e8eefc; --muted:#94a6c4; --dim:#5b6f92;
+  --cyan:#38bdf8; --cyanDeep:#0ea5e9; --violet:#a78bfa;
+  --ok:#34d399; --warn:#fbbf24; --err:#fb7185;
+  --sans:Inter,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --r:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--deep);color:var(--text);font-family:var(--sans);font-size:14px;-webkit-font-smoothing:antialiased}
+.shell{display:flex;min-height:100vh}
+aside{width:210px;flex-shrink:0;background:var(--deep);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:11px;padding:0 18px 22px}
+.mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),#8b5cf6);display:grid;place-items:center;font-weight:700;color:#04131f;box-shadow:0 0 20px #38bdf855}
+.brand h1{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.brand h1 span{color:var(--cyan)}
+.brand p{font-size:11px;color:var(--dim);margin-top:2px}
+.navlbl{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:0 18px 9px}
+nav a{display:flex;align-items:center;gap:10px;margin:0 10px 3px;padding:9px 12px;border-radius:10px;color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;border:1px solid transparent;cursor:pointer}
+nav a.on{color:var(--text);font-weight:600;background:linear-gradient(135deg,#38bdf822,#a78bfa14);border-color:#38bdf844}
+nav a .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);margin-left:auto}
+main{flex:1;min-width:0;background:var(--bg)}
+.top{position:sticky;top:0;z-index:5;padding:16px 26px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:#070d1af2;backdrop-filter:blur(8px)}
+.top .crumb{font-size:11px;color:var(--dim)}
+.top h2{font-size:19px;font-weight:600;letter-spacing:-.015em;text-transform:capitalize}
+.chip{margin-left:auto;display:flex;align-items:center;gap:8px;padding:7px 13px;border-radius:999px;background:var(--surface);border:1px solid var(--border);font-size:11.5px;color:var(--muted)}
+.chip i{width:7px;height:7px;border-radius:50%;background:var(--ok);display:block}
+.chip.stale i{background:var(--warn)}
+.wrap{padding:24px 26px 60px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.kpi{background:linear-gradient(160deg,var(--surfaceHi),var(--surface));border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;inset:0;background:radial-gradient(120% 90% at 100% 0%,#38bdf818,transparent 62%);pointer-events:none}
+.kpi h3{font-size:11.5px;color:var(--muted);font-weight:500;margin-bottom:9px}
+.kpi .v{font-family:var(--mono);font-size:26px;letter-spacing:-.02em;line-height:1}
+.kpi .s{font-size:11px;color:var(--dim);margin-top:9px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-top:18px}
+.card h3{font-size:15px;font-weight:600;margin-bottom:14px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.card h3 em{font-style:normal;font-size:11px;color:var(--dim);font-weight:400}
+table{width:100%;border-collapse:collapse}
+th{text-align:right;font-size:11px;color:var(--dim);font-weight:600;padding:11px 14px;background:var(--surfaceHi);border-bottom:1px solid var(--border);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+td{text-align:right;font-family:var(--mono);font-size:12px;color:var(--muted);padding:10px 14px;border-bottom:1px solid #1c2a4466;white-space:nowrap}
+td:first-child{font-family:var(--sans);font-size:12.5px;color:var(--text);white-space:normal}
+tbody tr:nth-child(odd){background:#111c3155}
+.tblwrap{border:1px solid var(--border);border-radius:10px;overflow:hidden;overflow-x:auto}
+.bar{height:6px;border-radius:99px;background:var(--bg);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet))}
+.note{margin-top:14px;padding:10px 12px;border-left:2px solid var(--warn);background:var(--surfaceHi);font-size:11.5px;line-height:1.6;color:var(--muted);border-radius:0 8px 8px 0}
+.note.err{border-color:var(--err)}
+.note.ok{border-color:var(--ok)}
+.pill{display:inline-block;font-family:var(--sans);font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);color:var(--muted);margin-left:6px}
+.hide{display:none}
+.empty{color:var(--dim);font-size:12px;line-height:1.7;padding:10px 0}
+@media(max-width:820px){aside{display:none}.wrap,.top{padding-left:16px;padding-right:16px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside>
+    <div class="brand">
+      <div class="mark">M</div>
+      <div><h1>Mulmul<span>OS</span></h1><p>Operator console</p></div>
+    </div>
+    <div class="navlbl">Revenue</div>
+    <nav id="nav1">
+      <a data-v="overview" class="on">Overview</a>
+      <a data-v="channels">Channels</a>
+      <a data-v="stylists">Stylists</a>
+      <a data-v="stores">Stores</a>
+      <a data-v="products">Products</a>
+    </nav>
+    <div class="navlbl" style="margin-top:18px">Paid</div>
+    <nav id="nav2">
+      <a data-v="google">Google Ads</a>
+    </nav>
+    <div class="navlbl" style="margin-top:18px">System</div>
+    <nav id="nav3">
+      <a data-v="quality">Data quality</a>
+    </nav>
+  </aside>
+
+  <main>
+    <div class="top">
+      <div><div class="crumb">Shop Mulmul</div><h2 id="title">Overview</h2></div>
+      <div class="chip" id="fresh"><i></i><span>loading…</span></div>
+    </div>
+    <div class="wrap" id="view"></div>
+  </main>
+</div>
+
+<script>
+const $ = (s,r=document)=>r.querySelector(s);
+const inr = n => n==null||isNaN(n) ? "—" : "₹"+Math.round(n).toLocaleString("en-IN");
+const lakh = n => n==null||isNaN(n) ? "—" : "₹"+(n/100000).toFixed(2)+"L";
+const num = n => n==null||isNaN(n) ? "—" : Number(n).toLocaleString("en-IN");
+const pct = n => n==null||isNaN(n) ? "—" : Math.round(n*100)+"%";
+const xx  = n => n==null||isNaN(n) ? "—" : Number(n).toFixed(2)+"x";
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function ago(iso){
+  if(!iso) return "never";
+  const s=Math.floor((Date.now()-new Date(iso))/1000);
+  if(s<3600) return Math.floor(s/60)+"m ago";
+  if(s<86400) return Math.floor(s/3600)+"h ago";
+  return Math.floor(s/86400)+"d ago";
+}
+
+const state = { shopify:null, google:null, view:"overview", errors:[] };
+
+async function load(name){
+  try{
+    const r = await fetch(`./data/${name}.json?t=`+Date.now());
+    if(!r.ok) throw new Error(r.status+" "+r.statusText);
+    return await r.json();
+  }catch(e){ state.errors.push(`${name}.json — ${e.message}`); return null; }
+}
+
+function table(cols, rows, empty){
+  if(!rows||!rows.length) return `<div class="empty">${empty||"Nothing to show."}</div>`;
+  return `<div class="tblwrap"><table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead>
+  <tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+const kpi = (h,v,s,colour) => `<div class="kpi"><h3>${esc(h)}</h3><div class="v"${colour?` style="color:${colour}"`:""}>${v}</div>${s?`<div class="s">${s}</div>`:""}</div>`;
+
+/* ---------- views ---------- */
+const views = {
+overview(){
+  const s = state.shopify, g = state.google;
+  if(!s) return missing("shopify");
+  const t = s.totals;
+  const gp = g?.accounts?.find(a=>a.id==="3669746941");
+  const adSpend = gp?.totals?.webSpend;
+  const mer = adSpend ? t.digitalRevenue/adSpend : null;
+  return `
+  <div class="grid">
+    ${kpi("Total revenue", lakh(t.revenue), `${num(t.orders)} orders · ${s.range}`)}
+    ${kpi("Digital", lakh(t.digitalRevenue), pct(t.digitalShare)+" of revenue", "var(--cyan)")}
+    ${kpi("People-led", lakh(t.revenue-t.digitalRevenue), "stylist + retail assist", "var(--violet)")}
+    ${kpi("New customers", num(t.newCustomers), pct(t.newCustomerShare)+" of buyers", "var(--ok)")}
+    ${kpi("Re-books", num(t.rebookOrders), inr(t.rebookValue)+" labelled", t.rebookOrders?"var(--warn)":null)}
+    ${kpi("Gifted away", lakh(t.giftValueWaived), "waived on "+num(s.buckets.find(b=>b.bucket==="gift")?.orders||0)+" gift orders","var(--warn)")}
+  </div>
+  <div class="card">
+    <h3>Where revenue comes from<em>${esc(s.range||"")}</em></h3>
+    ${bucketRows(s)}
+    <div class="note">Retail proper is not in Shopify — it lives in eRetail. <b>retail_assist</b> is only the endless-aisle slice booked by store staff for out-of-stock items.</div>
+  </div>
+  ${adSpend?`<div class="card"><h3>Blended efficiency<em>digital revenue ÷ Google web spend</em></h3>
+    <div class="grid">
+      ${kpi("Digital revenue", lakh(t.digitalRevenue),"online + app")}
+      ${kpi("Google web spend", lakh(adSpend),"OMNI excluded")}
+      ${kpi("MER", xx(mer),"efficiency ratio, not causation","var(--ok)")}
+    </div>
+    <div class="note">Meta spend is not in this figure yet, so the true MER is lower. An efficiency ratio never proves incrementality.</div>
+  </div>`:""}`;
+},
+
+channels(){
+  const s = state.shopify; if(!s) return missing("shopify");
+  return `<div class="card"><h3>Every channel<em>${esc(s.range||"")}</em></h3>${bucketRows(s)}</div>
+  <div class="card"><h3>What each bucket means</h3>
+  ${table(["Bucket","Meaning"],[
+    ["online","Web checkout"],["app","Appbrew mobile app"],
+    ["stylist","Backend sale, stylist named on the order timeline"],
+    ["retail_assist","Store staff booking an item not in stock — note reads REC AT &lt;store&gt;"],
+    ["gift","Influencer or celebrity seeding — customer name has GIFT, or a discount titled gift"],
+    ["online_to_draft","A web order was cancelled and re-created as a draft"],
+    ["app_to_draft","An app order was cancelled and re-created as a draft"],
+    ["other_to_draft","Re-book whose original came from some other source"],
+    ["draft_unclassified","Matched no rule — surfaced, never guessed"],
+  ])}
+  <div class="note">Re-books are labelled, never subtracted, so these totals still reconcile against Shopify's own reports.</div></div>`;
+},
+
+stylists(){
+  const s = state.shopify; if(!s) return missing("shopify");
+  const rows = s.stylists||[];
+  const tot = rows.reduce((a,r)=>a+r.revenue,0);
+  return `<div class="grid">
+    ${kpi("Stylist revenue", lakh(tot), `${rows.length} stylists`, "var(--violet)")}
+    ${kpi("Orders", num(rows.reduce((a,r)=>a+r.orders,0)),"in this window")}
+    ${kpi("Top stylist", esc(rows[0]?.stylist||"—"), inr(rows[0]?.revenue))}
+  </div>
+  <div class="card"><h3>Stylists by revenue<em>from the order timeline</em></h3>
+  ${table(["Stylist","Revenue","Orders","AOV","Share"], rows.map(r=>[
+    esc(r.stylist), inr(r.revenue), num(r.orders), inr(r.revenue/r.orders),
+    `${pct(tot?r.revenue/tot:0)}<div class="bar"><i style="width:${tot?100*r.revenue/tot:0}%"></i></div>`
+  ]), "No stylist orders in this window.")}
+  <div class="note">Attribution comes from a comment posted on each order seconds after creation. A mistyped or missing comment lands the order in <b>draft_unclassified</b> rather than being assigned to anyone.</div></div>`;
+},
+
+stores(){
+  const s = state.shopify; if(!s) return missing("shopify");
+  const rows = s.stores||[];
+  const tot = rows.reduce((a,r)=>a+r.revenue,0);
+  const merged = rows.filter(r=>r.merged);
+  return `<div class="grid">
+    ${kpi("Retail-assist revenue", lakh(tot), `${rows.length} stores`)}
+    ${kpi("Top store", esc(rows[0]?.store||"—"), inr(rows[0]?.revenue))}
+    ${kpi("Names merged", num(merged.length), merged.length?"spelling variants":"none", merged.length?"var(--warn)":null)}
+  </div>
+  <div class="card"><h3>Stores by revenue<em>endless aisle only</em></h3>
+  ${table(["Store","Revenue","Orders","AOV","Share"], rows.map(r=>[
+    esc(r.store)+(r.merged?`<span class="pill">merged</span>`:"")+(r.matched==="unmatched"?`<span class="pill" style="color:var(--warn)">off roster</span>`:""),
+    inr(r.revenue), num(r.orders), inr(r.revenue/r.orders),
+    `${pct(tot?r.revenue/tot:0)}<div class="bar"><i style="width:${tot?100*r.revenue/tot:0}%"></i></div>`
+  ]), "No retail-assist orders.")}
+  ${merged.length?`<div class="note">Merged from hand-typed variants: ${merged.map(m=>esc(m.variants.join(" / "))).join(" · ")}. Fixing the note format at source would remove the need to guess.</div>`:""}
+  <div class="note">This is not store sell-through. It is only what store staff booked through Shopify because an item was out of stock.</div></div>`;
+},
+
+products(){
+  const s = state.shopify; if(!s) return missing("shopify");
+  const nd = s.nonDigital||[];
+  const p = (s.products||[]).slice(0,40);
+  return `<div class="card"><h3>Not digital winners<em>high volume, under 35% online or app</em></h3>
+  ${table(["Product","Units","Digital share"], nd.map(x=>[esc(x.title), num(x.units), pct(x.digitalShare)]),"Nothing flagged.")}
+  <div class="note">Volume here is mostly stylist or store-assisted. Reading these as digital performance is the mistake Zuri caused.</div></div>
+  <div class="card"><h3>Top products by units</h3>
+  ${table(["Product","Units","Revenue","Digital units","Digital share"], p.map(x=>[
+    esc(x.title), num(x.units), inr(x.revenue), num(x.digitalUnits),
+    x.digitalShare==null?"—":`<span style="color:${x.digitalShare<0.35?"var(--warn)":"var(--muted)"}">${pct(x.digitalShare)}</span>`
+  ]))}</div>`;
+},
+
+google(){
+  const g = state.google; if(!g) return missing("google");
+  const live = (g.accounts||[]).filter(a=>a.ok && a.totals);
+  const p = live.find(a=>a.id==="3669746941") || live[0];
+  if(!p) return `<div class="card"><div class="empty">No account returned data.</div></div>`;
+  const t = p.totals;
+  return `<div class="grid">
+    ${kpi("Web spend", lakh(t.webSpend), esc(p.name))}
+    ${kpi("Web revenue", lakh(t.webRevenue), "Google attributed")}
+    ${kpi("Web ROAS", xx(t.webRoas), "OMNI excluded", "var(--ok)")}
+    ${kpi("OMNI spend", lakh(t.omniSpend), num(t.omniVisits)+" store visits", "var(--warn)")}
+    ${kpi("OMNI share", pct(t.omniShare), "of total spend", t.omniShare>0.3?"var(--warn)":null)}
+    ${kpi("Cost per visit", inr(t.omniCostPerVisit), "store visit campaigns")}
+  </div>
+  <div class="card"><h3>Web campaigns<em>graded on ROAS</em></h3>
+  ${table(["Campaign","Spend","Revenue","ROAS"], (p.web||[]).map(c=>[
+    esc(c.name), inr(c.spend), inr(c.revenue),
+    `<span style="color:${c.roas>=3?"var(--ok)":c.roas>=1?"var(--muted)":"var(--err)"}">${xx(c.roas)}</span>`]))}</div>
+  <div class="card"><h3>OMNI store-visit campaigns<em>not graded on ROAS</em></h3>
+  ${table(["Campaign","Spend","Visits","Cost / visit"], (p.omni||[]).map(c=>[
+    esc(c.name), inr(c.spend), num(c.conversions), inr(c.costPerVisit)]))}
+  <div class="note">Their conversion value is a visit count, not rupees. Blending them in reported ${xx(t.naiveBlendedRoas)} against a real web figure of ${xx(t.webRoas)}.</div></div>
+  <div class="card"><h3>All accounts</h3>
+  ${table(["Account","Status","Web spend","Web ROAS","OMNI share"], (g.accounts||[]).map(a=>[
+    esc(a.name), a.ok?"ok":`<span style="color:var(--err)">failed</span>`,
+    a.totals?inr(a.totals.webSpend):"—", a.totals?xx(a.totals.webRoas):"—", a.totals?pct(a.totals.omniShare):"—"]))}</div>`;
+},
+
+quality(){
+  const s = state.shopify, g = state.google;
+  const u = s?.unclassified||[];
+  const rows = [];
+  if(s) rows.push(["Shopify", s.fetchedAt?ago(s.fetchedAt):"—", esc(s.range||"—"), s.truncated?`<span style="color:var(--err)">truncated</span>`:"complete"]);
+  if(g) rows.push(["Google Ads", g.fetchedAt?ago(g.fetchedAt):"—", esc(g.range||"—"), "complete"]);
+  return `<div class="card"><h3>Sources</h3>
+  ${table(["Source","Last pull","Window","Coverage"], rows)}
+  ${state.errors.length?`<div class="note err">Could not load: ${state.errors.map(esc).join(" · ")}</div>`:""}
+  <div class="note ok">Both files are committed by GitHub Actions twice daily. Nothing here is entered by hand.</div></div>
+  <div class="card"><h3>Unclassified drafts<em>${u.length} orders</em></h3>
+  ${table(["Order","Value","Note"], u.map(x=>[esc(x.name), inr(x.amount), esc(x.note||"—")]),"Every draft matched a rule.")}
+  <div class="note">These matched no rule and were left unassigned rather than guessed into a bucket. A growing list means the note conventions are drifting.</div></div>
+  <div class="card"><h3>What is still missing</h3>
+  ${table(["Source","Covers","Status"],[
+    ["eRetail","Actual store sell-through across 26 stores","Not connected"],
+    ["GA4","App and web sessions, conversion rate","Not connected"],
+    ["Meta Ads","Paid social spend and 7-day-click revenue","Not in this pipeline yet"],
+  ])}
+  <div class="note">Until Meta is added, any MER shown here understates spend and so overstates efficiency.</div></div>`;
+}};
+
+function bucketRows(s){
+  const tot = s.totals.revenue;
+  const colour = b => b.startsWith("online")||b==="app" ? "var(--cyan)"
+    : b==="stylist"||b==="retail_assist" ? "var(--violet)"
+    : b==="gift" ? "var(--warn)" : b.includes("_to_draft")||b==="draft_unclassified" ? "var(--warn)" : "var(--muted)";
+  return table(["Bucket","Revenue","Orders","AOV","Share"], (s.buckets||[]).map(b=>[
+    `<span style="color:${colour(b.bucket)}">${esc(b.bucket)}</span>`,
+    inr(b.revenue), num(b.orders), inr(b.aov),
+    `${pct(b.share)}<div class="bar"><i style="width:${100*b.share}%"></i></div>`
+  ]));
+}
+
+const missing = n => `<div class="card"><div class="empty">
+  <b>data/${n}.json has not been published yet.</b><br>
+  Run the “Pull ${n==="google"?"Google Ads":"Shopify"}” workflow in the Actions tab, then reload this page.
+</div></div>`;
+
+function render(){
+  $("#title").textContent = state.view==="google" ? "Google Ads" : state.view==="quality" ? "Data quality" : state.view;
+  document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on", a.dataset.v===state.view));
+  $("#view").innerHTML = views[state.view] ? views[state.view]() : "";
+  window.scrollTo(0,0);
+}
+
+document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>{
+  state.view=a.dataset.v; location.hash=a.dataset.v; render();
+}));
+window.addEventListener("hashchange",()=>{
+  const v=location.hash.slice(1); if(views[v]){ state.view=v; render(); }
+});
+
+(async function init(){
+  const [sh,go] = await Promise.all([load("shopify"), load("google")]);
+  state.shopify=sh; state.google=go;
+
+  const newest = [sh?.fetchedAt, go?.fetchedAt].filter(Boolean).sort().pop();
+  const chip = $("#fresh");
+  if(!newest){ chip.className="chip stale"; chip.querySelector("span").textContent="no data published"; }
+  else {
+    const hrs = (Date.now()-new Date(newest))/3600000;
+    chip.className = "chip"+(hrs>26?" stale":"");
+    chip.querySelector("span").textContent = (hrs>26?"stale · ":"")+"updated "+ago(newest);
+  }
+  const v = location.hash.slice(1);
+  if(views[v]) state.view=v;
+  render();
+})();
+</script>
+</body>
+</html>
