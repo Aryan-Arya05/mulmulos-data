@@ -1,109 +1,110 @@
 /* ============================================================
-   ⚠  VERIFY THIS FILE BEFORE FIRST RUN — it is the only part of
-   the pipeline written against an API contract I could not read.
+   Supermetrics API v2 client.
 
-   What is confirmed (Supermetrics public docs, Aug 2026):
-     · Server-to-server auth uses an API key bearer token,
-       format `api_*`. Get it from the Supermetrics Hub.
-     · The Data API is a single endpoint covering all connected
-       sources, addressed by ds_id (Google Ads = "AW").
-     · Queries are async: submit, receive a schedule id, poll.
+   CONFIRMED against docs.supermetrics.com (Aug 2026):
+     · GET https://api.supermetrics.com/enterprise/v2/query/data/json
+     · Query parameters are sent as a JSON string in the `json` param.
+     · Auth: `Authorization: Bearer <api key>` — documented as
+       preferred over api_key in the URL, and it keeps the key out
+       of proxy and server access logs.
+     · Synchronous by default. If a query outlives the wait window
+       it returns 202 with meta.schedule_id, and you poll
+       GET /enterprise/v2/query/status.
+     · Response is { meta, data } where data is a 2D array. With
+       settings.no_headers = true there is no header row, so column
+       order === the order of `fields`.
 
-   What is NOT confirmed: the exact URL paths, parameter casing,
-   and response envelope below. Confirm against your Hub's API
-   reference, adjust the three marked constants, and the rest of
-   the pipeline works unchanged.
-
-   Everything else in this repo is deliberately independent of
-   this file, so a wrong guess here breaks one function, not the
-   build.
+   An earlier version of this file guessed a submit/poll pair at
+   /query/data/async. No such endpoint exists — it returned
+   ENDPOINT_NOT_FOUND on every account. The shape below is from
+   the published docs, not inference.
    ============================================================ */
 
-/* ---- VERIFY: base URL and the two paths ---- */
 const BASE = process.env.SUPERMETRICS_BASE || "https://api.supermetrics.com";
-const SUBMIT_PATH = process.env.SUPERMETRICS_SUBMIT_PATH || "/enterprise/v2/query/data/async";
-const RESULT_PATH = process.env.SUPERMETRICS_RESULT_PATH || "/enterprise/v2/query/data/result";
+const DATA_PATH = "/enterprise/v2/query/data/json";
+const STATUS_PATH = "/enterprise/v2/query/status";
 
 const KEY = process.env.SUPERMETRICS_API_KEY;
 
 function requireKey() {
   if (!KEY) throw new Error("SUPERMETRICS_API_KEY is not set — add it as a GitHub Secret.");
-  if (!KEY.startsWith("api_")) {
-    console.warn("⚠ SUPERMETRICS_API_KEY does not start with 'api_' — check you copied a server-to-server key, not an OAuth token.");
-  }
 }
 
-async function call(path, body, method = "POST") {
+async function get(path, params) {
   requireKey();
-  const res = await fetch(`${BASE}${path}`, {
-    method,
-    headers: {
-      Authorization: `Bearer ${KEY}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: method === "POST" ? JSON.stringify(body) : undefined,
+  const url = `${BASE}${path}?json=${encodeURIComponent(JSON.stringify(params))}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${KEY}`, Accept: "application/json" },
   });
   const text = await res.text();
-  if (!res.ok) {
-    throw new Error(`Supermetrics ${res.status} on ${path} — ${text.slice(0, 400)}`);
-  }
+
+  let body;
   try {
-    return JSON.parse(text);
+    body = JSON.parse(text);
   } catch {
-    throw new Error(`Supermetrics returned non-JSON on ${path} — ${text.slice(0, 300)}`);
+    throw new Error(`Non-JSON response (${res.status}) from ${path} — ${text.slice(0, 200)}`);
   }
+
+  /* v2 puts failures in body.error with a code worth surfacing verbatim. */
+  if (body.error) {
+    const e = body.error;
+    throw new Error(`${e.code || res.status}: ${e.message || ""}${e.description ? ` — ${e.description}` : ""}`);
+  }
+  if (!res.ok && res.status !== 202) {
+    throw new Error(`HTTP ${res.status} from ${path} — ${text.slice(0, 200)}`);
+  }
+  return { body, status: res.status };
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
- * Submit a query, poll until complete, return the 2D array
- * (row 0 = headers, rows 1+ = data) plus requested field ids.
+ * Run one query. Returns a 2D data array (no header row).
+ * Handles the 202/QUEUED case by polling the status endpoint.
  */
-export async function query({ dsId, accounts, fields, dateRangeType, maxRows = 500 }) {
-  const submitted = await call(SUBMIT_PATH, {
+export async function query({ dsId, accounts, fields, startDate, endDate, maxRows = 1000 }) {
+  const params = {
     ds_id: dsId,
     ds_accounts: accounts,
+    start_date: startDate,
+    end_date: endDate,
     fields,
-    date_range_type: dateRangeType,
     max_rows: maxRows,
-  });
+    settings: { no_headers: true },
+  };
 
-  /* ---- VERIFY: the field carrying the poll handle ---- */
-  const scheduleId = submitted.schedule_id || submitted.data?.schedule_id || submitted.id;
-  if (!scheduleId) {
-    throw new Error(`No schedule id in submit response — got keys: ${Object.keys(submitted).join(", ")}`);
-  }
+  const { body, status } = await get(DATA_PATH, params);
 
-  for (let attempt = 0; attempt < 30; attempt++) {
-    await sleep(attempt === 0 ? 1500 : 3000);
-    const out = await call(`${RESULT_PATH}?schedule_id=${encodeURIComponent(scheduleId)}`, null, "GET");
-    const status = out.status || out.data?.status;
-    if (status === "completed") {
-      const payload = out.data || out;
-      return {
-        rows: payload.data || [],
-        fieldIds: payload.requested_field_ids || fields.split(","),
-      };
+  const queued = status === 202 || body.meta?.status_code === "QUEUED";
+  if (!queued) return body.data || [];
+
+  const scheduleId = body.meta?.schedule_id;
+  if (!scheduleId) throw new Error("Query was queued but no schedule_id was returned.");
+
+  for (let attempt = 0; attempt < 40; attempt++) {
+    await sleep(attempt === 0 ? 2000 : 3000);
+    const poll = await get(STATUS_PATH, { schedule_id: scheduleId });
+    const code = poll.body.meta?.status_code;
+    if (code === "SUCCESS" || code === "COMPLETED" || (poll.body.data && poll.body.data.length)) {
+      return poll.body.data || [];
     }
-    if (status === "failed" || status === "error") {
-      throw new Error(`Supermetrics query failed: ${JSON.stringify(out).slice(0, 300)}`);
+    if (code === "FAILED" || code === "ERROR") {
+      throw new Error(`Query failed: ${JSON.stringify(poll.body.meta).slice(0, 200)}`);
     }
   }
-  throw new Error("Supermetrics query did not complete within ~90s.");
+  throw new Error("Query did not finish within ~2 minutes.");
 }
 
 /**
- * Map the 2D array to objects using requested_field_ids — never the
- * row-0 display labels, which differ from field ids and would
- * silently read the wrong column.
+ * Map rows to objects. With no_headers the column order is exactly
+ * the order of `fields`, so index off that rather than guessing from
+ * labels — labels differ from field ids and would silently read the
+ * wrong column.
  */
-export function toObjects({ rows, fieldIds }, mapping) {
-  if (!rows || rows.length < 2) return [];
-  const idx = {};
-  fieldIds.forEach((id, i) => { idx[id] = i; });
-  return rows.slice(1).map((r) => {
+export function toObjects(rows, fields, mapping) {
+  const order = fields.split(",").map((f) => f.trim());
+  const idx = Object.fromEntries(order.map((f, i) => [f, i]));
+  return (rows || []).map((r) => {
     const o = {};
     for (const [out, { field, type }] of Object.entries(mapping)) {
       const raw = r[idx[field]];
@@ -111,4 +112,15 @@ export function toObjects({ rows, fieldIds }, mapping) {
     }
     return o;
   });
+}
+
+/** Supermetrics wants YYYY-MM-DD. Explicit window beats a named range
+    whose definition could drift between products. */
+export function lastNDays(n) {
+  const end = new Date();
+  end.setUTCDate(end.getUTCDate() - 1); // yesterday: today is partial
+  const start = new Date(end);
+  start.setUTCDate(start.getUTCDate() - (n - 1));
+  const fmt = (d) => d.toISOString().slice(0, 10);
+  return { startDate: fmt(start), endDate: fmt(end) };
 }
