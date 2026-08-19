@@ -2,7 +2,7 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-12 → 2026-08-18 IST",
-  "fetchedAt": "2026-08-19T08:57:51.205Z",
+  "fetchedAt": "2026-08-19T09:10:48.053Z",
   "rowCount": 887,
   "currency": "INR",
   "truncated": false,
@@ -15,81 +15,82 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 15597530.1,
-    "orders": 795,
-    "digitalRevenue": 6100218.1,
-    "digitalShare": 0.39110154369889627,
+    "revenue": 15583680.1,
+    "orders": 794,
+    "digitalRevenue": 6086368.1,
+    "digitalShare": 0.3905603850274108,
     "newCustomers": 354,
-    "returningCustomers": 441,
-    "newCustomerShare": 0.44528301886792454,
+    "returningCustomers": 440,
+    "newCustomerShare": 0.44584382871536526,
     "rebookOrders": 33,
     "rebookValue": 1039611,
-    "revenueExcludingRebooks": 14557919.1,
-    "giftGrossValue": 293995,
-    "giftCashReceived": 293995
+    "revenueExcludingRebooks": 14544069.1,
+    "giftGrossValue": 978800,
+    "giftCashReceived": 293995,
+    "giftValueWaived": 684805
   },
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 4557419.1,
-      "orders": 241,
-      "share": 0.2921885113079538,
-      "aov": 18910.452697095436
+      "revenue": 4543569.1,
+      "orders": 240,
+      "share": 0.2915594436515672,
+      "aov": 18931.537916666664
     },
     {
       "bucket": "retail_assist",
       "revenue": 4458750,
       "orders": 205,
-      "share": 0.28586256743303223,
+      "share": 0.2861166278689204,
       "aov": 21750
     },
     {
       "bucket": "stylist",
       "revenue": 3275398.5,
       "orders": 190,
-      "share": 0.20999469012084163,
+      "share": 0.21018132295978023,
       "aov": 17238.93947368421
     },
     {
       "bucket": "app",
       "revenue": 1542799,
       "orders": 71,
-      "share": 0.09891303239094246,
+      "share": 0.09900094137584357,
       "aov": 21729.563380281692
     },
     {
       "bucket": "other_to_draft",
       "revenue": 680621,
       "orders": 17,
-      "share": 0.043636460108514234,
+      "share": 0.04367524202450742,
       "aov": 40036.529411764706
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 429557.5,
       "orders": 17,
-      "share": 0.027540097518388505,
+      "share": 0.027564573787676763,
       "aov": 25268.08823529412
     },
     {
       "bucket": "online_to_draft",
       "revenue": 317440,
       "orders": 15,
-      "share": 0.020351940208789852,
+      "share": 0.020370028001280648,
       "aov": 21162.666666666668
     },
     {
       "bucket": "gift",
       "revenue": 293995,
       "orders": 38,
-      "share": 0.018848817608628946,
+      "share": 0.01886556950049302,
       "aov": 7736.710526315789
     },
     {
       "bucket": "app_to_draft",
       "revenue": 41550,
       "orders": 1,
-      "share": 0.002663883302908324,
+      "share": 0.00266625082993073,
       "aov": 41550
     }
   ],
@@ -222,149 +223,258 @@
   ],
   "stores": [
     {
-      "store": "KALAGHODA",
-      "revenue": 533800,
-      "orders": 23
+      "store": "CHHATTARPUR",
+      "revenue": 733650,
+      "orders": 26,
+      "variants": [
+        "CHHATARPUR STUDIO",
+        "CHHATTARPUR STUDIO",
+        "CHHATTARPUR"
+      ],
+      "matched": "fuzzy(1)",
+      "merged": true
     },
     {
-      "store": "CHHATARPUR STUDIO",
-      "revenue": 378150,
-      "orders": 12
+      "store": "KALAGHODA",
+      "revenue": 533800,
+      "orders": 23,
+      "variants": [
+        "KALAGHODA"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "CHANDIGARH",
       "revenue": 329150,
-      "orders": 14
+      "orders": 14,
+      "variants": [
+        "CHANDIGARH"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "JUHU",
       "revenue": 323450,
-      "orders": 14
+      "orders": 14,
+      "variants": [
+        "JUHU"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "JAIPUR",
       "revenue": 312990,
-      "orders": 9
+      "orders": 9,
+      "variants": [
+        "JAIPUR"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "MALL OF INDIA",
       "revenue": 267650,
-      "orders": 15
+      "orders": 15,
+      "variants": [
+        "MALL OF INDIA"
+      ],
+      "matched": "contains",
+      "merged": false
+    },
+    {
+      "store": "MOHALI",
+      "revenue": 231000,
+      "orders": 14,
+      "variants": [
+        "MOHALI",
+        "MOAHLI"
+      ],
+      "matched": "exact",
+      "merged": true
     },
     {
       "store": "PROMENADE",
       "revenue": 225400,
-      "orders": 12
+      "orders": 12,
+      "variants": [
+        "PROMENADE"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "AHMEDABAD",
       "revenue": 206950,
-      "orders": 5
-    },
-    {
-      "store": "MOHALI",
-      "revenue": 191200,
-      "orders": 13
-    },
-    {
-      "store": "CHHATTARPUR STUDIO",
-      "revenue": 185100,
-      "orders": 5
-    },
-    {
-      "store": "CHHATTARPUR",
-      "revenue": 170400,
-      "orders": 9
+      "orders": 5,
+      "variants": [
+        "AHMEDABAD"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "JIO",
       "revenue": 167650,
-      "orders": 7
+      "orders": 7,
+      "variants": [
+        "JIO"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "LUDHIANA",
       "revenue": 154400,
-      "orders": 7
+      "orders": 7,
+      "variants": [
+        "LUDHIANA"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "KOLKATA",
       "revenue": 150760,
-      "orders": 7
+      "orders": 7,
+      "variants": [
+        "KOLKATA"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "GURUGRAM",
       "revenue": 144750,
-      "orders": 9
+      "orders": 9,
+      "variants": [
+        "GURUGRAM"
+      ],
+      "matched": "unmatched",
+      "merged": false
     },
     {
       "store": "SAKET",
       "revenue": 143150,
-      "orders": 8
+      "orders": 8,
+      "variants": [
+        "SAKET"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "FLAGSHIP BANGALORE",
       "revenue": 106450,
-      "orders": 5
+      "orders": 5,
+      "variants": [
+        "FLAGSHIP BANGALORE"
+      ],
+      "matched": "unmatched",
+      "merged": false
     },
     {
-      "store": "KEMPS",
+      "store": "KEMPS CORNER",
       "revenue": 85550,
-      "orders": 7
+      "orders": 7,
+      "variants": [
+        "KEMPS"
+      ],
+      "matched": "contains",
+      "merged": false
     },
     {
       "store": "LOWER PAREL",
       "revenue": 71650,
-      "orders": 4
+      "orders": 4,
+      "variants": [
+        "LOWER PAREL"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "KHAN MARKET",
       "revenue": 67150,
-      "orders": 5
+      "orders": 5,
+      "variants": [
+        "KHAN MARKET"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "RAIPUR",
       "revenue": 64150,
-      "orders": 4
-    },
-    {
-      "store": "MOAHLI",
-      "revenue": 39800,
-      "orders": 1
+      "orders": 4,
+      "variants": [
+        "RAIPUR"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "HYDERABAD",
       "revenue": 38350,
-      "orders": 3
+      "orders": 3,
+      "variants": [
+        "HYDERABAD"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
-      "store": "BANGALORE STANDALONE",
+      "store": "BANGALORE STAND ALONE",
       "revenue": 27900,
-      "orders": 2
+      "orders": 2,
+      "variants": [
+        "BANGALORE STANDALONE"
+      ],
+      "matched": "fuzzy(1)",
+      "merged": false
+    },
+    {
+      "store": "LUCKNOW",
+      "revenue": 25800,
+      "orders": 2,
+      "variants": [
+        "LUCKNOW",
+        "LUCKONOW"
+      ],
+      "matched": "exact",
+      "merged": true
     },
     {
       "store": "GURURAM",
       "revenue": 20900,
-      "orders": 1
+      "orders": 1,
+      "variants": [
+        "GURURAM"
+      ],
+      "matched": "unmatched",
+      "merged": false
     },
     {
       "store": "CHENNAI",
       "revenue": 19650,
-      "orders": 1
-    },
-    {
-      "store": "LUCKNOW",
-      "revenue": 18850,
-      "orders": 1
-    },
-    {
-      "store": "LUCKONOW",
-      "revenue": 6950,
-      "orders": 1
+      "orders": 1,
+      "variants": [
+        "CHENNAI"
+      ],
+      "matched": "exact",
+      "merged": false
     },
     {
       "store": "GUGRAM",
       "revenue": 6450,
-      "orders": 1
+      "orders": 1,
+      "variants": [
+        "GUGRAM"
+      ],
+      "matched": "unmatched",
+      "merged": false
     }
   ],
   "nonDigital": [
