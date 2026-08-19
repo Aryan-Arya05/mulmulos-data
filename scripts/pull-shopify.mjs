@@ -71,7 +71,7 @@ async function main() {
     console.log(`  revenue excluding re-books would be ${inr(s.totals.revenueExcludingRebooks)}.`);
   }
   if (s.totals.giftGrossValue) {
-    console.log(`  gifts: ${inr(s.totals.giftGrossValue)} gross value, ${inr(s.totals.giftCashReceived)} cash received.`);
+    console.log(`  gifts: ${inr(s.totals.giftGrossValue)} gifted at retail, ${inr(s.totals.giftValueWaived)} waived, ${inr(s.totals.giftCashReceived)} cash received.`);
   }
   if (s.stylists.length) {
     console.log(`\n  top stylists:`);
@@ -79,7 +79,10 @@ async function main() {
   }
   if (s.stores.length) {
     console.log(`\n  retail-assist by store:`);
-    for (const sv of s.stores.slice(0, 10)) console.log(`    ${pad(sv.store, 16)} ${inr(sv.revenue).padStart(12)}  ${sv.orders} orders`);
+    for (const sv of s.stores.slice(0, 12)) {
+      const note = sv.merged ? `  ← merged from ${sv.variants.join(" / ")}` : sv.matched === "unmatched" ? "  ← not on the roster" : "";
+      console.log(`    ${pad(sv.store, 16)} ${inr(sv.revenue).padStart(12)}  ${String(sv.orders).padStart(3)} orders${note}`);
+    }
   }
   if (s.unclassified.length) {
     console.log(`\n  ⚠ ${s.unclassified.length} drafts matched no rule — listed in the JSON, not guessed into a bucket.`);
