@@ -207,6 +207,26 @@ def main(paths, out_root="data/eretail"):
 
 
 if __name__ == "__main__":
-    args = sys.argv[1:] or sorted(glob.glob("/mnt/user-data/uploads/Sale_Report*.xlsx"))
+    # Windows cmd does not expand wildcards in arguments, so expand any
+    # pattern here. With no arguments, take every .xlsx beside the script.
+    raw = sys.argv[1:]
+    args = []
+    for a in raw:
+        hits = sorted(glob.glob(a))
+        args.extend(hits if hits else [a])
+    if not args:
+        here = os.path.dirname(os.path.abspath(__file__))
+        args = sorted(glob.glob(os.path.join(here, "*.xlsx")))
+
+    missing = [a for a in args if not os.path.isfile(a)]
+    if missing:
+        print("Could not find:")
+        for m in missing:
+            print("   ", m)
+        sys.exit(1)
+    if not args:
+        print("No .xlsx files found. Put this script beside the Sale Report files and run it again.")
+        sys.exit(1)
+
     print(f"eRetail ingest · {len(args)} files")
     main(args)
