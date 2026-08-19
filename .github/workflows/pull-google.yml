@@ -7,10 +7,10 @@ on:
     - cron: "30 13 * * *"
   workflow_dispatch:
     inputs:
-      range:
-        description: "Supermetrics date_range_type"
+      days:
+        description: "How many days back to pull"
         required: false
-        default: "last_7_days"
+        default: "7"
 
 # Needed so the job can commit the refreshed JSON back to the repo.
 permissions:
@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: Pull Google Ads
         env:
@@ -38,7 +38,7 @@ jobs:
           # Never inline the key here — Actions logs are readable by anyone
           # with repo access, and secrets are masked, literals are not.
           SUPERMETRICS_API_KEY: ${{ secrets.SUPERMETRICS_API_KEY }}
-          RANGE: ${{ inputs.range || 'last_7_days' }}
+          DAYS: ${{ inputs.days || '7' }}
         run: node scripts/pull-google.mjs
 
       - name: Commit if changed
