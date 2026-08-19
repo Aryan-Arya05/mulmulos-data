@@ -62,6 +62,10 @@ tbody tr:nth-child(odd){background:#111c3155}
 .note.ok{border-color:var(--ok)}
 .pill{display:inline-block;font-family:var(--sans);font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);color:var(--muted);margin-left:6px}
 .hide{display:none}
+.segs{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.seglbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-right:2px}
+.seg{padding:6px 12px;border-radius:8px;border:1px solid var(--border);color:var(--muted);font-size:12px;cursor:pointer;user-select:none}
+.seg.on{background:linear-gradient(135deg,var(--cyan),var(--cyanDeep));color:#04131f;font-weight:600;border-color:transparent}
 .empty{color:var(--dim);font-size:12px;line-height:1.7;padding:10px 0}
 @media(max-width:820px){aside{display:none}.wrap,.top{padding-left:16px;padding-right:16px}}
 </style>
@@ -80,6 +84,7 @@ tbody tr:nth-child(odd){background:#111c3155}
       <a data-v="stylists">Stylists</a>
       <a data-v="stores">Stores</a>
       <a data-v="products">Products</a>
+      <a data-v="history">Retail history</a>
     </nav>
     <div class="navlbl" style="margin-top:18px">Paid</div>
     <nav id="nav2">
@@ -117,7 +122,8 @@ function ago(iso){
   return Math.floor(s/86400)+"d ago";
 }
 
-const state = { shopify:null, google:null, view:"overview", errors:[] };
+const state = { shopify:null, google:null, eretail:null, view:"overview", errors:[],
+  range:"ytd", cmp:"prev_year", channel:"all" };
 
 async function load(name){
   try{
@@ -263,6 +269,56 @@ google(){
     a.totals?inr(a.totals.webSpend):"—", a.totals?xx(a.totals.webRoas):"—", a.totals?pct(a.totals.omniShare):"—"]))}</div>`;
 },
 
+history(){
+  const rows = state.eretail;
+  if(!rows) return `<div class="card"><div class="empty"><b>data/eretail/history.jsonl has not been published yet.</b><br>
+    Run scripts/ingest-eretail.py against the yearly exports and upload the data/eretail folder.</div></div>`;
+  const r = rangeFor(state.range, rows);
+  const prev = shift(r, state.cmp);
+  const now = agg(rows, r, state.channel);
+  const before = prev ? agg(rows, prev, state.channel) : null;
+  const d = delta(now, before);
+  const online = now.byChannel.Online||{units:0,value:0};
+  const store  = now.byChannel.Store ||{units:0,value:0};
+  const tot = online.value+store.value;
+
+  const btn=(k,l,cur,attr)=>`<a data-${attr}="${k}" class="seg${cur===k?" on":""}">${l}</a>`;
+  return `
+  <div class="card" style="margin-top:0">
+    <div class="segs">
+      <span class="seglbl">Range</span>
+      ${["7d","30d","90d","12m","ytd","all"].map(k=>btn(k,{"7d":"7 days","30d":"30 days","90d":"90 days","12m":"12 months","ytd":"This year","all":"All time"}[k],state.range,"range")).join("")}
+      <span class="seglbl" style="margin-left:12px">Compare</span>
+      ${["prev_year","prev_period","none"].map(k=>btn(k,{prev_year:"Same period last year",prev_period:"Previous period",none:"No comparison"}[k],state.cmp,"cmp")).join("")}
+      <span class="seglbl" style="margin-left:12px">Channel</span>
+      ${["all","Online","Store"].map(k=>btn(k,k==="all"?"Both":k,state.channel,"chan")).join("")}
+    </div>
+    <div style="font-size:11.5px;color:var(--dim);margin-top:10px">
+      ${esc(r.from)} → ${esc(r.to)}${prev?`  ·  vs ${esc(prev.from)} → ${esc(prev.to)}`:""}
+    </div>
+  </div>
+
+  <div class="grid">
+    ${kpi("List value", lakh(now.value), before?`${dpill(d)} vs ${lakh(before.value)}`:"MRP × qty")}
+    ${kpi("Units", num(now.units), before?`vs ${num(before.units)}`:"")}
+    ${kpi("Orders", num(now.orders), before?`vs ${num(before.orders)}`:"")}
+    ${kpi("Online share", pct(tot?online.value/tot:0), lakh(online.value), "var(--cyan)")}
+    ${kpi("Store share", pct(tot?store.value/tot:0), lakh(store.value), "var(--violet)")}
+  </div>
+
+  <div class="card"><h3>By month<em>${esc(r.from)} → ${esc(r.to)}</em></h3>
+    ${chart(now, before, "This period", "Comparison")}
+  </div>
+
+  <div class="card"><h3>Channel split<em>within the selected range</em></h3>
+    ${table(["Channel","List value","Units","Share"], Object.entries(now.byChannel).sort((a,b)=>b[1].value-a[1].value).map(([k,v])=>[
+      esc(k), inr(v.value), num(v.units),
+      `${pct(tot?v.value/tot:0)}<div class="bar"><i style="width:${tot?100*v.value/tot:0}%"></i></div>`]))}
+    <div class="note">Revenue here is <b>MRP × quantity</b> — list price, not money received. The eRetail export carries no selling price, so this will never reconcile against Shopify. Use it for trend and volume.</div>
+    <div class="note">Stock transfers (STO) and cancelled or returned lines are excluded. 47% of raw rows were STO.</div>
+  </div>`;
+},
+
 quality(){
   const s = state.shopify, g = state.google;
   const u = s?.unclassified||[];
@@ -285,6 +341,76 @@ quality(){
   <div class="note">Until Meta is added, any MER shown here understates spend and so overstates efficiency.</div></div>`;
 }};
 
+
+/* ---------- date range helpers ---------- */
+const iso = d => d.toISOString().slice(0,10);
+function rangeFor(key, rows){
+  const last = rows.length ? rows[rows.length-1].date : iso(new Date());
+  const end = new Date(last+"T00:00:00Z");
+  const start = new Date(end);
+  if(key==="7d") start.setUTCDate(end.getUTCDate()-6);
+  else if(key==="30d") start.setUTCDate(end.getUTCDate()-29);
+  else if(key==="90d") start.setUTCDate(end.getUTCDate()-89);
+  /* A month-arithmetic 12m gives 11 months when the end date is a
+     31st (31 Jul minus 11 months is 31 Aug). Use a true 365 days. */
+  else if(key==="12m") start.setUTCDate(end.getUTCDate()-364);
+  else if(key==="ytd") return {from:end.getUTCFullYear()+"-01-01", to:last};
+  else if(key==="all") return {from:rows.length?rows[0].date:last, to:last};
+  return {from:iso(start), to:last};
+}
+function shift(r, key){
+  const f=new Date(r.from+"T00:00:00Z"), t=new Date(r.to+"T00:00:00Z");
+  if(key==="prev_year"){ f.setUTCFullYear(f.getUTCFullYear()-1); t.setUTCFullYear(t.getUTCFullYear()-1); }
+  else if(key==="prev_period"){
+    const days = Math.round((t-f)/86400000)+1;
+    t.setUTCDate(f.getUTCDate()-1); f.setUTCDate(f.getUTCDate()-days);
+  } else return null;
+  return {from:iso(f), to:iso(t)};
+}
+function agg(rows, r, channel){
+  const out = {units:0, value:0, orders:0, byDate:{}, byChannel:{}};
+  if(!r) return out;
+  for(const x of rows){
+    if(x.date < r.from || x.date > r.to) continue;
+    if(channel!=="all" && x.channel!==channel) continue;
+    out.units+=x.units; out.value+=x.listValue; out.orders+=x.orders;
+    out.byDate[x.date]=(out.byDate[x.date]||0)+x.listValue;
+    const c=out.byChannel[x.channel]||(out.byChannel[x.channel]={units:0,value:0});
+    c.units+=x.units; c.value+=x.listValue;
+  }
+  return out;
+}
+function delta(now, before){
+  if(!before || !before.value) return null;
+  return (now.value-before.value)/before.value;
+}
+const dpill = d => d==null ? "" :
+  `<span style="color:${d>=0?"var(--ok)":"var(--err)"}">${d>=0?"▲":"▼"} ${Math.abs(d*100).toFixed(1)}%</span>`;
+
+/* Monthly line chart, two series. */
+function chart(a, b, labelA, labelB){
+  const months = m => { const o={}; for(const [d,v] of Object.entries(m)) o[d.slice(0,7)]=(o[d.slice(0,7)]||0)+v; return o; };
+  const A = months(a.byDate), B = b?months(b.byDate):{};
+  const ka = Object.keys(A).sort(), kb = Object.keys(B).sort();
+  if(ka.length<2) return `<div class="empty">Not enough months in this range to plot.</div>`;
+  const W=900,H=220,P=34;
+  const max = Math.max(...ka.map(k=>A[k]), ...kb.map(k=>B[k]||0), 1);
+  const line = (keys,obj)=>keys.map((k,i)=>{
+    const x=P+(i/(Math.max(keys.length-1,1)))*(W-P*2);
+    const y=H-P-((obj[k]||0)/max)*(H-P*2);
+    return `${i?"L":"M"}${x.toFixed(1)},${y.toFixed(1)}`;}).join(" ");
+  const pa=line(ka,A), pb=kb.length>1?line(kb.slice(0,ka.length),B):null;
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">
+    <path d="${pa} L${W-P},${H-P} L${P},${H-P} Z" fill="var(--cyan)" opacity=".08"/>
+    ${pb?`<path d="${pb}" fill="none" stroke="var(--violet)" stroke-width="1.6" stroke-dasharray="4 3" opacity=".85"/>`:""}
+    <path d="${pa}" fill="none" stroke="var(--cyan)" stroke-width="2"/>
+    <text x="${P}" y="${H-10}" fill="var(--dim)" font-size="11" font-family="var(--mono)">${ka[0]}</text>
+    <text x="${W-P}" y="${H-10}" fill="var(--dim)" font-size="11" font-family="var(--mono)" text-anchor="end">${ka[ka.length-1]}</text>
+    <text x="${P}" y="18" fill="var(--cyan)" font-size="11">${esc(labelA)}</text>
+    ${pb?`<text x="${P+120}" y="18" fill="var(--violet)" font-size="11">${esc(labelB)} (dashed)</text>`:""}
+  </svg>`;
+}
+
 function bucketRows(s){
   const tot = s.totals.revenue;
   const colour = b => b.startsWith("online")||b==="app" ? "var(--cyan)"
@@ -303,7 +429,7 @@ const missing = n => `<div class="card"><div class="empty">
 </div></div>`;
 
 function render(){
-  $("#title").textContent = state.view==="google" ? "Google Ads" : state.view==="quality" ? "Data quality" : state.view;
+  $("#title").textContent = state.view==="google" ? "Google Ads" : state.view==="quality" ? "Data quality" : state.view==="history" ? "Retail history" : state.view;
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on", a.dataset.v===state.view));
   $("#view").innerHTML = views[state.view] ? views[state.view]() : "";
   window.scrollTo(0,0);
@@ -312,13 +438,32 @@ function render(){
 document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>{
   state.view=a.dataset.v; location.hash=a.dataset.v; render();
 }));
+/* range / comparison / channel controls */
+document.addEventListener("click", e=>{
+  const el = e.target.closest("[data-range],[data-cmp],[data-chan]");
+  if(!el) return;
+  if(el.dataset.range) state.range = el.dataset.range;
+  if(el.dataset.cmp) state.cmp = el.dataset.cmp;
+  if(el.dataset.chan) state.channel = el.dataset.chan;
+  render();
+});
+
 window.addEventListener("hashchange",()=>{
   const v=location.hash.slice(1); if(views[v]){ state.view=v; render(); }
 });
 
+async function loadEretail(){
+  try{
+    const r = await fetch("./data/eretail/history.jsonl?t="+Date.now());
+    if(!r.ok) throw new Error(r.status+" "+r.statusText);
+    const txt = await r.text();
+    return txt.trim().split("\n").filter(Boolean).map(l=>JSON.parse(l));
+  }catch(e){ state.errors.push("eretail/history.jsonl — "+e.message); return null; }
+}
+
 (async function init(){
-  const [sh,go] = await Promise.all([load("shopify"), load("google")]);
-  state.shopify=sh; state.google=go;
+  const [sh,go,er] = await Promise.all([load("shopify"), load("google"), loadEretail()]);
+  state.shopify=sh; state.google=go; state.eretail=er;
 
   const newest = [sh?.fetchedAt, go?.fetchedAt].filter(Boolean).sort().pop();
   const chip = $("#fresh");
