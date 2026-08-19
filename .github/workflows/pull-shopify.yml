@@ -1,0 +1,53 @@
+name: Pull Shopify
+
+on:
+  schedule:
+    # 07:05 and 19:05 IST — five minutes after Google, so the two
+    # jobs never race each other for the same commit.
+    - cron: "35 1 * * *"
+    - cron: "35 13 * * *"
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "How many days back to pull"
+        required: false
+        default: "7"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pull-shopify
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Pull Shopify
+        env:
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP: shopmulmul.myshopify.com
+          DAYS: ${{ inputs.days || '7' }}
+        run: node scripts/pull-shopify.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "mulmulos-bot"
+          git config user.email "actions@github.com"
+          git pull --rebase --autostash || true
+          git add data/
+          if git diff --staged --quiet; then
+            echo "No change — nothing to commit."
+          else
+            git commit -m "data: shopify $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi
