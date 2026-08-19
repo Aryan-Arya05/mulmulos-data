@@ -62,80 +62,212 @@ export function envelope({ source, account, range, rows, extra = {} }) {
 /* ============================================================
    Shopify shaping.
 
-   The rule this exists to enforce: Shopify's all-channel totals
-   mix online, retail and draft orders. Zuri read as a digital
-   winner on that view and was almost entirely retail. Every
-   figure below is split by channel before it means anything.
+   Shopify's "Draft Orders" app is not a channel — it is four
+   different things sharing a bucket, confirmed against the live
+   store on 19 Aug 2026:
+
+     · retail_assist  store staff booking an out-of-stock item
+                      note reads "REC AT <STORE> ..."
+     · stylist        backend sale; a CommentEvent carries the
+                      stylist's name, posted seconds after creation
+     · gift           influencer/celebrity seeding; customer name
+                      contains GIFT, or a discount titled "gift"
+     · rebook         an earlier order by the same customer was
+                      cancelled or voided and re-created as a draft
+                      (size or product change)
+
+   Retail proper is NOT in Shopify at all — it lives in eRetail.
+   retail_assist is only the endless-aisle slice.
+
+   Rebooks are LABELLED, never subtracted, so these totals stay
+   reconcilable against Shopify's own reports. The double-counted
+   value is reported alongside instead.
    ============================================================ */
 
-/* Retail orders originate from the POS app; drafts from the admin.
-   Anything else is treated as online. */
-export function channelOf(order) {
-  const app = (order?.app?.name || "").toLowerCase();
-  if (!app) return "unknown";
-  if (app.includes("point of sale") || app.includes("pos")) return "retail";
-  if (app.includes("draft")) return "draft";
-  return "online";
-}
-
+const norm = (v) => String(v || "").toLowerCase().replace(/\s+/g, " ").trim();
 const money = (o) => Number(o?.currentTotalPriceSet?.shopMoney?.amount || 0);
 
-export function summariseOrders(orders = []) {
-  const channels = {};
+export const isDraftApp = (o) => /draft/i.test(o?.app?.name || "");
+
+/** "REC AT JUHU STORE 16900" → "JUHU". Store names are typed by hand,
+    so this normalises rather than matching a fixed roster. */
+export function retailStoreOf(order) {
+  const m = /rec\s*at\s+(.+?)(?:\s+store)?\s*(?:\d|cod|$)/i.exec(order?.note || "");
+  if (!m) return null;
+  const raw = m[1].replace(/\bstore\b/i, "").trim();
+  return raw ? raw.toUpperCase().replace(/\s+/g, " ") : null;
+}
+
+/** Gift shows up two independent ways and they do not always co-occur. */
+export function giftSignal(order) {
+  const name = norm(order?.customer?.displayName) + " " + norm(order?.shippingAddress?.name);
+  if (/\bgift\b/.test(name)) return "customer-name";
+  const codes = order?.discountApplications?.nodes || order?.discountApplications || [];
+  for (const d of codes) {
+    const title = norm(d?.title || d?.code || d?.description);
+    if (/\bgift\b/.test(title)) return "discount-title";
+  }
+  return null;
+}
+
+/** The stylist's name is the entire body of a CommentEvent. */
+export function stylistOf(order) {
+  const events = order?.events?.nodes || [];
+  for (const e of events) {
+    if (e.__typename !== "CommentEvent") continue;
+    const raw = String(e.message || "").replace(/<[^>]+>/g, "").trim();
+    /* Names only: reject anything long or sentence-like, so an
+       operational note never gets counted as a stylist. */
+    if (!raw || raw.length > 40 || raw.split(/\s+/).length > 3) continue;
+    if (/^\d+$/.test(raw)) continue;
+    return raw.replace(/\s+/g, " ").trim();
+  }
+  return null;
+}
+
+const CANCELLED = (o) =>
+  !!o?.cancelledAt || /voided|refunded|expired/i.test(o?.displayFinancialStatus || "");
+
+/**
+ * Index cancelled/voided orders by customer so a draft can be matched
+ * back to the order it replaced. Window is in days.
+ */
+export function buildRebookIndex(orders = [], windowDays = 3) {
+  const byCustomer = new Map();
+  for (const o of orders) {
+    if (!CANCELLED(o)) continue;
+    const id = o?.customer?.id;
+    if (!id) continue;
+    (byCustomer.get(id) || byCustomer.set(id, []).get(id)).push(o);
+  }
+  return { byCustomer, windowMs: windowDays * 86400000 };
+}
+
+/** Returns the source channel of the replaced order, or null. */
+export function rebookOf(order, index) {
+  if (!isDraftApp(order)) return null;
+  const id = order?.customer?.id;
+  if (!id || !index?.byCustomer?.has(id)) return null;
+
+  const t = new Date(order.createdAt).getTime();
+  for (const prior of index.byCustomer.get(id)) {
+    const pt = new Date(prior.createdAt).getTime();
+    const gap = t - pt;
+    /* Prior must genuinely precede it, within the window. */
+    if (gap <= 0 || gap > index.windowMs) continue;
+    const app = norm(prior?.app?.name);
+    if (/appbrew|mobile app/.test(app)) return { from: "app", order: prior.name };
+    if (/online store|web/.test(app)) return { from: "online", order: prior.name };
+    return { from: "other", order: prior.name };
+  }
+  return null;
+}
+
+/** Order of checks matters: a gift order also carries a stylist comment. */
+export function classify(order, index) {
+  const gift = giftSignal(order);
+  if (gift) return { bucket: "gift", detail: gift };
+
+  const rebook = rebookOf(order, index);
+  if (rebook) return { bucket: `${rebook.from}_to_draft`, detail: rebook.order, rebook: true };
+
+  if (isDraftApp(order)) {
+    const store = retailStoreOf(order);
+    if (store) return { bucket: "retail_assist", detail: store };
+    const stylist = stylistOf(order);
+    if (stylist) return { bucket: "stylist", detail: stylist };
+    return { bucket: "draft_unclassified", detail: null };
+  }
+
+  const app = norm(order?.app?.name);
+  if (/appbrew|mobile app/.test(app)) return { bucket: "app", detail: null };
+  if (/online store|web/.test(app)) return { bucket: "online", detail: null };
+  return { bucket: "other", detail: order?.app?.name || null };
+}
+
+export function summariseOrders(orders = [], index = null) {
+  const buckets = {};
+  const stylists = new Map();
+  const stores = new Map();
   const products = new Map();
-  let newCustomers = 0;
-  let returningCustomers = 0;
+  const unclassified = [];
+  let newCustomers = 0, returningCustomers = 0;
+  let rebookCount = 0, rebookValue = 0;
+  let giftGross = 0, giftCash = 0;
 
   for (const o of orders) {
-    const ch = channelOf(o);
+    if (CANCELLED(o)) continue; // never count a cancelled order as revenue
+    const { bucket, detail, rebook } = classify(o, index);
     const amount = money(o);
-    const c = (channels[ch] ||= { channel: ch, revenue: 0, orders: 0 });
-    c.revenue += amount;
-    c.orders += 1;
 
-    /* numberOfOrders counts the customer's lifetime orders, so 1
-       means this order was their first. Guest orders have no
-       customer object and are counted in neither bucket. */
+    const b = (buckets[bucket] ||= { bucket, revenue: 0, orders: 0 });
+    b.revenue += amount;
+    b.orders += 1;
+
+    if (rebook) { rebookCount++; rebookValue += amount; }
+    if (bucket === "draft_unclassified") unclassified.push({ name: o.name, amount, note: o.note || null });
+
+    if (bucket === "gift") {
+      const sub = Number(o?.subtotalPriceSet?.shopMoney?.amount || amount);
+      giftGross += sub;
+      giftCash += amount;
+    }
+    if (bucket === "stylist" && detail) {
+      const k = detail.toUpperCase();
+      const st = stylists.get(k) || { stylist: detail, revenue: 0, orders: 0 };
+      st.revenue += amount; st.orders += 1;
+      stylists.set(k, st);
+    }
+    if (bucket === "retail_assist" && detail) {
+      const sv = stores.get(detail) || { store: detail, revenue: 0, orders: 0 };
+      sv.revenue += amount; sv.orders += 1;
+      stores.set(detail, sv);
+    }
+
     const n = o?.customer?.numberOfOrders;
     if (n != null) (Number(n) <= 1 ? newCustomers++ : returningCustomers++);
 
     for (const li of o?.lineItems?.nodes || []) {
-      const key = li.title;
-      const p = products.get(key) || { title: key, sku: li.sku || null, type: li.product?.productType || null, units: 0, revenue: 0, online: 0, retail: 0 };
-      const lineRevenue = Number(li?.discountedTotalSet?.shopMoney?.amount || 0);
+      const p = products.get(li.title) || { title: li.title, units: 0, revenue: 0, byBucket: {} };
       p.units += Number(li.quantity || 0);
-      p.revenue += lineRevenue;
-      if (ch === "retail") p.retail += Number(li.quantity || 0);
-      if (ch === "online") p.online += Number(li.quantity || 0);
-      products.set(key, p);
+      p.revenue += Number(li?.discountedTotalSet?.shopMoney?.amount || 0);
+      p.byBucket[bucket] = (p.byBucket[bucket] || 0) + Number(li.quantity || 0);
+      products.set(li.title, p);
     }
   }
 
-  const totalRevenue = Object.values(channels).reduce((a, c) => a + c.revenue, 0);
-  const totalOrders = Object.values(channels).reduce((a, c) => a + c.orders, 0);
-  const online = channels.online || { revenue: 0, orders: 0 };
+  const total = Object.values(buckets).reduce((a, b) => a + b.revenue, 0);
+  const digital = (buckets.online?.revenue || 0) + (buckets.app?.revenue || 0);
 
-  const top = [...products.values()]
-    .map((p) => ({ ...p, onlineShare: p.units ? p.online / p.units : null }))
-    .sort((a, b) => b.units - a.units);
+  const top = [...products.values()].map((p) => {
+    const d = (p.byBucket.online || 0) + (p.byBucket.app || 0);
+    return { ...p, digitalUnits: d, digitalShare: p.units ? d / p.units : null };
+  }).sort((a, b) => b.units - a.units);
 
   return {
-    channels: Object.values(channels)
-      .map((c) => ({ ...c, share: totalRevenue ? c.revenue / totalRevenue : 0, aov: c.orders ? c.revenue / c.orders : null }))
+    buckets: Object.values(buckets)
+      .map((b) => ({ ...b, share: total ? b.revenue / total : 0, aov: b.orders ? b.revenue / b.orders : null }))
       .sort((a, b) => b.revenue - a.revenue),
     totals: {
-      revenue: totalRevenue,
-      orders: totalOrders,
-      aov: totalOrders ? totalRevenue / totalOrders : null,
-      onlineRevenue: online.revenue,
-      onlineOrders: online.orders,
-      onlineAov: online.orders ? online.revenue / online.orders : null,
-      newCustomers,
-      returningCustomers,
+      revenue: total,
+      orders: Object.values(buckets).reduce((a, b) => a + b.orders, 0),
+      digitalRevenue: digital,
+      digitalShare: total ? digital / total : 0,
+      newCustomers, returningCustomers,
       newCustomerShare: newCustomers + returningCustomers ? newCustomers / (newCustomers + returningCustomers) : null,
+      /* Labelled, not subtracted — totals stay reconcilable. */
+      rebookOrders: rebookCount,
+      rebookValue,
+      revenueExcludingRebooks: total - rebookValue,
+      giftGrossValue: giftGross,
+      giftCashReceived: giftCash,
     },
+    stylists: [...stylists.values()].sort((a, b) => b.revenue - a.revenue),
+    stores: [...stores.values()].sort((a, b) => b.revenue - a.revenue),
     products: top,
-    /* Products whose volume is mostly retail — the Zuri check. */
-    retailDriven: top.filter((p) => p.units >= 5 && p.onlineShare != null && p.onlineShare < 0.35).map((p) => p.title),
+    /* Volume that is NOT digital — the Zuri check, now precise. */
+    nonDigital: top.filter((p) => p.units >= 5 && p.digitalShare != null && p.digitalShare < 0.35)
+      .map((p) => ({ title: p.title, units: p.units, digitalShare: Number(p.digitalShare.toFixed(2)) })),
+    unclassified,
   };
 }
