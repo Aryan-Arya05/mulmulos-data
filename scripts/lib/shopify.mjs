@@ -50,15 +50,27 @@ export async function gql(query, variables = {}) {
       throw new Error(`Non-JSON response (${res.status}) — ${text.slice(0, 200)}`);
     }
 
-    if (body.errors?.length) {
-      const first = body.errors[0];
-      /* THROTTLED arrives as a GraphQL error, not a 429. */
-      if (first.extensions?.code === "THROTTLED") {
+    /* Shopify is inconsistent here: GraphQL errors arrive as an
+       array, but auth failures return errors as a bare STRING
+       ("Invalid API key or access token"). Assuming an array
+       crashes on exactly the case you most need to read. */
+    if (body.errors) {
+      if (typeof body.errors === "string") {
+        throw new Error(`Shopify (${res.status}): ${body.errors}`);
+      }
+      const list = Array.isArray(body.errors) ? body.errors : [body.errors];
+      if (list.some((e) => e?.extensions?.code === "THROTTLED")) {
         await sleep(2000 * (attempt + 1));
         continue;
       }
-      throw new Error(`GraphQL: ${body.errors.map((e) => e.message).join("; ")}`);
+      const msg = list.map((e) => (typeof e === "string" ? e : e?.message || JSON.stringify(e))).join("; ");
+      /* Name the likely cause rather than making you guess. */
+      const hint = /access denied|not approved|scope/i.test(msg)
+        ? " — the app is missing a required scope (read_orders, read_customers, read_products)."
+        : "";
+      throw new Error(`GraphQL: ${msg}${hint}`);
     }
+
     if (!res.ok) throw new Error(`HTTP ${res.status} — ${text.slice(0, 200)}`);
     return body.data;
   }
