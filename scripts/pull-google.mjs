@@ -2,11 +2,12 @@
    Pulls Google Ads for every Mulmul account, splits web from
    OMNI, writes data/google.json and appends data/history.jsonl.
 
-   Run:  SUPERMETRICS_API_KEY=api_xxx node scripts/pull-google.mjs
+   Local run:
+     SUPERMETRICS_API_KEY=api_xxx node scripts/pull-google.mjs
    ============================================================ */
 
-import { writeFile, appendFile, mkdir, readFile } from "node:fs/promises";
-import { query, toObjects } from "./lib/supermetrics.mjs";
+import { writeFile, appendFile, mkdir } from "node:fs/promises";
+import { query, toObjects, lastNDays } from "./lib/supermetrics.mjs";
 import { splitChannels, envelope } from "./lib/shape.mjs";
 
 const ACCOUNTS = [
@@ -18,7 +19,14 @@ const ACCOUNTS = [
   { id: "9514329217", name: "Shopmulmul (US and UAE)", note: "US + UAE" },
 ];
 
-const RANGE = process.env.RANGE || "last_7_days";
+/* The MCP reported the Google Ads source as "AW"; the REST docs
+   example uses "GAWA". Try in order and remember what worked, so a
+   wrong first guess costs one request rather than the whole run. */
+const DS_CANDIDATES = (process.env.DS_ID || "AW,GAWA").split(",");
+let dsId = null;
+
+const DAYS = Number(process.env.DAYS || 7);
+const { startDate, endDate } = lastNDays(DAYS);
 const FIELDS = "campaign_name,cost,impressions,clicks,conversions,conversion_value";
 
 const MAPPING = {
@@ -30,31 +38,47 @@ const MAPPING = {
   revenue: { field: "conversion_value", type: "number" },
 };
 
+async function fetchRows(accountId) {
+  const tried = [];
+  for (const candidate of dsId ? [dsId] : DS_CANDIDATES) {
+    try {
+      const rows = await query({
+        dsId: candidate,
+        accounts: accountId,
+        fields: FIELDS,
+        startDate,
+        endDate,
+        maxRows: 1000,
+      });
+      dsId = candidate; // lock it in for the remaining accounts
+      return toObjects(rows, FIELDS, MAPPING);
+    } catch (e) {
+      tried.push(`${candidate}: ${e.message}`);
+      /* Only keep trying if the source id itself looks wrong. */
+      if (!/DS_ID|DATA_SOURCE|NOT_FOUND|INVALID/i.test(e.message)) throw e;
+    }
+  }
+  throw new Error(tried.join(" | "));
+}
+
 async function pullAccount(acct) {
   process.stdout.write(`  ${acct.name.padEnd(24)} `);
   try {
-    const raw = await query({
-      dsId: "AW",
-      accounts: acct.id,
-      fields: FIELDS,
-      dateRangeType: RANGE,
-      maxRows: 500,
-    });
-    const rows = toObjects(raw, MAPPING);
+    const rows = await fetchRows(acct.id);
     const split = splitChannels(rows);
     console.log(
       `ok — ${rows.length} campaigns, web ROAS ${split.totals.webRoas?.toFixed(2) ?? "—"}x, OMNI ${(100 * split.totals.omniShare).toFixed(0)}%`
     );
     return { account: acct, ok: true, ...split };
   } catch (e) {
-    /* An account that did not answer reports why. It never becomes a zero. */
+    /* An account that did not answer records why. It never becomes a zero. */
     console.log(`FAILED — ${e.message}`);
     return { account: acct, ok: false, error: e.message, web: [], omni: [], totals: null };
   }
 }
 
 async function main() {
-  console.log(`Google Ads pull · range=${RANGE}`);
+  console.log(`Google Ads pull · ${startDate} → ${endDate} · ds_id candidates: ${DS_CANDIDATES.join(", ")}`);
   const results = [];
   for (const a of ACCOUNTS) results.push(await pullAccount(a));
 
@@ -68,10 +92,11 @@ async function main() {
     ...envelope({
       source: "Google Ads via Supermetrics",
       account: `${ok.length}/${ACCOUNTS.length} accounts`,
-      range: RANGE,
+      range: `${startDate} → ${endDate}`,
       rows: ok.flatMap((r) => [...r.web, ...r.omni]),
       extra: {
-        attribution: "Google default attribution. Not incrementality.",
+        dsId,
+        attribution: "Google default attribution. An efficiency ratio, not incrementality.",
         rule: "OMNI campaigns optimise store visits; conversion value is a visit count, not rupees. Never graded on ROAS.",
       },
     }),
@@ -89,28 +114,27 @@ async function main() {
 
   await mkdir("data", { recursive: true });
   await writeFile("data/google.json", JSON.stringify(payload, null, 2));
-  console.log(`\nWrote data/google.json (${ok.length}/${ACCOUNTS.length} accounts)`);
+  console.log(`\nWrote data/google.json (${ok.length}/${ACCOUNTS.length} accounts, ds_id=${dsId})`);
 
   /* One line per run — the repo becomes the trend history for free. */
   const primary = results.find((r) => r.account.id === "3669746941");
   if (primary?.ok) {
     const line = JSON.stringify({
       ts: payload.fetchedAt,
-      range: RANGE,
+      range: `${startDate}→${endDate}`,
       account: "Shop Mul Mul",
       webSpend: Math.round(primary.totals.webSpend),
       webRevenue: Math.round(primary.totals.webRevenue),
-      webRoas: Number(primary.totals.webRoas?.toFixed(3) ?? 0),
+      webRoas: Number((primary.totals.webRoas ?? 0).toFixed(3)),
       omniSpend: Math.round(primary.totals.omniSpend),
       omniShare: Number(primary.totals.omniShare.toFixed(3)),
     });
     await appendFile("data/history.jsonl", line + "\n");
     console.log("Appended data/history.jsonl");
-  }
 
-  /* Fail loudly if OMNI is eating the account — the thing worth alerting on. */
-  if (primary?.ok && primary.totals.omniShare > 0.4) {
-    console.log(`\n⚠ OMNI is ${(100 * primary.totals.omniShare).toFixed(0)}% of Shop Mul Mul spend.`);
+    if (primary.totals.omniShare > 0.4) {
+      console.log(`\n⚠ OMNI is ${(100 * primary.totals.omniShare).toFixed(0)}% of Shop Mul Mul spend.`);
+    }
   }
 }
 
