@@ -2,7 +2,7 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-12 → 2026-08-18 IST",
-  "fetchedAt": "2026-08-19T09:10:48.053Z",
+  "fetchedAt": "2026-08-19T14:08:49.719Z",
   "rowCount": 887,
   "currency": "INR",
   "truncated": false,
@@ -15,16 +15,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 15583680.1,
-    "orders": 794,
-    "digitalRevenue": 6086368.1,
-    "digitalShare": 0.3905603850274108,
-    "newCustomers": 354,
-    "returningCustomers": 440,
-    "newCustomerShare": 0.44584382871536526,
+    "revenue": 15493935.1,
+    "orders": 788,
+    "digitalRevenue": 6020218.1,
+    "digitalShare": 0.38855320234302515,
+    "newCustomers": 352,
+    "returningCustomers": 436,
+    "newCustomerShare": 0.4467005076142132,
     "rebookOrders": 33,
     "rebookValue": 1039611,
-    "revenueExcludingRebooks": 14544069.1,
+    "revenueExcludingRebooks": 14454324.1,
     "giftGrossValue": 978800,
     "giftCashReceived": 293995,
     "giftValueWaived": 684805
@@ -32,65 +32,65 @@
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 4543569.1,
-      "orders": 240,
-      "share": 0.2915594436515672,
-      "aov": 18931.537916666664
+      "revenue": 4497319.1,
+      "orders": 237,
+      "share": 0.2902631946612452,
+      "aov": 18976.029957805906
     },
     {
       "bucket": "retail_assist",
       "revenue": 4458750,
       "orders": 205,
-      "share": 0.2861166278689204,
+      "share": 0.28777389160485123,
       "aov": 21750
     },
     {
       "bucket": "stylist",
-      "revenue": 3275398.5,
-      "orders": 190,
-      "share": 0.21018132295978023,
-      "aov": 17238.93947368421
+      "revenue": 3251803.5,
+      "orders": 188,
+      "share": 0.20987589524626318,
+      "aov": 17296.827127659573
     },
     {
       "bucket": "app",
-      "revenue": 1542799,
-      "orders": 71,
-      "share": 0.09900094137584357,
-      "aov": 21729.563380281692
+      "revenue": 1522899,
+      "orders": 70,
+      "share": 0.09829000768177995,
+      "aov": 21755.7
     },
     {
       "bucket": "other_to_draft",
       "revenue": 680621,
       "orders": 17,
-      "share": 0.04367524202450742,
+      "share": 0.043928220662289984,
       "aov": 40036.529411764706
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 429557.5,
       "orders": 17,
-      "share": 0.027564573787676763,
+      "share": 0.0277242351428205,
       "aov": 25268.08823529412
     },
     {
       "bucket": "online_to_draft",
       "revenue": 317440,
       "orders": 15,
-      "share": 0.020370028001280648,
+      "share": 0.020488016630455616,
       "aov": 21162.666666666668
     },
     {
       "bucket": "gift",
       "revenue": 293995,
       "orders": 38,
-      "share": 0.01886556950049302,
+      "share": 0.01897484390521295,
       "aov": 7736.710526315789
     },
     {
       "bucket": "app_to_draft",
       "revenue": 41550,
       "orders": 1,
-      "share": 0.00266625082993073,
+      "share": 0.0026816944650813724,
       "aov": 41550
     }
   ],
@@ -112,8 +112,8 @@
     },
     {
       "stylist": "Kritika",
-      "revenue": 260658,
-      "orders": 18
+      "revenue": 257963,
+      "orders": 17
     },
     {
       "stylist": "Kashish",
@@ -131,11 +131,6 @@
       "orders": 11
     },
     {
-      "stylist": "Anjali",
-      "revenue": 153255,
-      "orders": 8
-    },
-    {
       "stylist": "Siyal",
       "revenue": 149571,
       "orders": 7
@@ -144,6 +139,11 @@
       "stylist": "Priya",
       "revenue": 146823,
       "orders": 9
+    },
+    {
+      "stylist": "Anjali",
+      "revenue": 132355,
+      "orders": 7
     },
     {
       "stylist": "Gift card",
@@ -490,8 +490,8 @@
     },
     {
       "title": "Veya Cupro Satin Lime & Pink Kurta Set",
-      "units": 19,
-      "digitalShare": 0.32
+      "units": 18,
+      "digitalShare": 0.28
     },
     {
       "title": "Zuri Cupro Satin Red Kurta With Farshi Salwar",
@@ -735,20 +735,20 @@
     },
     {
       "title": "Veya Cupro Satin Lime & Pink Kurta Set",
-      "units": 19,
-      "revenue": 396300,
+      "units": 18,
+      "revenue": 379350,
       "byBucket": {
         "gift": 2,
         "retail_assist": 5,
-        "online": 6,
+        "online": 5,
         "stylist": 2,
         "other_to_draft": 1,
         "draft_unclassified": 1,
         "app_to_draft": 1,
         "online_to_draft": 1
       },
-      "digitalUnits": 6,
-      "digitalShare": 0.3157894736842105
+      "digitalUnits": 5,
+      "digitalShare": 0.2777777777777778
     },
     {
       "title": "Zuri Cupro Satin Red Kurta With Farshi Salwar",
@@ -905,18 +905,6 @@
       "digitalShare": 0.2
     },
     {
-      "title": "Arlette Cupro Satin Red Long Kaftan Set",
-      "units": 10,
-      "revenue": 169000,
-      "byBucket": {
-        "online": 5,
-        "app": 3,
-        "retail_assist": 2
-      },
-      "digitalUnits": 8,
-      "digitalShare": 0.8
-    },
-    {
       "title": "Saaj Cupro Satin Sage Green Kurta Set",
       "units": 10,
       "revenue": 224050,
@@ -970,6 +958,18 @@
       },
       "digitalUnits": 3,
       "digitalShare": 0.3333333333333333
+    },
+    {
+      "title": "Arlette Cupro Satin Red Long Kaftan Set",
+      "units": 9,
+      "revenue": 152100,
+      "byBucket": {
+        "online": 4,
+        "app": 3,
+        "retail_assist": 2
+      },
+      "digitalUnits": 7,
+      "digitalShare": 0.7777777777777778
     },
     {
       "title": "Vela Cupro Satin Printed Navy Co-ord Set",
@@ -1548,17 +1548,6 @@
       "digitalShare": 0.25
     },
     {
-      "title": "Zeya Cupro Satin Printed Pink Kurta Set",
-      "units": 4,
-      "revenue": 83600,
-      "byBucket": {
-        "stylist": 1,
-        "retail_assist": 3
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
       "title": "Kiva Cupro Satin Off-White with Farshi Salwar",
       "units": 4,
       "revenue": 86650,
@@ -1795,17 +1784,6 @@
       "digitalShare": 0.3333333333333333
     },
     {
-      "title": "Odelle Lawn Printed Fuchsia Co-ord Set",
-      "units": 3,
-      "revenue": 38700,
-      "byBucket": {
-        "online_to_draft": 1,
-        "online": 2
-      },
-      "digitalUnits": 2,
-      "digitalShare": 0.6666666666666666
-    },
-    {
       "title": "Jhumri Cupro Satin Off White Kurta With Farshi Salwar",
       "units": 3,
       "revenue": 60750,
@@ -1971,6 +1949,16 @@
       },
       "digitalUnits": 2,
       "digitalShare": 0.6666666666666666
+    },
+    {
+      "title": "Zeya Cupro Satin Printed Pink Kurta Set",
+      "units": 3,
+      "revenue": 62700,
+      "byBucket": {
+        "retail_assist": 3
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
     },
     {
       "title": "Zivra Lawn Printed Yellow Kurta Set",
@@ -2168,6 +2156,17 @@
       "byBucket": {
         "app": 1,
         "stylist": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.5
+    },
+    {
+      "title": "Odelle Lawn Printed Fuchsia Co-ord Set",
+      "units": 2,
+      "revenue": 25800,
+      "byBucket": {
+        "online_to_draft": 1,
+        "online": 1
       },
       "digitalUnits": 1,
       "digitalShare": 0.5
