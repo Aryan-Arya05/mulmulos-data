@@ -54,6 +54,13 @@ export async function gql(query, variables = {}) {
        array, but auth failures return errors as a bare STRING
        ("Invalid API key or access token"). Assuming an array
        crashes on exactly the case you most need to read. */
+    /* Shopify returns data AND errors when one field is denied.
+       Discarding good rows over a blocked field would be worse than
+       proceeding without it. */
+    if (body.errors && body.data) {
+      const list = Array.isArray(body.errors) ? body.errors : [body.errors];
+      if (!list.some((e) => e?.extensions?.code === "THROTTLED")) return body.data;
+    }
     if (body.errors) {
       if (typeof body.errors === "string") {
         throw new Error(`Shopify (${res.status}): ${body.errors}`);
@@ -82,12 +89,20 @@ query Orders($q: String!, $after: String) {
   orders(first: 50, query: $q, after: $after, sortKey: CREATED_AT) {
     pageInfo { hasNextPage endCursor }
     nodes {
+      id
       name
       createdAt
+      cancelledAt
+      note
+      tags
       app { name }
       displayFinancialStatus
-      currentTotalPriceSet { shopMoney { amount currencyCode } }
-      customer { numberOfOrders }
+      currentTotalPriceSet { shopMoney { amount } }
+      subtotalPriceSet { shopMoney { amount } }
+      totalDiscountsSet { shopMoney { amount } }
+      discountApplications(first: 5) { nodes { ... on DiscountCodeApplication { code } ... on ManualDiscountApplication { title description } } }
+      customer { id displayName numberOfOrders }
+      shippingAddress { name }
       lineItems(first: 50) {
         nodes {
           quantity
@@ -101,8 +116,18 @@ query Orders($q: String!, $after: String) {
   }
 }`;
 
+/* Events are a second round trip, so they are fetched only for the
+   orders that need them — drafts with no other marker. */
+const EVENTS_QUERY = `
+query Events($id: ID!) {
+  order(id: $id) {
+    id
+    events(first: 20, sortKey: CREATED_AT) { nodes { __typename createdAt message } }
+  }
+}`;
+
 /** Every order created in the window, paginated. */
-export async function fetchOrders({ startDate, endDate, maxPages = 40 }) {
+export async function fetchOrders({ startDate, endDate, maxPages = 60 }) {
   const q = `created_at:>=${startDate} AND created_at:<=${endDate}`;
   const out = [];
   let after = null;
@@ -116,6 +141,33 @@ export async function fetchOrders({ startDate, endDate, maxPages = 40 }) {
   }
   /* Say so rather than silently returning a partial window. */
   return { orders: out, truncated: true };
+}
+
+/**
+ * Attach events to the given orders, in small batches with a pause,
+ * because Shopify's leaky bucket will not take hundreds of calls at once.
+ */
+export async function attachEvents(orders, { batch = 5, pauseMs = 600, onProgress } = {}) {
+  let done = 0;
+  for (let i = 0; i < orders.length; i += batch) {
+    const slice = orders.slice(i, i + batch);
+    await Promise.all(
+      slice.map(async (o) => {
+        try {
+          const d = await gql(EVENTS_QUERY, { id: o.id || o.admin_graphql_api_id || o.gid });
+          o.events = d?.order?.events || { nodes: [] };
+        } catch {
+          /* An order whose events cannot be read stays unclassified
+             rather than being guessed into a bucket. */
+          o.events = { nodes: [] };
+        }
+      })
+    );
+    done += slice.length;
+    if (onProgress) onProgress(done, orders.length);
+    if (i + batch < orders.length) await sleep(pauseMs);
+  }
+  return orders;
 }
 
 export async function fetchShop() {
