@@ -46,7 +46,7 @@ t("uncancelled prior ignored", classify(draftRebook, buildRebookIndex([paidPrior
 /* --- retail assist, real notes --- */
 t("REC AT JUHU", retailStoreOf({ note: "REC AT JUHU STORE 16900" }), "JUHU");
 t("REC AT MALL OF INDIA", retailStoreOf({ note: "REC AT MALL OF INDIA 11900" }), "MALL OF INDIA");
-t("REC AT with COD", retailStoreOf({ note: "REC AT LUCKONW STORE COD ORDER " }), "LUCKONW");
+t("REC AT with COD, typo corrected", retailStoreOf({ note: "REC AT LUCKONW STORE COD ORDER " }), "LUCKNOW");
 t("multiline note", retailStoreOf({ note: "REC AT KHAN MARKET STORE 18900\nBUST-29 WAIST-26" }), "KHAN MARKET");
 t("no marker", retailStoreOf({ note: "Urgent order" }), null);
 
@@ -61,7 +61,7 @@ t("gifted is not a gift signal on its own", giftSignal({ customer: cust("c1", "G
 const giftOrder = {
   name: "#ML236739", createdAt: "2026-08-18T11:01:00Z", app: { name: "Draft Orders" },
   customer: cust("c9", "Mallaikaa Chheda (GIFT)", 17),
-  currentTotalPriceSet: price(7470), subtotalPriceSet: price(24900), ...comment("Sagrika"),
+  currentTotalPriceSet: price(7470), subtotalPriceSet: price(7470), totalDiscountsSet: price(17430), ...comment("Sagrika"),
 };
 t("gift beats stylist", classify(giftOrder, index).bucket, "gift");
 
