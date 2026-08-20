@@ -419,6 +419,16 @@ meta(){
     ${kpi("Purchases", num(t.webPurchases), "website pixel")}
     ${t.storeVisitSpend?kpi("Store-visit spend", lakh(t.storeVisitSpend), "excluded from ROAS", "var(--violet)"):""}
   </div>
+  <div class="card"><h3>Delivery<em>derived from summed impressions and clicks</em></h3>
+    <div class="grid">
+      ${kpi("Impressions", num(t.impressions), num(t.clicks)+" clicks")}
+      ${kpi("CPM", inr(t.cpm), "per 1,000 impressions")}
+      ${kpi("CTR", t.ctr==null?"—":t.ctr.toFixed(2)+"%", "clicks ÷ impressions")}
+      ${kpi("CPC", inr(t.cpc), "per click")}
+      ${kpi("CPA", inr(t.cpa), "per website purchase", t.cpa>4000?"var(--warn)":null)}
+    </div>
+    <div class="note">These come from totalled impressions and clicks, not an average of the daily rates — averaging would weight a quiet day the same as a heavy one.</div>
+  </div>
   <div class="card"><h3>Funnel<em>Meta pixel events</em></h3>
     ${table(["Step","Count","Rate"],[
       ["Add to cart", num(t.addToCart), "—"],
@@ -427,8 +437,10 @@ meta(){
     ])}
   </div>
   <div class="card"><h3>Campaigns<em>website vs omni side by side</em></h3>
-    ${table(["Campaign","Spend","Web revenue","Web ROAS","Omni ROAS"], (m.campaigns||[]).map(c=>[
-      esc(c.name), inr(c.spend), inr(c.webRevenue),
+    ${table(["Campaign","Spend","CPM","CTR","CPC","CPA","Web revenue","Web ROAS","Omni ROAS"], (m.campaigns||[]).map(c=>[
+      esc(c.name), inr(c.spend), inr(c.cpm),
+      c.ctr==null?"—":`<span style="color:${c.ctr<0.5?"var(--warn)":"var(--muted)"}">${c.ctr.toFixed(2)}%</span>`,
+      inr(c.cpc), inr(c.cpa), inr(c.webRevenue),
       `<span style="color:${c.webRoas>=3?"var(--ok)":c.webRoas>=1?"var(--muted)":"var(--err)"}">${xx(c.webRoas)}</span>`,
       `<span style="color:var(--warn)">${xx(c.omniRoas)}</span>`]))}
     <div class="note">Website revenue is <b>7-day-click pixel purchases</b> requested explicitly. Omni folds in app, offline and store and reads materially higher — it is shown only so the gap is visible.</div>
