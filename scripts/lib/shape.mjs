@@ -355,3 +355,108 @@ export function summariseOrders(orders = [], index = null) {
     unclassified,
   };
 }
+
+/* ============================================================
+   Meta shaping.
+
+   The long-standing rule: reports use 7-day-click WEBSITE purchases.
+   Meta's default insights return omni purchases — web plus app plus
+   offline plus store visits — which run materially higher.
+
+   This separates them. `offsite_conversion.fb_pixel_purchase` is the
+   website pixel; `omni_purchase` is everything. Both are reported so
+   the gap is visible rather than assumed away.
+
+   ⚠ The web slice below has NOT yet been checked against an Ads
+   Manager export. Until it is, treat it as a candidate, not as the
+   report figure.
+   ============================================================ */
+
+const WEB_PURCHASE = "offsite_conversion.fb_pixel_purchase";
+const OMNI_PURCHASE = "omni_purchase";
+
+const actionVal = (list, type) => {
+  const hit = (list || []).find((a) => a.action_type === type);
+  return hit ? Number(hit.value || 0) : 0;
+};
+
+/** One raw insights row → a flat, typed record. */
+export function shapeMetaRow(r) {
+  const spend = Number(r.spend || 0);
+  const webRevenue = actionVal(r.action_values, WEB_PURCHASE);
+  const omniRevenue = actionVal(r.action_values, OMNI_PURCHASE);
+  const webPurchases = actionVal(r.actions, WEB_PURCHASE);
+  const omniPurchases = actionVal(r.actions, OMNI_PURCHASE);
+  return {
+    date: r.date_start,
+    campaignId: r.campaign_id,
+    name: r.campaign_name,
+    objective: r.objective || null,
+    spend,
+    impressions: Number(r.impressions || 0),
+    reach: Number(r.reach || 0),
+    frequency: r.frequency == null ? null : Number(r.frequency),
+    clicks: Number(r.clicks || 0),
+    ctr: r.ctr == null ? null : Number(r.ctr),
+    cpc: r.cpc == null ? null : Number(r.cpc),
+    cpm: r.cpm == null ? null : Number(r.cpm),
+    addToCart: actionVal(r.actions, "offsite_conversion.fb_pixel_add_to_cart"),
+    checkouts: actionVal(r.actions, "offsite_conversion.fb_pixel_initiate_checkout"),
+    webPurchases, omniPurchases,
+    webRevenue, omniRevenue,
+    webRoas: spend ? webRevenue / spend : null,
+    omniRoas: spend ? omniRevenue / spend : null,
+  };
+}
+
+/* Store-visit objectives buy footfall, not online revenue — the same
+   trap as Google's OMNI campaigns. */
+export const isStoreVisit = (r) =>
+  /store_visits|store traffic/i.test(`${r.objective || ""} ${r.name || ""}`);
+
+export function summariseMeta(rows = []) {
+  const web = rows.filter((r) => !isStoreVisit(r));
+  const visits = rows.filter(isStoreVisit);
+  const sum = (list, k) => list.reduce((a, r) => a + (Number(r[k]) || 0), 0);
+
+  const spend = sum(web, "spend");
+  const webRevenue = sum(web, "webRevenue");
+  const omniRevenue = sum(web, "omniRevenue");
+
+  const byCampaign = new Map();
+  for (const r of web) {
+    const c = byCampaign.get(r.name) || { name: r.name, spend: 0, webRevenue: 0, omniRevenue: 0, clicks: 0, impressions: 0, webPurchases: 0, addToCart: 0, checkouts: 0 };
+    for (const k of ["spend", "webRevenue", "omniRevenue", "clicks", "impressions", "webPurchases", "addToCart", "checkouts"]) c[k] += Number(r[k]) || 0;
+    byCampaign.set(r.name, c);
+  }
+
+  const byDate = new Map();
+  for (const r of web) {
+    const d = byDate.get(r.date) || { date: r.date, spend: 0, webRevenue: 0, omniRevenue: 0 };
+    d.spend += r.spend; d.webRevenue += r.webRevenue; d.omniRevenue += r.omniRevenue;
+    byDate.set(r.date, d);
+  }
+
+  return {
+    totals: {
+      spend,
+      webRevenue, omniRevenue,
+      webRoas: spend ? webRevenue / spend : null,
+      omniRoas: spend ? omniRevenue / spend : null,
+      /* How much omni flatters the account. */
+      omniInflation: webRevenue ? (omniRevenue - webRevenue) / webRevenue : null,
+      webPurchases: sum(web, "webPurchases"),
+      addToCart: sum(web, "addToCart"),
+      checkouts: sum(web, "checkouts"),
+      storeVisitSpend: sum(visits, "spend"),
+      /* The cross-campaign leak flagged in earlier audits. */
+      cartToCheckout: sum(web, "addToCart") ? sum(web, "checkouts") / sum(web, "addToCart") : null,
+      checkoutToPurchase: sum(web, "checkouts") ? sum(web, "webPurchases") / sum(web, "checkouts") : null,
+    },
+    campaigns: [...byCampaign.values()]
+      .map((c) => ({ ...c, webRoas: c.spend ? c.webRevenue / c.spend : null, omniRoas: c.spend ? c.omniRevenue / c.spend : null }))
+      .sort((a, b) => b.spend - a.spend),
+    storeVisit: visits,
+    daily: [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date)),
+  };
+}
