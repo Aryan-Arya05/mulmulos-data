@@ -132,7 +132,8 @@ function ago(iso){
 }
 
 const state = { shopify:null, google:null, eretail:null, meta:null, ga4app:null, ga4web:null, view:"overview", errors:[],
-  range:"ytd", cmp:"prev_year", channel:"all" };
+  range:"ytd", cmp:"prev_year", channel:"all",
+  pBucket:"all", pCat:"all", pDays:"all", pSort:"units" };
 
 async function load(name){
   try{
@@ -241,11 +242,89 @@ stores(){
 
 products(){
   const s = state.shopify; if(!s) return missing("shopify");
+  const grain = s.productDaily || [];
+  const cats = s.categories || [];
+
+  /* Fall back to the pre-aggregated list if an older shopify.json is
+     still committed — filters need the grain, so say so rather than
+     silently showing unfiltered numbers. */
+  if(!grain.length){
+    return `<div class="card"><div class="note err">
+      This shopify.json predates product-level filtering. Re-run <b>Pull Shopify</b> to get date, channel and category filters.
+    </div></div>` + views.productsLegacy();
+  }
+
+  const dates = [...new Set(grain.map(g=>g.date))].sort();
+  const last = dates[dates.length-1];
+  let from = dates[0];
+  if(state.pDays!=="all"){
+    const d = new Date(last+"T00:00:00Z");
+    d.setUTCDate(d.getUTCDate()-(Number(state.pDays)-1));
+    from = d.toISOString().slice(0,10);
+  }
+
+  const buckets = [...new Set(grain.map(g=>g.bucket))].sort();
+  const rows = grain.filter(g =>
+    g.date >= from && g.date <= last &&
+    (state.pBucket==="all" || g.bucket===state.pBucket) &&
+    (state.pCat==="all" || g.category===state.pCat));
+
+  /* Roll the filtered grain back up per product. */
+  const agg = new Map();
+  for(const g of rows){
+    const p = agg.get(g.title) || {title:g.title, category:g.category, units:0, revenue:0, digital:0};
+    p.units += g.units; p.revenue += g.revenue;
+    if(g.bucket==="online"||g.bucket==="app") p.digital += g.units;
+    agg.set(g.title, p);
+  }
+  let list = [...agg.values()].map(p=>({...p, digitalShare: p.units ? p.digital/p.units : null}));
+  list.sort((a,b) => state.pSort==="revenue" ? b.revenue-a.revenue
+    : state.pSort==="digital" ? (a.digitalShare??1)-(b.digitalShare??1)
+    : b.units-a.units);
+
+  const tot = list.reduce((a,p)=>({units:a.units+p.units, revenue:a.revenue+p.revenue}),{units:0,revenue:0});
+  const seg=(k,l,cur,attr)=>`<a data-${attr}="${k}" class="seg${cur===k?" on":""}">${esc(l)}</a>`;
+
+  return `<div class="card" style="margin-top:0">
+    <div class="segs">
+      <span class="seglbl">Period</span>
+      ${["all","7","3","1"].map(k=>seg(k,{all:"Full window","7":"7 days","3":"3 days","1":"Last day"}[k],state.pDays,"pdays")).join("")}
+    </div>
+    <div class="segs" style="margin-top:10px">
+      <span class="seglbl">Channel</span>
+      ${seg("all","All",state.pBucket,"pbucket")}
+      ${buckets.map(b=>seg(b,b,state.pBucket,"pbucket")).join("")}
+    </div>
+    ${cats.length>1?`<div class="segs" style="margin-top:10px">
+      <span class="seglbl">Category</span>
+      ${seg("all","All",state.pCat,"pcat")}
+      ${cats.map(c=>seg(c,c,state.pCat,"pcat")).join("")}
+    </div>`:""}
+    <div class="segs" style="margin-top:10px">
+      <span class="seglbl">Sort</span>
+      ${["units","revenue","digital"].map(k=>seg(k,{units:"Units",revenue:"Revenue",digital:"Least digital"}[k],state.pSort,"psort")).join("")}
+    </div>
+    <div style="font-size:11.5px;color:var(--dim);margin-top:12px">
+      ${esc(from)} → ${esc(last)} · ${num(list.length)} products · ${num(tot.units)} units · ${inr(tot.revenue)}
+    </div>
+  </div>
+
+  <div class="card"><h3>Products<em>${state.pBucket==="all"?"all channels":esc(state.pBucket)}${state.pCat==="all"?"":" · "+esc(state.pCat)}</em></h3>
+  ${table(["Product","Category","Units","Revenue","Digital units","Digital share"], list.slice(0,150).map(p=>[
+    esc(p.title), esc(p.category||"—"), num(p.units), inr(p.revenue), num(p.digital),
+    p.digitalShare==null?"—":`<span style="color:${p.digitalShare<0.35?"var(--warn)":"var(--muted)"}">${pct(p.digitalShare)}</span>`
+  ]), "Nothing matches these filters.")}
+  ${list.length>150?`<div class="note">Showing the first 150 of ${num(list.length)}. Narrow the filters to see the rest.</div>`:""}
+  <div class="note">Digital share is online plus app units. Anything under 35% is driven by stylists or store staff — that is the Zuri trap, and sorting by <b>Least digital</b> surfaces it.</div>
+  </div>`;
+},
+
+productsLegacy(){
+  const s = state.shopify;
   const nd = s.nonDigital||[];
   const p = (s.products||[]).slice(0,40);
   return `<div class="card"><h3>Not digital winners<em>high volume, under 35% online or app</em></h3>
-  ${table(["Product","Units","Digital share"], nd.map(x=>[esc(x.title), num(x.units), pct(x.digitalShare)]),"Nothing flagged.")}
-  <div class="note">Volume here is mostly stylist or store-assisted. Reading these as digital performance is the mistake Zuri caused.</div></div>
+  ${table(["Product","Units","Digital share"], nd.map(x=>[esc(x.title), num(x.units), pct(x.digitalShare)]),"Nothing flagged.")}</div>
   <div class="card"><h3>Top products by units</h3>
   ${table(["Product","Units","Revenue","Digital units","Digital share"], p.map(x=>[
     esc(x.title), num(x.units), inr(x.revenue), num(x.digitalUnits),
@@ -293,7 +372,6 @@ history(){
   const online = now.byChannel.Online||{units:0,value:0};
   const store  = now.byChannel.Store ||{units:0,value:0};
   const tot = online.value+store.value;
-
   const btn=(k,l,cur,attr)=>`<a data-${attr}="${k}" class="seg${cur===k?" on":""}">${l}</a>`;
   return `
   <div class="card" style="margin-top:0">
@@ -309,7 +387,6 @@ history(){
       ${esc(r.from)} → ${esc(r.to)}${prev?`  ·  vs ${esc(prev.from)} → ${esc(prev.to)}`:""}
     </div>
   </div>
-
   <div class="grid">
     ${kpi("List value", lakh(now.value), before?`${dpill(d)} vs ${lakh(before.value)}`:"MRP × qty")}
     ${kpi("Units", num(now.units), before?`vs ${num(before.units)}`:"")}
@@ -317,16 +394,14 @@ history(){
     ${kpi("Online share", pct(tot?online.value/tot:0), lakh(online.value), "var(--cyan)")}
     ${kpi("Store share", pct(tot?store.value/tot:0), lakh(store.value), "var(--violet)")}
   </div>
-
   <div class="card"><h3>By month<em>${esc(r.from)} → ${esc(r.to)}</em></h3>
     ${chart(now, before, "This period", "Comparison")}
   </div>
-
   <div class="card"><h3>Channel split<em>within the selected range</em></h3>
     ${table(["Channel","List value","Units","Share"], Object.entries(now.byChannel).sort((a,b)=>b[1].value-a[1].value).map(([k,v])=>[
       esc(k), inr(v.value), num(v.units),
       `${pct(tot?v.value/tot:0)}<div class="bar"><i style="width:${tot?100*v.value/tot:0}%"></i></div>`]))}
-    <div class="note">Revenue here is <b>MRP × quantity</b> — list price, not money received. The eRetail export carries no selling price, so this will never reconcile against Shopify. Use it for trend and volume.</div>
+    <div class="note">Revenue here is <b>MRP × quantity</b> — list price, not money received. The eRetail export carries no selling price, so this will never reconcile against Shopify.</div>
     <div class="note">Stock transfers (STO) and cancelled or returned lines are excluded. 47% of raw rows were STO.</div>
   </div>`;
 },
@@ -518,11 +593,15 @@ document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>{
 }));
 /* range / comparison / channel controls */
 document.addEventListener("click", e=>{
-  const el = e.target.closest("[data-range],[data-cmp],[data-chan]");
+  const el = e.target.closest("[data-range],[data-cmp],[data-chan],[data-pbucket],[data-pcat],[data-pdays],[data-psort]");
   if(!el) return;
   if(el.dataset.range) state.range = el.dataset.range;
   if(el.dataset.cmp) state.cmp = el.dataset.cmp;
   if(el.dataset.chan) state.channel = el.dataset.chan;
+  if(el.dataset.pbucket) state.pBucket = el.dataset.pbucket;
+  if(el.dataset.pcat) state.pCat = el.dataset.pcat;
+  if(el.dataset.pdays) state.pDays = el.dataset.pdays;
+  if(el.dataset.psort) state.pSort = el.dataset.psort;
   render();
 });
 
