@@ -1,4 +1,4 @@
-name: Pull GA4
+name: Pull GA4 (app)
 
 on:
   schedule:
@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: pull-ga4
+  group: pull-ga4-app
   cancel-in-progress: false
 
 jobs:
@@ -30,11 +30,12 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Pull GA4
+      - name: Pull GA4 (app)
         env:
           # The ENTIRE service-account JSON key file, pasted as one secret.
           GA4_SERVICE_ACCOUNT: ${{ secrets.GA4_SERVICE_ACCOUNT }}
-          GA4_PROPERTY_ID: "469222398"
+          GA4_PROPERTY_ID: "469222398"   # mulmulappbrew — the app property
+          GA4_LABEL: "app"
           DAYS: ${{ inputs.days || '28' }}
         run: node scripts/pull-ga4.mjs
 
@@ -47,6 +48,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No change — nothing to commit."
           else
-            git commit -m "data: ga4 $(date -u +%Y-%m-%dT%H:%MZ)"
+            git commit -m "data: ga4 app $(date -u +%Y-%m-%dT%H:%MZ)"
             git push
           fi
