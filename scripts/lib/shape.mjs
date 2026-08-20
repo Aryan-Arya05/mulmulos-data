@@ -266,6 +266,9 @@ export function summariseOrders(orders = [], index = null) {
   const stylists = new Map();
   const stores = new Map();
   const products = new Map();
+  /* Flat rows keyed by date x product x bucket, so the dashboard can
+     filter by any of the three without a second pull. */
+  const grain = new Map();
   const unclassified = [];
   let newCustomers = 0, returningCustomers = 0;
   let rebookCount = 0, rebookValue = 0;
@@ -308,12 +311,23 @@ export function summariseOrders(orders = [], index = null) {
     const n = o?.customer?.numberOfOrders;
     if (n != null) (Number(n) <= 1 ? newCustomers++ : returningCustomers++);
 
+    const day = String(o.createdAt || "").slice(0, 10);
     for (const li of o?.lineItems?.nodes || []) {
-      const p = products.get(li.title) || { title: li.title, units: 0, revenue: 0, byBucket: {} };
-      p.units += Number(li.quantity || 0);
-      p.revenue += Number(li?.discountedTotalSet?.shopMoney?.amount || 0);
-      p.byBucket[bucket] = (p.byBucket[bucket] || 0) + Number(li.quantity || 0);
+      const qty = Number(li.quantity || 0);
+      const rev = Number(li?.discountedTotalSet?.shopMoney?.amount || 0);
+      const category = li?.product?.productType || "Uncategorised";
+
+      const p = products.get(li.title) || { title: li.title, category, units: 0, revenue: 0, byBucket: {} };
+      p.category = p.category || category;
+      p.units += qty;
+      p.revenue += rev;
+      p.byBucket[bucket] = (p.byBucket[bucket] || 0) + qty;
       products.set(li.title, p);
+
+      const gk = `${day}|${li.title}|${bucket}`;
+      const g = grain.get(gk) || { date: day, title: li.title, category, bucket, units: 0, revenue: 0 };
+      g.units += qty; g.revenue += rev;
+      grain.set(gk, g);
     }
   }
 
@@ -349,6 +363,9 @@ export function summariseOrders(orders = [], index = null) {
       .map((sv) => ({ ...sv, variants: [...sv.variants], merged: sv.variants.size > 1 }))
       .sort((a, b) => b.revenue - a.revenue),
     products: top,
+    /* date x product x bucket — the filterable grain */
+    productDaily: [...grain.values()].sort((a, b) => b.units - a.units),
+    categories: [...new Set([...products.values()].map((p) => p.category))].filter(Boolean).sort(),
     /* Volume that is NOT digital — the Zuri check, now precise. */
     nonDigital: top.filter((p) => p.units >= 5 && p.digitalShare != null && p.digitalShare < 0.35)
       .map((p) => ({ title: p.title, units: p.units, digitalShare: Number(p.digitalShare.toFixed(2)) })),
