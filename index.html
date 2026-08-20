@@ -133,7 +133,7 @@ function ago(iso){
 
 const state = { shopify:null, google:null, eretail:null, meta:null, ga4app:null, ga4web:null, view:"overview", errors:[],
   range:"ytd", cmp:"prev_year", channel:"all",
-  pBucket:"all", pCat:"all", pDays:"all", pSort:"units" };
+  pBucket:"all", pCat:"all", pDays:"all", pSort:"units", gType:"all" };
 
 async function load(name){
   try{
@@ -346,14 +346,46 @@ google(){
     ${kpi("OMNI share", pct(t.omniShare), "of total spend", t.omniShare>0.3?"var(--warn)":null)}
     ${kpi("Cost per visit", inr(t.omniCostPerVisit), "store visit campaigns")}
   </div>
+  ${(p.types||[]).length?`<div class="card"><h3>By campaign type<em>where the money goes</em></h3>
+    ${table(["Type","Spend","Campaigns","ROAS","CTR","CPC","Creative layer"], p.types.map(ty=>[
+      esc(ty.type), inr(ty.spend), num(ty.campaigns),
+      ty.roas==null?`<span style="color:var(--dim)">not graded</span>`:`<span style="color:${ty.roas>=3?"var(--ok)":ty.roas>=1?"var(--muted)":"var(--err)"}">${xx(ty.roas)}</span>`,
+      ty.ctr==null?"—":ty.ctr.toFixed(2)+"%", inr(ty.cpc),
+      ty.creativeLayer?`<span style="color:var(--ok)">yes</span>`:`<span style="color:var(--dim)">none</span>`]))}
+    <div class="note">Shopping renders from the product feed and Performance Max exposes asset groups rather than ads, so neither has creatives to inspect. OMNI buys store visits and is never graded on ROAS.</div>
+  </div>`:""}
+
   <div class="card"><h3>Web campaigns<em>graded on ROAS</em></h3>
-  ${table(["Campaign","Spend","Revenue","ROAS"], (p.web||[]).map(c=>[
-    esc(c.name), inr(c.spend), inr(c.revenue),
-    `<span style="color:${c.roas>=3?"var(--ok)":c.roas>=1?"var(--muted)":"var(--err)"}">${xx(c.roas)}</span>`]))}</div>
-  <div class="card"><h3>OMNI store-visit campaigns<em>not graded on ROAS</em></h3>
-  ${table(["Campaign","Spend","Visits","Cost / visit"], (p.omni||[]).map(c=>[
-    esc(c.name), inr(c.spend), num(c.conversions), inr(c.costPerVisit)]))}
-  <div class="note">Their conversion value is a visit count, not rupees. Blending them in reported ${xx(t.naiveBlendedRoas)} against a real web figure of ${xx(t.webRoas)}.</div></div>
+  ${(()=>{
+    const types = [...new Set((p.web||[]).map(c=>c.type).filter(Boolean))];
+    const seg=(k,l)=>`<a data-gtype="${esc(k)}" class="seg${state.gType===k?" on":""}">${esc(l)}</a>`;
+    const rows = (p.web||[]).filter(c=>state.gType==="all" || c.type===state.gType);
+    return (types.length>1?`<div class="segs" style="margin-bottom:14px">
+      <span class="seglbl">Type</span>${seg("all","All")}${types.map(t=>seg(t,t)).join("")}
+    </div>`:"") +
+    table(["Campaign","Type","Spend","Revenue","ROAS"], rows.map(c=>[
+      esc(c.name), esc(c.type||"—"), inr(c.spend), inr(c.revenue),
+      `<span style="color:${c.roas>=3?"var(--ok)":c.roas>=1?"var(--muted)":"var(--err)"}">${xx(c.roas)}</span>`]),
+      "No campaigns of this type.");
+  })()}</div>
+
+  ${(()=>{
+    const cr = g.creatives;
+    if(!cr) return "";
+    if(!cr.available) return `<div class="card"><h3>Creatives<em>unavailable</em></h3>
+      <div class="note err">Could not fetch ad-level data — ${esc(cr.error||"unknown")}</div>
+      <div class="note">${esc(cr.note)}</div></div>`;
+    if(!cr.rows?.length) return `<div class="card"><h3>Creatives<em>none to show</em></h3>
+      <div class="note">${esc(cr.note)}</div></div>`;
+    return `<div class="card"><h3>Creatives<em>Search, Display and Demand Gen only</em></h3>
+      ${table(["Headline","Campaign","Spend","Clicks","CTR","Revenue","ROAS"], cr.rows.slice(0,60).map(a=>[
+        esc(a.headline||a.adId||"—"), esc(a.campaign), inr(a.spend), num(a.clicks),
+        a.impressions?((100*a.clicks)/a.impressions).toFixed(2)+"%":"—",
+        inr(a.revenue),
+        `<span style="color:${a.roas>=3?"var(--ok)":a.roas>=1?"var(--muted)":"var(--err)"}">${xx(a.roas)}</span>`]))}
+      <div class="note">${esc(cr.note)}</div></div>`;
+  })()}
+
   <div class="card"><h3>All accounts</h3>
   ${table(["Account","Status","Web spend","Web ROAS","OMNI share"], (g.accounts||[]).map(a=>[
     esc(a.name), a.ok?"ok":`<span style="color:var(--err)">failed</span>`,
@@ -605,7 +637,7 @@ document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>{
 }));
 /* range / comparison / channel controls */
 document.addEventListener("click", e=>{
-  const el = e.target.closest("[data-range],[data-cmp],[data-chan],[data-pbucket],[data-pcat],[data-pdays],[data-psort]");
+  const el = e.target.closest("[data-range],[data-cmp],[data-chan],[data-pbucket],[data-pcat],[data-pdays],[data-psort],[data-gtype]");
   if(!el) return;
   if(el.dataset.range) state.range = el.dataset.range;
   if(el.dataset.cmp) state.cmp = el.dataset.cmp;
@@ -614,6 +646,7 @@ document.addEventListener("click", e=>{
   if(el.dataset.pcat) state.pCat = el.dataset.pcat;
   if(el.dataset.pdays) state.pDays = el.dataset.pdays;
   if(el.dataset.psort) state.pSort = el.dataset.psort;
+  if(el.dataset.gtype) state.gType = el.dataset.gtype;
   render();
 });
 
