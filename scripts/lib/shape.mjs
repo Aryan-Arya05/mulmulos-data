@@ -460,3 +460,83 @@ export function summariseMeta(rows = []) {
     daily: [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date)),
   };
 }
+
+/* ============================================================
+   GA4 shaping.
+
+   The question this exists to answer: app conversion rate fell from
+   roughly 0.93% to 0.45% after mid-June while sessions hit highs.
+   Nothing in the stack could see it, because GA4 was never wired.
+
+   Conversion rate is computed here as purchases / sessions rather
+   than read from a GA4 metric, so the definition is explicit and
+   comparable across streams.
+   ============================================================ */
+
+export function summariseGa4(streamRows = [], channelRows = []) {
+  const n = (v) => Number(v || 0);
+
+  const byDate = new Map();
+  const byStream = new Map();
+
+  for (const r of streamRows) {
+    const date = r.date && r.date.length === 8
+      ? `${r.date.slice(0, 4)}-${r.date.slice(4, 6)}-${r.date.slice(6, 8)}`  // GA4 returns YYYYMMDD
+      : r.date;
+    const stream = r.streamName || r.streamId || "unknown";
+
+    const d = byDate.get(date) || { date, sessions: 0, users: 0, addToCarts: 0, checkouts: 0, purchases: 0, revenue: 0 };
+    const s = byStream.get(stream) || { stream, sessions: 0, users: 0, addToCarts: 0, checkouts: 0, purchases: 0, revenue: 0 };
+    for (const [k, m] of [["sessions", "sessions"], ["users", "activeUsers"], ["addToCarts", "addToCarts"],
+                          ["checkouts", "checkouts"], ["purchases", "ecommercePurchases"], ["revenue", "purchaseRevenue"]]) {
+      d[k] += n(r[m]); s[k] += n(r[m]);
+    }
+    byDate.set(date, d); byStream.set(stream, s);
+  }
+
+  const withRates = (o) => ({
+    ...o,
+    conversionRate: o.sessions ? o.purchases / o.sessions : null,
+    cartRate: o.sessions ? o.addToCarts / o.sessions : null,
+    cartToCheckout: o.addToCarts ? o.checkouts / o.addToCarts : null,
+    checkoutToPurchase: o.checkouts ? o.purchases / o.checkouts : null,
+    aov: o.purchases ? o.revenue / o.purchases : null,
+  });
+
+  const daily = [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date)).map(withRates);
+  const streams = [...byStream.values()].sort((a, b) => b.sessions - a.sessions).map(withRates);
+
+  const totals = withRates(daily.reduce((a, d) => {
+    for (const k of ["sessions", "users", "addToCarts", "checkouts", "purchases", "revenue"]) a[k] += d[k];
+    return a;
+  }, { sessions: 0, users: 0, addToCarts: 0, checkouts: 0, purchases: 0, revenue: 0 }));
+
+  const channels = channelRows.map((r) => ({
+    channel: r.sessionDefaultChannelGroup || "Unassigned",
+    sessions: n(r.sessions),
+    purchases: n(r.ecommercePurchases),
+    revenue: n(r.purchaseRevenue),
+    conversionRate: n(r.sessions) ? n(r.ecommercePurchases) / n(r.sessions) : null,
+  })).sort((a, b) => b.sessions - a.sessions);
+
+  /* Split the window in half and compare — a collapse mid-window is
+     invisible in a single averaged figure. */
+  let trend = null;
+  if (daily.length >= 4) {
+    const mid = Math.floor(daily.length / 2);
+    const half = (arr) => {
+      const s = arr.reduce((a, d) => a + d.sessions, 0);
+      const p = arr.reduce((a, d) => a + d.purchases, 0);
+      return { sessions: s, purchases: p, conversionRate: s ? p / s : null };
+    };
+    const first = half(daily.slice(0, mid));
+    const second = half(daily.slice(mid));
+    trend = {
+      firstHalf: first, secondHalf: second,
+      conversionChange: first.conversionRate ? (second.conversionRate - first.conversionRate) / first.conversionRate : null,
+      sessionChange: first.sessions ? (second.sessions - first.sessions) / first.sessions : null,
+    };
+  }
+
+  return { totals, daily, streams, channels, trend };
+}
