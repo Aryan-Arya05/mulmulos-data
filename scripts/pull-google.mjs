@@ -29,6 +29,8 @@ const DAYS = Number(process.env.DAYS || 7);
 const { startDate, endDate } = lastNDays(DAYS);
 const FIELDS = "campaign_name,cost,impressions,clicks,conversions,conversion_value";
 
+const inr = (n) => "₹" + Math.round(n || 0).toLocaleString("en-IN");
+
 const MAPPING = {
   name: { field: "campaign_name" },
   spend: { field: "cost", type: "number" },
