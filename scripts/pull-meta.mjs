@@ -54,11 +54,13 @@ async function main() {
   }
   if (t.storeVisitSpend) console.log(`  store-visit spend ${inr(t.storeVisitSpend)} — excluded from ROAS`);
 
+  console.log(`\n  delivery: ${Number(t.impressions).toLocaleString("en-IN")} impressions · CPM ${inr(t.cpm)} · CTR ${t.ctr?.toFixed(2) ?? "—"}% · CPC ${inr(t.cpc)} · CPA ${inr(t.cpa)}`);
+
   console.log(`\n  funnel: ${t.addToCart} ATC → ${t.checkouts} checkout (${(100 * (t.cartToCheckout ?? 0)).toFixed(0)}%) → ${t.webPurchases} purchase (${(100 * (t.checkoutToPurchase ?? 0)).toFixed(0)}%)`);
 
   console.log(`\n  top campaigns:`);
   for (const c of s.campaigns.slice(0, 10)) {
-    console.log(`    ${pad(c.name.slice(0, 38), 40)} ${inr(c.spend).padStart(11)}  web ${(c.webRoas ?? 0).toFixed(2)}x  omni ${(c.omniRoas ?? 0).toFixed(2)}x`);
+    console.log(`    ${pad(c.name.slice(0, 34), 36)} ${inr(c.spend).padStart(11)}  web ${(c.webRoas ?? 0).toFixed(2)}x  CPM ${inr(c.cpm).padStart(7)}  CTR ${(c.ctr ?? 0).toFixed(2)}%  CPC ${inr(c.cpc).padStart(6)}`);
   }
 
   const payload = {
