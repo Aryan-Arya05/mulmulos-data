@@ -1,0 +1,52 @@
+name: Pull GA4
+
+on:
+  schedule:
+    # 07:15 and 19:15 IST — last in the stagger, behind Google, Shopify and Meta.
+    - cron: "45 1 * * *"
+    - cron: "45 13 * * *"
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "How many days back to pull"
+        required: false
+        default: "28"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pull-ga4
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Pull GA4
+        env:
+          # The ENTIRE service-account JSON key file, pasted as one secret.
+          GA4_SERVICE_ACCOUNT: ${{ secrets.GA4_SERVICE_ACCOUNT }}
+          GA4_PROPERTY_ID: "469222398"
+          DAYS: ${{ inputs.days || '28' }}
+        run: node scripts/pull-ga4.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "mulmulos-bot"
+          git config user.email "actions@github.com"
+          git pull --rebase --autostash || true
+          git add data/
+          if git diff --staged --quiet; then
+            echo "No change — nothing to commit."
+          else
+            git commit -m "data: ga4 $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi
