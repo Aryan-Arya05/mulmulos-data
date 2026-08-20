@@ -11,6 +11,27 @@
 
 export const isOmni = (name) => /omni/i.test(name || "");
 
+/* Campaign type, inferred from the naming convention rather than a
+   separate API field — the convention is consistent and this costs
+   no extra request. OMNI is checked first because those are PMax
+   campaigns buying store visits, which is a different thing again. */
+export function campaignType(name = "") {
+  const n = String(name);
+  if (isOmni(n)) return "OMNI store visit";
+  if (/performancemax|pmax/i.test(n)) return "Performance Max";
+  if (/shopping/i.test(n)) return "Shopping";
+  if (/search/i.test(n)) return "Search";
+  if (/display|gdn/i.test(n)) return "Display";
+  if (/video|youtube|yt/i.test(n)) return "Video";
+  if (/demand.?gen|discovery/i.test(n)) return "Demand Gen";
+  return "Other";
+}
+
+/* Where a creative layer actually exists. Shopping renders from the
+   product feed and Performance Max only exposes asset groups, so
+   there is nothing ad-level to fetch for either. */
+export const hasCreatives = (type) => type === "Search" || type === "Display" || type === "Demand Gen";
+
 /** Split raw campaign rows into web (gradeable) and OMNI (not gradeable). */
 export function splitChannels(rows = []) {
   const web = rows.filter((r) => !isOmni(r.name));
@@ -24,12 +45,33 @@ export function splitChannels(rows = []) {
   const omniVisits = sum(omni, "conversions");
   const totalSpend = webSpend + omniSpend;
 
+  const byType = new Map();
+  for (const r of rows) {
+    const type = campaignType(r.name);
+    const t = byType.get(type) || { type, spend: 0, revenue: 0, conversions: 0, clicks: 0, impressions: 0, campaigns: 0, gradeable: !isOmni(r.name) };
+    t.spend += Number(r.spend) || 0;
+    t.revenue += Number(r.revenue) || 0;
+    t.conversions += Number(r.conversions) || 0;
+    t.clicks += Number(r.clicks) || 0;
+    t.impressions += Number(r.impressions) || 0;
+    t.campaigns += 1;
+    byType.set(type, t);
+  }
+
   return {
+    types: [...byType.values()].map((t) => ({
+      ...t,
+      roas: t.gradeable && t.spend ? t.revenue / t.spend : null,
+      ctr: t.impressions ? (100 * t.clicks) / t.impressions : null,
+      cpc: t.clicks ? t.spend / t.clicks : null,
+      costPerConversion: t.conversions ? t.spend / t.conversions : null,
+      creativeLayer: hasCreatives(t.type),
+    })).sort((a, b) => b.spend - a.spend),
     web: web
-      .map((r) => ({ ...r, roas: r.spend ? r.revenue / r.spend : null }))
+      .map((r) => ({ ...r, type: campaignType(r.name), roas: r.spend ? r.revenue / r.spend : null }))
       .sort((a, b) => (b.spend || 0) - (a.spend || 0)),
     omni: omni
-      .map((r) => ({ ...r, costPerVisit: r.conversions ? r.spend / r.conversions : null }))
+      .map((r) => ({ ...r, type: campaignType(r.name), costPerVisit: r.conversions ? r.spend / r.conversions : null }))
       .sort((a, b) => (b.spend || 0) - (a.spend || 0)),
     totals: {
       webSpend,
