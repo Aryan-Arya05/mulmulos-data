@@ -1,9 +1,9 @@
 {
   "source": "Google Ads via Supermetrics",
   "account": "6/6 accounts",
-  "range": "2026-08-13 → 2026-08-19",
-  "fetchedAt": "2026-08-20T02:37:11.513Z",
-  "rowCount": 19,
+  "range": "2026-07-23 → 2026-08-19",
+  "fetchedAt": "2026-08-20T13:15:05.937Z",
+  "rowCount": 23,
   "dsId": "AW",
   "attribution": "Google default attribution. An efficiency ratio, not incrementality.",
   "rule": "OMNI campaigns optimise store visits; conversion value is a visit count, not rupees. Never graded on ROAS.",
@@ -15,162 +15,280 @@
       "ok": true,
       "error": null,
       "totals": {
-        "webSpend": 364828.4854,
-        "webRevenue": 2043868.74,
-        "webRoas": 5.602272908484903,
-        "omniSpend": 153844.37030000004,
-        "omniVisits": 137,
-        "omniCostPerVisit": 1122.9516080291974,
-        "totalSpend": 518672.8557000001,
-        "omniShare": 0.29661157049055886,
-        "naiveBlendedRoas": 3.9408380784481443
+        "webSpend": 1336683.4060000002,
+        "webRevenue": 9991108.05,
+        "webRoas": 7.474550821198718,
+        "omniSpend": 766221.3294999999,
+        "omniVisits": 807,
+        "omniCostPerVisit": 949.4688097893431,
+        "totalSpend": 2102904.7355,
+        "omniShare": 0.3643633097425206,
+        "naiveBlendedRoas": 4.751482500049751
       },
+      "types": [
+        {
+          "type": "OMNI store visit",
+          "spend": 766221.3294999999,
+          "revenue": 807,
+          "conversions": 807,
+          "clicks": 209259,
+          "impressions": 7986658,
+          "campaigns": 11,
+          "gradeable": false,
+          "roas": null,
+          "ctr": 2.6201071837557084,
+          "cpc": 3.661593190734926,
+          "costPerConversion": 949.4688097893431,
+          "creativeLayer": false
+        },
+        {
+          "type": "Shopping",
+          "spend": 622571.23,
+          "revenue": 2957176.4699999997,
+          "conversions": 170.85999999999999,
+          "clicks": 47426,
+          "impressions": 3338284,
+          "campaigns": 5,
+          "gradeable": true,
+          "roas": 4.7499407738452675,
+          "ctr": 1.4206700208849816,
+          "cpc": 13.12721355374689,
+          "costPerConversion": 3643.7506145382185,
+          "creativeLayer": false
+        },
+        {
+          "type": "Performance Max",
+          "spend": 367702.2607,
+          "revenue": 1783888.3199999998,
+          "conversions": 90.57,
+          "clicks": 50567,
+          "impressions": 1402596,
+          "campaigns": 3,
+          "gradeable": true,
+          "roas": 4.85144778986125,
+          "ctr": 3.605243420058235,
+          "cpc": 7.271585435165226,
+          "costPerConversion": 4059.868175996467,
+          "creativeLayer": false
+        },
+        {
+          "type": "Search",
+          "spend": 346409.9153,
+          "revenue": 5250043.26,
+          "conversions": 296.42,
+          "clicks": 29447,
+          "impressions": 70747,
+          "campaigns": 1,
+          "gradeable": true,
+          "roas": 15.155580219039994,
+          "ctr": 41.62296634486268,
+          "cpc": 11.763844035046015,
+          "costPerConversion": 1168.6455546184468,
+          "creativeLayer": true
+        }
+      ],
       "web": [
         {
-          "name": "SHOP_2975_adyogi_Shopping_Rakhi",
-          "spend": 94879.05,
-          "impressions": 477779,
-          "clicks": 6845,
-          "conversions": 24.75,
-          "revenue": 471522.4,
-          "roas": 4.9697209236390965
-        },
-        {
           "name": "SHOP_2975_adyogi_Brand-Search_Engagenew",
-          "spend": 92000.5391,
-          "impressions": 19348,
-          "clicks": 8548,
-          "conversions": 60.91,
-          "revenue": 1151588.65,
-          "roas": 12.517194586743459
+          "spend": 346409.9153,
+          "impressions": 70747,
+          "clicks": 29447,
+          "conversions": 296.42,
+          "revenue": 5250043.26,
+          "type": "Search",
+          "roas": 15.155580219039994
         },
         {
-          "name": "SHOP_2975_adyogi_PerformanceMax_CapsulePrints_newlaunch_10-07-26",
-          "spend": 65513.3788,
-          "impressions": 233586,
-          "clicks": 9303,
-          "conversions": 7,
-          "revenue": 103160,
-          "roas": 1.5746402015827643
+          "name": "SHOP_2975_adyogi_Shopping_Rakhi",
+          "spend": 260551.05,
+          "impressions": 1568928,
+          "clicks": 25198,
+          "conversions": 84.4,
+          "revenue": 1623671.79,
+          "type": "Shopping",
+          "roas": 6.23168392528067
         },
         {
           "name": "SHOP_2975_adyogi_Shopping_Classic",
-          "spend": 58986.2,
-          "impressions": 264523,
-          "clicks": 2564,
-          "conversions": 7.59,
-          "revenue": 179865.59,
-          "roas": 3.049282544052677
+          "spend": 236427.16,
+          "impressions": 1223948,
+          "clicks": 14840,
+          "conversions": 59.17,
+          "revenue": 983605.63,
+          "type": "Shopping",
+          "roas": 4.160290340585235
+        },
+        {
+          "name": "SHOP_2975_adyogi_PerformanceMax_CapsulePrints_newlaunch_10-07-26",
+          "spend": 207706.8982,
+          "impressions": 731463,
+          "clicks": 28492,
+          "conversions": 57.89,
+          "revenue": 1182954.69,
+          "type": "Performance Max",
+          "roas": 5.695307667927997
         },
         {
           "name": "SHOP_2975_adyogi_PerformanceMax_rakhi_24-07-26",
-          "spend": 36894.9275,
-          "impressions": 151831,
-          "clicks": 3997,
-          "conversions": 7,
-          "revenue": 122232.1,
-          "roas": 3.3129784575399968
+          "spend": 119180.1091,
+          "impressions": 496122,
+          "clicks": 15791,
+          "conversions": 27.68,
+          "revenue": 495455.63,
+          "type": "Performance Max",
+          "roas": 4.157200675024386
         },
         {
           "name": "SHOP_2975_adyogi_Shopping_Accessories",
-          "spend": 16554.39,
-          "impressions": 57463,
-          "clicks": 649,
-          "conversions": 2,
-          "revenue": 15500,
-          "roas": 0.9363075293018952
+          "spend": 90884.15,
+          "impressions": 406992,
+          "clicks": 5020,
+          "conversions": 22.63,
+          "revenue": 277604.47,
+          "type": "Shopping",
+          "roas": 3.054487168554693
+        },
+        {
+          "name": "SHOP_2975_adyogi_PerformanceMax_Classics",
+          "spend": 40815.2534,
+          "impressions": 175011,
+          "clicks": 6284,
+          "conversions": 5,
+          "revenue": 105478,
+          "type": "Performance Max",
+          "roas": 2.5842789450867403
+        },
+        {
+          "name": "SHOP_2975_adyogi_Shopping_Rakhi_collection",
+          "spend": 34140.85,
+          "impressions": 135289,
+          "clicks": 2316,
+          "conversions": 4.66,
+          "revenue": 72294.58,
+          "type": "Shopping",
+          "roas": 2.1175389599263053
+        },
+        {
+          "name": "SHOP_2975_adyogi_Shopping_rakhi_collection_24-07-26",
+          "spend": 568.02,
+          "impressions": 3127,
+          "clicks": 52,
+          "conversions": 0,
+          "revenue": 0,
+          "type": "Shopping",
+          "roas": 0
         }
       ],
       "omni": [
         {
           "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Mumbai_Store",
-          "spend": 48028.7784,
-          "impressions": 419231,
-          "clicks": 1665,
-          "conversions": 29,
-          "revenue": 29,
-          "costPerVisit": 1656.1647724137931
+          "spend": 236552.9066,
+          "impressions": 2208549,
+          "clicks": 8316,
+          "conversions": 235,
+          "revenue": 235,
+          "type": "OMNI store visit",
+          "costPerVisit": 1006.6081131914893
         },
         {
           "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Delhi_Store",
-          "spend": 30315.5177,
-          "impressions": 146501,
-          "clicks": 1133,
-          "conversions": 16,
-          "revenue": 16,
-          "costPerVisit": 1894.71985625
+          "spend": 199478.455,
+          "impressions": 1162685,
+          "clicks": 7028,
+          "conversions": 135,
+          "revenue": 135,
+          "type": "OMNI store visit",
+          "costPerVisit": 1477.618185185185
         },
         {
           "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Bengaluru_Store",
-          "spend": 23200.316,
-          "impressions": 104680,
-          "clicks": 1315,
-          "conversions": 30,
-          "revenue": 30,
-          "costPerVisit": 773.3438666666666
+          "spend": 91157.2471,
+          "impressions": 589858,
+          "clicks": 4636,
+          "conversions": 115,
+          "revenue": 115,
+          "type": "OMNI store visit",
+          "costPerVisit": 792.6717139130434
         },
         {
           "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Jaipur_Store",
-          "spend": 14612.3212,
-          "impressions": 268464,
-          "clicks": 25889,
-          "conversions": 24,
-          "revenue": 24,
-          "costPerVisit": 608.8467166666667
+          "spend": 69455.6351,
+          "impressions": 780949,
+          "clicks": 68734,
+          "conversions": 134,
+          "revenue": 134,
+          "type": "OMNI store visit",
+          "costPerVisit": 518.3256350746269
         },
         {
           "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Hyderabad_Store",
-          "spend": 10653.7842,
-          "impressions": 72323,
-          "clicks": 369,
-          "conversions": 12,
-          "revenue": 12,
-          "costPerVisit": 887.81535
-        },
-        {
-          "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Kolkata_Store",
-          "spend": 7396.2068,
-          "impressions": 129789,
-          "clicks": 344,
-          "conversions": 9,
-          "revenue": 9,
-          "costPerVisit": 821.8007555555555
-        },
-        {
-          "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Mohali_Store",
-          "spend": 6336.0311,
-          "impressions": 199227,
-          "clicks": 19465,
-          "conversions": 6,
-          "revenue": 6,
-          "costPerVisit": 1056.0051833333334
-        },
-        {
-          "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Ahmedabad_Store",
-          "spend": 5015.1797,
-          "impressions": 108568,
-          "clicks": 9305,
-          "conversions": 2,
-          "revenue": 2,
-          "costPerVisit": 2507.58985
+          "spend": 36489.4985,
+          "impressions": 257412,
+          "clicks": 1342,
+          "conversions": 46,
+          "revenue": 46,
+          "type": "OMNI store visit",
+          "costPerVisit": 793.2499673913044
         },
         {
           "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Lucknow_Store",
-          "spend": 4779.3434,
-          "impressions": 220629,
-          "clicks": 1351,
-          "conversions": 1,
-          "revenue": 1,
-          "costPerVisit": 4779.3434
+          "spend": 25681.9689,
+          "impressions": 952367,
+          "clicks": 36655,
+          "conversions": 20,
+          "revenue": 20,
+          "type": "OMNI store visit",
+          "costPerVisit": 1284.098445
+        },
+        {
+          "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Mohali_Store",
+          "spend": 24982.1168,
+          "impressions": 486229,
+          "clicks": 41657,
+          "conversions": 33,
+          "revenue": 33,
+          "type": "OMNI store visit",
+          "costPerVisit": 757.0338424242424
+        },
+        {
+          "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Ahmedabad_Store",
+          "spend": 24674.8205,
+          "impressions": 342575,
+          "clicks": 25625,
+          "conversions": 27,
+          "revenue": 27,
+          "type": "OMNI store visit",
+          "costPerVisit": 913.8822407407408
+        },
+        {
+          "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Kolkata_Store",
+          "spend": 22966.1472,
+          "impressions": 367670,
+          "clicks": 1144,
+          "conversions": 28,
+          "revenue": 28,
+          "type": "OMNI store visit",
+          "costPerVisit": 820.2195428571429
         },
         {
           "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Chennai_Store",
-          "spend": 3506.8918,
-          "impressions": 53248,
-          "clicks": 3338,
-          "conversions": 8,
-          "revenue": 8,
-          "costPerVisit": 438.361475
+          "spend": 22031.5444,
+          "impressions": 244980,
+          "clicks": 14052,
+          "conversions": 32,
+          "revenue": 32,
+          "type": "OMNI store visit",
+          "costPerVisit": 688.4857625
+        },
+        {
+          "name": "SHOP_2975_adyogi_PerformanceMax_OMNI_StoreVisit_Ludhiana_store",
+          "spend": 12750.9894,
+          "impressions": 593384,
+          "clicks": 70,
+          "conversions": 2,
+          "revenue": 2,
+          "type": "OMNI store visit",
+          "costPerVisit": 6375.4947
         }
       ]
     },
@@ -191,6 +309,7 @@
         "omniShare": 0,
         "naiveBlendedRoas": null
       },
+      "types": [],
       "web": [],
       "omni": []
     },
@@ -211,6 +330,7 @@
         "omniShare": 0,
         "naiveBlendedRoas": null
       },
+      "types": [],
       "web": [],
       "omni": []
     },
@@ -231,6 +351,7 @@
         "omniShare": 0,
         "naiveBlendedRoas": null
       },
+      "types": [],
       "web": [],
       "omni": []
     },
@@ -251,6 +372,7 @@
         "omniShare": 0,
         "naiveBlendedRoas": null
       },
+      "types": [],
       "web": [],
       "omni": []
     },
@@ -261,46 +383,168 @@
       "ok": true,
       "error": null,
       "totals": {
-        "webSpend": 72866.9537,
-        "webRevenue": 9734.37,
-        "webRoas": 0.1335910108178435,
+        "webSpend": 264330.01450000005,
+        "webRevenue": 270128.61,
+        "webRoas": 1.0219369544959487,
         "omniSpend": 0,
         "omniVisits": 0,
         "omniCostPerVisit": null,
-        "totalSpend": 72866.9537,
+        "totalSpend": 264330.01450000005,
         "omniShare": 0,
-        "naiveBlendedRoas": 0.1335910108178435
+        "naiveBlendedRoas": 1.0219369544959487
       },
+      "types": [
+        {
+          "type": "Performance Max",
+          "spend": 114987.7026,
+          "revenue": 47488.69,
+          "conversions": 2.01,
+          "clicks": 892,
+          "impressions": 70387,
+          "campaigns": 1,
+          "gradeable": true,
+          "roas": 0.41298929299592774,
+          "ctr": 1.2672794692201685,
+          "cpc": 128.90998049327354,
+          "costPerConversion": 57207.81223880598,
+          "creativeLayer": false
+        },
+        {
+          "type": "Shopping",
+          "spend": 82205.75,
+          "revenue": 73385.01,
+          "conversions": 1.99,
+          "clicks": 656,
+          "impressions": 58428,
+          "campaigns": 1,
+          "gradeable": true,
+          "roas": 0.8926992333261359,
+          "ctr": 1.122749366741973,
+          "cpc": 125.31364329268293,
+          "costPerConversion": 41309.42211055276,
+          "creativeLayer": false
+        },
+        {
+          "type": "Search",
+          "spend": 67136.5619,
+          "revenue": 149254.91,
+          "conversions": 4,
+          "clicks": 956,
+          "impressions": 2757,
+          "campaigns": 1,
+          "gradeable": true,
+          "roas": 2.2231539086305223,
+          "ctr": 34.67537178092129,
+          "cpc": 70.22652918410041,
+          "costPerConversion": 16784.140475,
+          "creativeLayer": true
+        }
+      ],
       "web": [
         {
+          "name": "SHOP_3271_adyogi_PerformanceMax",
+          "spend": 114987.7026,
+          "impressions": 70387,
+          "clicks": 892,
+          "conversions": 2.01,
+          "revenue": 47488.69,
+          "type": "Performance Max",
+          "roas": 0.41298929299592774
+        },
+        {
           "name": "SHOP_3271_adyogi_Shopping",
-          "spend": 32326.18,
-          "impressions": 24056,
-          "clicks": 235,
-          "conversions": 0,
-          "revenue": 0,
-          "roas": 0
+          "spend": 82205.75,
+          "impressions": 58428,
+          "clicks": 656,
+          "conversions": 1.99,
+          "revenue": 73385.01,
+          "type": "Shopping",
+          "roas": 0.8926992333261359
         },
         {
           "name": "SHOP_3271_adyogi_Brand-Search_Engage_Exact_US",
-          "spend": 21196.1998,
-          "impressions": 696,
-          "clicks": 290,
-          "conversions": 0,
-          "revenue": 0,
-          "roas": 0
-        },
-        {
-          "name": "SHOP_3271_adyogi_PerformanceMax",
-          "spend": 19344.5739,
-          "impressions": 6670,
-          "clicks": 140,
-          "conversions": 1,
-          "revenue": 9734.37,
-          "roas": 0.5032093263113954
+          "spend": 67136.5619,
+          "impressions": 2757,
+          "clicks": 956,
+          "conversions": 4,
+          "revenue": 149254.91,
+          "type": "Search",
+          "roas": 2.2231539086305223
         }
       ],
       "omni": []
     }
-  ]
+  ],
+  "creatives": {
+    "available": true,
+    "error": null,
+    "note": "Only Search, Display and Demand Gen campaigns have an ad layer. Shopping renders from the product feed and Performance Max exposes asset groups, not ads — so most of this account has no creative data to fetch.",
+    "rows": [
+      {
+        "campaign": "SHOP_2975_adyogi_Brand-Search_Engagenew",
+        "adId": "817200245191",
+        "headline": "",
+        "description": "",
+        "spend": 161333.8665,
+        "impressions": 24997,
+        "clicks": 10400,
+        "conversions": 104.43,
+        "revenue": 1786275.64,
+        "type": "Search",
+        "roas": 11.07191985633097
+      },
+      {
+        "campaign": "SHOP_2975_adyogi_Brand-Search_Engagenew",
+        "adId": "775801704188",
+        "headline": "",
+        "description": "",
+        "spend": 107119.8775,
+        "impressions": 28621,
+        "clicks": 12695,
+        "conversions": 129.27,
+        "revenue": 2328563.06,
+        "type": "Search",
+        "roas": 21.737917502752932
+      },
+      {
+        "campaign": "SHOP_2975_adyogi_Brand-Search_Engagenew",
+        "adId": "818560718621",
+        "headline": "",
+        "description": "",
+        "spend": 38642.5832,
+        "impressions": 9010,
+        "clicks": 4216,
+        "conversions": 44.2,
+        "revenue": 879734.07,
+        "type": "Search",
+        "roas": 22.76592290548526
+      },
+      {
+        "campaign": "SHOP_2975_adyogi_Brand-Search_Engagenew",
+        "adId": "800716354234",
+        "headline": "",
+        "description": "",
+        "spend": 26054.095,
+        "impressions": 5152,
+        "clicks": 1325,
+        "conversions": 13.52,
+        "revenue": 162381.09,
+        "type": "Search",
+        "roas": 6.232459427203286
+      },
+      {
+        "campaign": "SHOP_2975_adyogi_Brand-Search_Engagenew",
+        "adId": "818702285268",
+        "headline": "",
+        "description": "",
+        "spend": 13259.4931,
+        "impressions": 2967,
+        "clicks": 811,
+        "conversions": 5,
+        "revenue": 93089.41,
+        "type": "Search",
+        "roas": 7.020585877449569
+      }
+    ]
+  }
 }
