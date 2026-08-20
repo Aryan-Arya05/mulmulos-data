@@ -89,7 +89,10 @@ tbody tr:nth-child(odd){background:#111c3155}
     <div class="navlbl" style="margin-top:18px">Paid</div>
     <nav id="nav2">
       <a data-v="google">Google Ads</a>
+      <a data-v="meta">Meta Ads</a>
     </nav>
+    <div class="navlbl" style="margin-top:18px">Behaviour</div>
+    <nav id="nav4"><a data-v="funnels">Funnels</a></nav>
     <div class="navlbl" style="margin-top:18px">System</div>
     <nav id="nav3">
       <a data-v="quality">Data quality</a>
@@ -111,6 +114,12 @@ const inr = n => n==null||isNaN(n) ? "—" : "₹"+Math.round(n).toLocaleString(
 const lakh = n => n==null||isNaN(n) ? "—" : "₹"+(n/100000).toFixed(2)+"L";
 const num = n => n==null||isNaN(n) ? "—" : Number(n).toLocaleString("en-IN");
 const pct = n => n==null||isNaN(n) ? "—" : Math.round(n*100)+"%";
+/* Conversion and funnel rates run well under 1%. Rounding those to a
+   whole number turned 0.15% into "0%", so small values keep decimals. */
+const rate = n => n==null||isNaN(n) ? "—"
+  : n < 0.01 ? (100*n).toFixed(2)+"%"
+  : n < 0.1  ? (100*n).toFixed(2)+"%"
+  : (100*n).toFixed(1)+"%";
 const xx  = n => n==null||isNaN(n) ? "—" : Number(n).toFixed(2)+"x";
 const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
@@ -122,7 +131,7 @@ function ago(iso){
   return Math.floor(s/86400)+"d ago";
 }
 
-const state = { shopify:null, google:null, eretail:null, view:"overview", errors:[],
+const state = { shopify:null, google:null, eretail:null, meta:null, ga4app:null, ga4web:null, view:"overview", errors:[],
   range:"ytd", cmp:"prev_year", channel:"all" };
 
 async function load(name){
@@ -147,7 +156,9 @@ overview(){
   if(!s) return missing("shopify");
   const t = s.totals;
   const gp = g?.accounts?.find(a=>a.id==="3669746941");
-  const adSpend = gp?.totals?.webSpend;
+  const gSpend = gp?.totals?.webSpend || 0;
+  const mSpend = state.meta?.totals?.spend || 0;
+  const adSpend = gSpend + mSpend;
   const mer = adSpend ? t.digitalRevenue/adSpend : null;
   return `
   <div class="grid">
@@ -163,13 +174,14 @@ overview(){
     ${bucketRows(s)}
     <div class="note">Retail proper is not in Shopify — it lives in eRetail. <b>retail_assist</b> is only the endless-aisle slice booked by store staff for out-of-stock items.</div>
   </div>
-  ${adSpend?`<div class="card"><h3>Blended efficiency<em>digital revenue ÷ Google web spend</em></h3>
+  ${adSpend?`<div class="card"><h3>Blended efficiency<em>digital revenue ÷ paid spend</em></h3>
     <div class="grid">
       ${kpi("Digital revenue", lakh(t.digitalRevenue),"online + app")}
-      ${kpi("Google web spend", lakh(adSpend),"OMNI excluded")}
-      ${kpi("MER", xx(mer),"efficiency ratio, not causation","var(--ok)")}
+      ${kpi("Meta spend", lakh(mSpend), mSpend?"store-visit excluded":"not pulled yet")}
+      ${kpi("Google web spend", lakh(gSpend),"OMNI excluded")}
+      ${kpi("MER", xx(mer), mSpend?"both platforms":"Google only — understated","var(--ok)")}
     </div>
-    <div class="note">Meta spend is not in this figure yet, so the true MER is lower. An efficiency ratio never proves incrementality.</div>
+    <div class="note">${mSpend?"Both platforms included. Windows may differ slightly between sources — check Data quality.":"Meta spend is missing, so this MER is overstated."} An efficiency ratio never proves incrementality.</div>
   </div>`:""}`;
 },
 
@@ -319,12 +331,78 @@ history(){
   </div>`;
 },
 
+meta(){
+  const m = state.meta;
+  if(!m) return missing("meta");
+  const t = m.totals;
+  const inflate = t.omniInflation;
+  return `<div class="grid">
+    ${kpi("Spend", lakh(t.spend), esc(m.range||""))}
+    ${kpi("Website revenue", lakh(t.webRevenue), "7-day click, pixel", "var(--cyan)")}
+    ${kpi("Website ROAS", xx(t.webRoas), "the report figure", "var(--ok)")}
+    ${kpi("Omni ROAS", xx(t.omniRoas), inflate!=null?`${(100*inflate).toFixed(0)}% above web`:"all surfaces", "var(--warn)")}
+    ${kpi("Purchases", num(t.webPurchases), "website pixel")}
+    ${t.storeVisitSpend?kpi("Store-visit spend", lakh(t.storeVisitSpend), "excluded from ROAS", "var(--violet)"):""}
+  </div>
+  <div class="card"><h3>Funnel<em>Meta pixel events</em></h3>
+    ${table(["Step","Count","Rate"],[
+      ["Add to cart", num(t.addToCart), "—"],
+      ["Reached checkout", num(t.checkouts), rate(t.cartToCheckout)],
+      ["Purchased", num(t.webPurchases), rate(t.checkoutToPurchase)],
+    ])}
+  </div>
+  <div class="card"><h3>Campaigns<em>website vs omni side by side</em></h3>
+    ${table(["Campaign","Spend","Web revenue","Web ROAS","Omni ROAS"], (m.campaigns||[]).map(c=>[
+      esc(c.name), inr(c.spend), inr(c.webRevenue),
+      `<span style="color:${c.webRoas>=3?"var(--ok)":c.webRoas>=1?"var(--muted)":"var(--err)"}">${xx(c.webRoas)}</span>`,
+      `<span style="color:var(--warn)">${xx(c.omniRoas)}</span>`]))}
+    <div class="note">Website revenue is <b>7-day-click pixel purchases</b> requested explicitly. Omni folds in app, offline and store and reads materially higher — it is shown only so the gap is visible.</div>
+    ${m.unverified?`<div class="note err">${esc(m.unverified)}</div>`:""}
+  </div>`;
+},
+
+funnels(){
+  const a = state.ga4app, w = state.ga4web;
+  if(!a && !w) return missing("ga4-web");
+  const row = (d,label) => d ? {label, t:d.totals, trend:d.trend, range:d.range} : null;
+  const both = [row(w,"Web"), row(a,"App")].filter(Boolean);
+  return `<div class="card" style="margin-top:0"><h3>Where each surface loses people<em>GA4</em></h3>
+    ${table(["Surface","Sessions","Add to cart","Cart → checkout","Checkout → purchase","Conversion","AOV"],
+      both.map(b=>[
+        esc(b.label), num(b.t.sessions),
+        `<span style="color:${b.t.cartRate<0.05?"var(--err)":"var(--muted)"}">${rate(b.t.cartRate)}</span>`,
+        `<span style="color:${b.t.cartToCheckout<0.15?"var(--err)":"var(--muted)"}">${rate(b.t.cartToCheckout)}</span>`,
+        rate(b.t.checkoutToPurchase),
+        `<span style="color:var(--cyan)">${rate(b.t.conversionRate)}</span>`,
+        inr(b.t.aov)]))}
+    <div class="note">Red marks the step where that surface loses most people. Web and app fail at different points, so a single blended funnel would hide both.</div>
+  </div>
+  ${both.map(b=>`<div class="card"><h3>${esc(b.label)}<em>${esc(b.range||"")}</em></h3>
+    <div class="grid">
+      ${kpi("Sessions", num(b.t.sessions), num(b.t.users)+" users")}
+      ${kpi("Purchases", num(b.t.purchases), inr(b.t.revenue)+" revenue")}
+      ${kpi("Conversion", rate(b.t.conversionRate), "purchases ÷ sessions", "var(--cyan)")}
+      ${kpi("AOV", inr(b.t.aov), b.t.aov && b.t.aov < 1000 ? "⚠ implausible — check tracking" : "", b.t.aov && b.t.aov < 1000 ? "var(--err)" : null)}
+      ${b.trend?kpi("Trend", (b.trend.conversionChange>=0?"+":"")+Math.round(100*b.trend.conversionChange)+"%",
+        `${rate(b.trend.firstHalf.conversionRate)} → ${rate(b.trend.secondHalf.conversionRate)}`,
+        b.trend.conversionChange>=0?"var(--ok)":"var(--err)"):""}
+    </div>
+    ${(()=>{const d = b.label==="Web"?w:a; return table(["Channel","Sessions","Conversion"],
+      (d.channels||[]).slice(0,8).map(c=>[esc(c.channel), num(c.sessions),
+        `<span style="color:${c.conversionRate<0.001?"var(--err)":"var(--muted)"}">${rate(c.conversionRate)}</span>`]));})()}
+  </div>`).join("")}`;
+},
+
 quality(){
   const s = state.shopify, g = state.google;
   const u = s?.unclassified||[];
   const rows = [];
   if(s) rows.push(["Shopify", s.fetchedAt?ago(s.fetchedAt):"—", esc(s.range||"—"), s.truncated?`<span style="color:var(--err)">truncated</span>`:"complete"]);
   if(g) rows.push(["Google Ads", g.fetchedAt?ago(g.fetchedAt):"—", esc(g.range||"—"), "complete"]);
+  if(state.meta) rows.push(["Meta Ads", ago(state.meta.fetchedAt), esc(state.meta.range||"—"), "website slice unverified"]);
+  if(state.ga4web) rows.push(["GA4 web", ago(state.ga4web.fetchedAt), esc(state.ga4web.range||"—"), "complete"]);
+  if(state.ga4app) rows.push(["GA4 app", ago(state.ga4app.fetchedAt), esc(state.ga4app.range||"—"), "revenue under-reported"]);
+  if(state.eretail) rows.push(["eRetail", "from Excel", "2020-02-08 → 2026-07-31", "list value only"]);
   return `<div class="card"><h3>Sources</h3>
   ${table(["Source","Last pull","Window","Coverage"], rows)}
   ${state.errors.length?`<div class="note err">Could not load: ${state.errors.map(esc).join(" · ")}</div>`:""}
@@ -334,11 +412,11 @@ quality(){
   <div class="note">These matched no rule and were left unassigned rather than guessed into a bucket. A growing list means the note conventions are drifting.</div></div>
   <div class="card"><h3>What is still missing</h3>
   ${table(["Source","Covers","Status"],[
-    ["eRetail","Actual store sell-through across 26 stores","Not connected"],
-    ["GA4","App and web sessions, conversion rate","Not connected"],
-    ["Meta Ads","Paid social spend and 7-day-click revenue","Not in this pipeline yet"],
+    ["eRetail API","Daily auto-append instead of yearly Excel","Key held, endpoint not wired"],
+    ["Shopify / Google daily rows","Filtering and comparison on those two sources","Still one pre-aggregated window"],
+    ["GA4 app revenue","App AOV reads ₹213 against a real ₹16–20k","Tracking issue at source, not here"],
   ])}
-  <div class="note">Until Meta is added, any MER shown here understates spend and so overstates efficiency.</div></div>`;
+  <div class="note">Meta's website figure has not yet been checked against an Ads Manager export. Until it has, treat it as a candidate rather than the report number.</div></div>`;
 }};
 
 
@@ -429,7 +507,7 @@ const missing = n => `<div class="card"><div class="empty">
 </div></div>`;
 
 function render(){
-  $("#title").textContent = state.view==="google" ? "Google Ads" : state.view==="quality" ? "Data quality" : state.view==="history" ? "Retail history" : state.view;
+  $("#title").textContent = state.view==="google" ? "Google Ads" : state.view==="quality" ? "Data quality" : state.view==="history" ? "Retail history" : state.view==="meta" ? "Meta Ads" : state.view;
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on", a.dataset.v===state.view));
   $("#view").innerHTML = views[state.view] ? views[state.view]() : "";
   window.scrollTo(0,0);
@@ -462,10 +540,13 @@ async function loadEretail(){
 }
 
 (async function init(){
-  const [sh,go,er] = await Promise.all([load("shopify"), load("google"), loadEretail()]);
+  const [sh,go,er,mt,ga,gw] = await Promise.all([
+    load("shopify"), load("google"), loadEretail(),
+    load("meta"), load("ga4-app"), load("ga4-web")]);
   state.shopify=sh; state.google=go; state.eretail=er;
+  state.meta=mt; state.ga4app=ga; state.ga4web=gw;
 
-  const newest = [sh?.fetchedAt, go?.fetchedAt].filter(Boolean).sort().pop();
+  const newest = [sh?.fetchedAt, go?.fetchedAt, mt?.fetchedAt, ga?.fetchedAt, gw?.fetchedAt].filter(Boolean).sort().pop();
   const chip = $("#fresh");
   if(!newest){ chip.className="chip stale"; chip.querySelector("span").textContent="no data published"; }
   else {
