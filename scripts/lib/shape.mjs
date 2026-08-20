@@ -442,8 +442,8 @@ export function summariseMeta(rows = []) {
 
   const byCampaign = new Map();
   for (const r of web) {
-    const c = byCampaign.get(r.name) || { name: r.name, spend: 0, webRevenue: 0, omniRevenue: 0, clicks: 0, impressions: 0, webPurchases: 0, addToCart: 0, checkouts: 0 };
-    for (const k of ["spend", "webRevenue", "omniRevenue", "clicks", "impressions", "webPurchases", "addToCart", "checkouts"]) c[k] += Number(r[k]) || 0;
+    const c = byCampaign.get(r.name) || { name: r.name, spend: 0, webRevenue: 0, omniRevenue: 0, clicks: 0, impressions: 0, reach: 0, webPurchases: 0, addToCart: 0, checkouts: 0 };
+    for (const k of ["spend", "webRevenue", "omniRevenue", "clicks", "impressions", "reach", "webPurchases", "addToCart", "checkouts"]) c[k] += Number(r[k]) || 0;
     byCampaign.set(r.name, c);
   }
 
@@ -454,9 +454,21 @@ export function summariseMeta(rows = []) {
     byDate.set(r.date, d);
   }
 
+  /* Rates are derived from summed impressions and clicks. Averaging
+     the daily CTR/CPC/CPM figures would weight a ₹500 day the same as
+     a ₹50,000 one and quietly produce the wrong number. */
+  const impressions = sum(web, "impressions");
+  const clicks = sum(web, "clicks");
+
   return {
     totals: {
       spend,
+      impressions, clicks,
+      reach: sum(web, "reach"),
+      cpm: impressions ? (spend / impressions) * 1000 : null,
+      ctr: impressions ? (100 * clicks) / impressions : null,
+      cpc: clicks ? spend / clicks : null,
+      cpa: sum(web, "webPurchases") ? spend / sum(web, "webPurchases") : null,
       webRevenue, omniRevenue,
       webRoas: spend ? webRevenue / spend : null,
       omniRoas: spend ? omniRevenue / spend : null,
@@ -471,7 +483,18 @@ export function summariseMeta(rows = []) {
       checkoutToPurchase: sum(web, "checkouts") ? sum(web, "webPurchases") / sum(web, "checkouts") : null,
     },
     campaigns: [...byCampaign.values()]
-      .map((c) => ({ ...c, webRoas: c.spend ? c.webRevenue / c.spend : null, omniRoas: c.spend ? c.omniRevenue / c.spend : null }))
+      .map((c) => ({
+        ...c,
+        webRoas: c.spend ? c.webRevenue / c.spend : null,
+        omniRoas: c.spend ? c.omniRevenue / c.spend : null,
+        cpm: c.impressions ? (c.spend / c.impressions) * 1000 : null,
+        ctr: c.impressions ? (100 * c.clicks) / c.impressions : null,
+        cpc: c.clicks ? c.spend / c.clicks : null,
+        cpa: c.webPurchases ? c.spend / c.webPurchases : null,
+        /* Reach is deduplicated per day, so summing it across days
+           overstates unique people. Frequency here is directional. */
+        frequency: c.reach ? c.impressions / c.reach : null,
+      }))
       .sort((a, b) => b.spend - a.spend),
     storeVisit: visits,
     daily: [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date)),
