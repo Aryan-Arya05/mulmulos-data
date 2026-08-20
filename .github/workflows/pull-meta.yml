@@ -1,0 +1,56 @@
+name: Pull Meta Ads
+
+on:
+  schedule:
+    # 07:10 and 19:10 IST — staggered behind Google and Shopify so the
+    # three jobs never race for the same commit.
+    - cron: "40 1 * * *"
+    - cron: "40 13 * * *"
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "How many days back to pull"
+        required: false
+        default: "7"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pull-meta
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Pull Meta Ads
+        env:
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+          META_ACCOUNT_ID: "277407879800547"
+          # Graph API versions move quarterly. If the run fails with an
+          # unsupported-version error, set this repo variable instead of
+          # editing code.
+          META_API_VERSION: ${{ vars.META_API_VERSION || 'v23.0' }}
+          DAYS: ${{ inputs.days || '7' }}
+        run: node scripts/pull-meta.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "mulmulos-bot"
+          git config user.email "actions@github.com"
+          git pull --rebase --autostash || true
+          git add data/
+          if git diff --staged --quiet; then
+            echo "No change — nothing to commit."
+          else
+            git commit -m "data: meta ads $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi
