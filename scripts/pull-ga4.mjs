@@ -13,6 +13,13 @@ import { summariseGa4, envelope } from "./lib/shape.mjs";
 const PROPERTY = process.env.GA4_PROPERTY_ID || "469222398";
 const DAYS = Number(process.env.DAYS || 28);
 
+/* App and web are separate properties measuring different journeys.
+   Keeping them in separate files means the funnels can be compared
+   rather than blurred into one average. */
+const LABEL = process.env.GA4_LABEL || "app";
+const OUT = `data/ga4-${LABEL}.json`;
+const HIST = `data/ga4-${LABEL}-history.jsonl`;
+
 const pct = (v) => v == null ? "—" : (100 * v).toFixed(2) + "%";
 const num = (v) => v == null ? "—" : Math.round(v).toLocaleString("en-IN");
 const inr = (v) => "₹" + Math.round(v || 0).toLocaleString("en-IN");
@@ -20,7 +27,7 @@ const pad = (s, n) => String(s).padEnd(n);
 
 async function main() {
   const since = `${DAYS}daysAgo`, until = "yesterday";
-  console.log(`GA4 pull · property ${PROPERTY} · last ${DAYS} days`);
+  console.log(`GA4 pull · ${LABEL} · property ${PROPERTY} · last ${DAYS} days`);
 
   const METRICS = ["sessions", "activeUsers", "addToCarts", "checkouts", "ecommercePurchases", "purchaseRevenue"]
     .map((name) => ({ name }));
@@ -74,7 +81,8 @@ async function main() {
   const payload = {
     ...envelope({
       source: "GA4 Data API",
-      account: `property ${PROPERTY}`,
+      account: `${LABEL} — property ${PROPERTY}`,
+      label: LABEL,
       range: `${DAYS} days to yesterday`,
       rows: streamRows,
       extra: {
@@ -87,8 +95,8 @@ async function main() {
   };
 
   await mkdir("data", { recursive: true });
-  await writeFile("data/ga4.json", JSON.stringify(payload, null, 2));
-  console.log(`\nWrote data/ga4.json (${s.daily.length} days, ${s.streams.length} streams)`);
+  await writeFile(OUT, JSON.stringify(payload, null, 2));
+  console.log(`\nWrote ${OUT} (${s.daily.length} days, ${s.streams.length} streams)`);
 
   const lines = s.daily.map((d) => JSON.stringify({
     ts: payload.fetchedAt, date: d.date, sessions: d.sessions, users: d.users,
@@ -96,8 +104,8 @@ async function main() {
     revenue: Math.round(d.revenue),
     conversionRate: d.conversionRate == null ? null : Number(d.conversionRate.toFixed(5)),
   }));
-  await appendFile("data/ga4-history.jsonl", lines.join("\n") + "\n");
-  console.log(`Appended ${lines.length} days to data/ga4-history.jsonl`);
+  await appendFile(HIST, lines.join("\n") + "\n");
+  console.log(`Appended ${lines.length} days to ${HIST}`);
 }
 
 main().catch((e) => { console.error(e.message || e); process.exit(1); });
