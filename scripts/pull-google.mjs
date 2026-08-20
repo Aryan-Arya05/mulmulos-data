@@ -8,7 +8,7 @@
 
 import { writeFile, appendFile, mkdir } from "node:fs/promises";
 import { query, toObjects, lastNDays } from "./lib/supermetrics.mjs";
-import { splitChannels, envelope } from "./lib/shape.mjs";
+import { splitChannels, envelope, campaignType, hasCreatives } from "./lib/shape.mjs";
 
 const ACCOUNTS = [
   { id: "3669746941", name: "Shop Mul Mul", note: "India — primary web account" },
@@ -61,6 +61,35 @@ async function fetchRows(accountId) {
   throw new Error(tried.join(" | "));
 }
 
+/* Creative-level pull. Only Search, Display and Demand Gen have an
+   ad layer at all — Shopping renders from the product feed and
+   Performance Max exposes asset groups rather than ads. So this is
+   attempted, and a failure is recorded rather than killing the run. */
+const CREATIVE_FIELDS = "campaign_name,ad_id,headline,description,cost,impressions,clicks,conversions,conversion_value";
+const CREATIVE_MAPPING = {
+  campaign: { field: "campaign_name" },
+  adId: { field: "ad_id" },
+  headline: { field: "headline" },
+  description: { field: "description" },
+  spend: { field: "cost", type: "number" },
+  impressions: { field: "impressions", type: "number" },
+  clicks: { field: "clicks", type: "number" },
+  conversions: { field: "conversions", type: "number" },
+  revenue: { field: "conversion_value", type: "number" },
+};
+
+async function pullCreatives(accountId) {
+  try {
+    const raw = await query({
+      dsId, accounts: accountId, fields: CREATIVE_FIELDS,
+      startDate, endDate, maxRows: 500,
+    });
+    return { ok: true, rows: toObjects(raw, CREATIVE_FIELDS, CREATIVE_MAPPING) };
+  } catch (e) {
+    return { ok: false, error: e.message, rows: [] };
+  }
+}
+
 async function pullAccount(acct) {
   process.stdout.write(`  ${acct.name.padEnd(24)} `);
   try {
@@ -82,10 +111,33 @@ async function main() {
   const results = [];
   for (const a of ACCOUNTS) results.push(await pullAccount(a));
 
+  /* Creatives only from the primary account — the regional ones had
+     no campaigns in the tested window. */
+  const primaryAcct = ACCOUNTS[0];
+  let creatives = { ok: false, rows: [], error: "not attempted" };
+  if (results.find((r) => r.account.id === primaryAcct.id)?.ok) {
+    process.stdout.write(`  creatives (${primaryAcct.name})… `);
+    creatives = await pullCreatives(primaryAcct.id);
+    console.log(creatives.ok
+      ? `${creatives.rows.length} ads`
+      : `unavailable — ${creatives.error.slice(0, 90)}`);
+  }
+
   const ok = results.filter((r) => r.ok);
   if (!ok.length) {
     console.error("\nEvery account failed. Not writing data — a stale file beats a file full of zeros.");
     process.exit(1);
+  }
+
+  /* Report the type split for the primary account. */
+  const primary0 = results.find((r) => r.account.id === primaryAcct.id);
+  if (primary0?.ok && primary0.types) {
+    console.log(`\n  by campaign type:`);
+    for (const t of primary0.types) {
+      const grade = t.roas == null ? "not graded" : `${t.roas.toFixed(2)}x`;
+      const creative = t.creativeLayer ? "" : "  · no creative layer";
+      console.log(`    ${String(t.type).padEnd(18)} ${inr(t.spend).padStart(12)}  ${String(t.campaigns).padStart(2)} campaigns  ROAS ${grade.padStart(10)}${creative}`);
+    }
   }
 
   const payload = {
@@ -107,9 +159,18 @@ async function main() {
       ok: r.ok,
       error: r.error ?? null,
       totals: r.totals,
+      types: r.types,
       web: r.web,
       omni: r.omni,
     })),
+    creatives: {
+      available: creatives.ok,
+      error: creatives.ok ? null : creatives.error,
+      note: "Only Search, Display and Demand Gen campaigns have an ad layer. Shopping renders from the product feed and Performance Max exposes asset groups, not ads — so most of this account has no creative data to fetch.",
+      rows: (creatives.rows || []).map((r) => ({ ...r, type: campaignType(r.campaign), roas: r.spend ? r.revenue / r.spend : null }))
+        .filter((r) => hasCreatives(r.type))
+        .sort((a, b) => b.spend - a.spend),
+    },
   };
 
   await mkdir("data", { recursive: true });
