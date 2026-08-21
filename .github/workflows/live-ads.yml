@@ -1,0 +1,70 @@
+name: Live · Ads and analytics
+
+# Meta, Google and GA4 keep attributing conversions for hours after the
+# click, so pulling them every half hour would burn minutes re-fetching
+# numbers that have not settled. Hourly is as live as these sources get.
+
+on:
+  schedule:
+    # Eight fixed slots IST: 12am, 8, 11, 1, 3, 5, 7, 9pm.
+    # (IST is UTC+5:30, so midnight IST is 18:30 UTC the previous day.)
+    # Ad platforms revise attribution for hours, so a tighter cadence
+    # would just re-fetch numbers that have not settled.
+    - cron: "30 18,2,5,7,9,11,13,15 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: live-ads
+  cancel-in-progress: true
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "24" }
+
+      # continue-on-error throughout: one platform being down must not
+      # cost us the other three.
+      - name: Google Ads
+        continue-on-error: true
+        env:
+          SUPERMETRICS_API_KEY: ${{ secrets.SUPERMETRICS_API_KEY }}
+          DAYS: "2"
+          INCLUDE_TODAY: "1"
+          SKIP_CREATIVES: "1"
+        run: node scripts/pull-google.mjs
+
+      - name: Meta Ads
+        continue-on-error: true
+        env:
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+          META_ACCOUNT_ID: "277407879800547"
+          META_API_VERSION: ${{ vars.META_API_VERSION || 'v23.0' }}
+          DAYS: "2"
+          INCLUDE_TODAY: "1"
+        run: node scripts/pull-meta.mjs
+
+      - name: GA4 web
+        continue-on-error: true
+        env:
+          GA4_SERVICE_ACCOUNT: ${{ secrets.GA4_SERVICE_ACCOUNT }}
+          GA4_PROPERTY_ID: "353202736"
+          GA4_LABEL: "web"
+          DAYS: "2"
+          INCLUDE_TODAY: "1"
+        run: node scripts/pull-ga4.mjs
+
+      - name: Commit
+        run: |
+          git config user.name  "mulmulos-bot"
+          git config user.email "actions@github.com"
+          git pull --rebase --autostash || true
+          git add data/
+          git diff --staged --quiet || git commit -m "live: ads $(TZ=Asia/Kolkata date +%H:%M) IST"
+          git push || true
