@@ -1,0 +1,82 @@
+name: Sync now
+
+# Triggered by the dashboard's Sync button, via the Cloudflare Worker in
+# worker/. Pulls every source for a lean recent window so a click costs
+# about three minutes rather than fifteen.
+#
+# Nobody needs a GitHub account or token to use this — the Worker holds
+# the credential and the team only ever sees a button.
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Days back to pull (including today)"
+        required: false
+        default: "3"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-now
+  cancel-in-progress: true   # five people clicking at once = one run
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "24" }
+
+      # continue-on-error throughout: one platform being down must not
+      # cost the others.
+      - name: Shopify
+        continue-on-error: true
+        env:
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP: shopmulmul.myshopify.com
+          DAYS: ${{ inputs.days || '3' }}
+          INCLUDE_TODAY: "1"
+          SKIP_EVENTS: "1"
+        run: node scripts/pull-shopify.mjs
+
+      - name: Google Ads
+        continue-on-error: true
+        env:
+          SUPERMETRICS_API_KEY: ${{ secrets.SUPERMETRICS_API_KEY }}
+          DAYS: ${{ inputs.days || '3' }}
+          INCLUDE_TODAY: "1"
+          SKIP_CREATIVES: "1"
+        run: node scripts/pull-google.mjs
+
+      - name: Meta Ads
+        continue-on-error: true
+        env:
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+          META_ACCOUNT_ID: "277407879800547"
+          META_API_VERSION: ${{ vars.META_API_VERSION || 'v23.0' }}
+          DAYS: ${{ inputs.days || '3' }}
+          INCLUDE_TODAY: "1"
+        run: node scripts/pull-meta.mjs
+
+      - name: GA4 web
+        continue-on-error: true
+        env:
+          GA4_SERVICE_ACCOUNT: ${{ secrets.GA4_SERVICE_ACCOUNT }}
+          GA4_PROPERTY_ID: "353202736"
+          GA4_LABEL: "web"
+          DAYS: ${{ inputs.days || '3' }}
+          INCLUDE_TODAY: "1"
+        run: node scripts/pull-ga4.mjs
+
+      - name: Commit
+        run: |
+          git config user.name  "mulmulos-bot"
+          git config user.email "actions@github.com"
+          git pull --rebase --autostash || true
+          git add data/
+          git diff --staged --quiet || git commit -m "sync: on demand $(TZ=Asia/Kolkata date +%H:%M) IST"
+          git push || true
