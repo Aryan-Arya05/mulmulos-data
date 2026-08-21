@@ -105,12 +105,35 @@ tbody tr:nth-child(odd){background:#111c3155}
     <div class="top">
       <div><div class="crumb">Shop Mulmul</div><h2 id="title">Overview</h2></div>
       <div class="chip" id="fresh"><i></i><span>loading…</span></div>
+      <span id="syncnote" style="display:none;font-size:11.5px;color:var(--muted);padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface)"></span>
+      <a class="seg" id="sync">Sync</a>
     </div>
     <div class="wrap" id="view"></div>
   </main>
 </div>
 
 <script>
+/* ── Sync configuration ────────────────────────────────────────────
+   The Sync button calls GitHub directly, so this token is visible to
+   anyone who can open this page. That is a deliberate trade for a
+   three-person team, and it is bounded on purpose:
+
+     · Fine-grained token, THIS REPO ONLY, Actions: Read and write.
+       Nothing else — it cannot read code or reach Shopify/Meta/Google.
+     · Set a 90-day expiry when you create it, so a stray copy dies.
+     · Worst case if it leaks: someone triggers data pulls.
+
+   Note the dashboard itself exposes more than the token does — revenue,
+   stylist names, store staff. Treat the URL as the sensitive thing.
+
+   Create at: GitHub → Settings → Developer settings →
+              Fine-grained tokens → Repository access: mulmulos-data →
+              Permissions → Actions: Read and write
+   ────────────────────────────────────────────────────────────────── */
+const SYNC_TOKEN = "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";                       // github_pat_…
+const SYNC_REPO  = "Aryan-Arya05/mulmulos-data";
+const SYNC_DAYS  = 3;                        // window a click re-pulls
+
 const $ = (s,r=document)=>r.querySelector(s);
 const inr = n => n==null||isNaN(n) ? "—" : "₹"+Math.round(n).toLocaleString("en-IN");
 const lakh = n => n==null||isNaN(n) ? "—" : "₹"+(n/100000).toFixed(2)+"L";
@@ -238,7 +261,9 @@ channels(){
     ["other_to_draft","Re-book whose original came from some other source"],
     ["draft_unclassified","Matched no rule — surfaced, never guessed"],
   ])}
-  <div class="note">Re-books are labelled, never subtracted, so these totals still reconcile against Shopify's own reports.</div></div>`;
+  <div class="note">Re-books are labelled, never subtracted, so these totals still reconcile against Shopify's own reports.</div>
+  ${s.includesToday?`<div class="note ok">Today is included. Shopify orders are real-time, so today's revenue and order count are accurate as of the last sync — unlike ad ROAS, which lags.</div>`:""}
+  ${s.stylistAttribution==="skipped on this run"?`<div class="note">This was a fast refresh, so stylist attribution was skipped — those orders sit in <b>draft_unclassified</b> until the next full pull.</div>`:""}</div>`;
 },
 
 stylists(){
@@ -495,6 +520,7 @@ google(){
       ty.ctr==null?"—":ty.ctr.toFixed(2)+"%", inr(ty.cpc),
       ty.creativeLayer?`<span style="color:var(--ok)">yes</span>`:`<span style="color:var(--dim)">none</span>`]))}
     <div class="note">Shopping renders from the product feed and Performance Max exposes asset groups rather than ads, so neither has creatives to inspect. OMNI buys store visits and is never graded on ROAS.</div>
+    ${g.includesToday?`<div class="note">Today is included and <b>provisional</b> — Google keeps attributing conversions for hours, so today's ROAS will revise upward.</div>`:""}
   </div>`:""}
 
   <div class="card"><h3>Web campaigns<em>graded on ROAS</em></h3>
@@ -629,6 +655,7 @@ meta(){
       ${kpi("CPA", inr(t.cpa), "per website purchase", t.cpa>4000?"var(--warn)":null)}
     </div>
     <div class="note">These come from totalled impressions and clicks, not an average of the daily rates — averaging would weight a quiet day the same as a heavy one.</div>
+    ${m.includesToday?`<div class="note">Today is included and <b>provisional</b> — Meta attributes conversions for hours after the click, so today's revenue and ROAS will revise upward.</div>`:""}
   </div>
   <div class="card"><h3>Funnel<em>Meta pixel events</em></h3>
     ${table(["Step","Count","Rate"],[
@@ -939,6 +966,126 @@ async function loadEretail(){
   }catch(e){ state.errors.push("eretail/history.jsonl — "+e.message); return null; }
 }
 
+/* The browser holds no API keys, so this cannot call Shopify or Meta.
+   It re-reads the committed JSON, which is how a scheduled pull reaches
+   the page. Labelled "Sync" rather than "Refresh data" so nobody expects
+   it to hit the platforms directly. */
+function setNote(msg, bad){
+  const el = $("#syncnote");
+  el.style.display = msg ? "inline-block" : "none";
+  el.style.color = bad ? "var(--err)" : "var(--muted)";
+  el.textContent = msg || "";
+}
+
+/* Scheduled pulls keep this current on their own — Shopify hourly, ads
+   and analytics at eight fixed times a day. The button exists for the
+   gap between slots, not because anyone has to press it. */
+let lastSync = 0;
+
+async function syncNow(){
+  const btn = $("#sync");
+  if(!SYNC_TOKEN){
+    setNote("No token configured — this only re-reads published files.");
+    return reload(false);
+  }
+  /* One run at a time. The workflow also cancels queued runs, so a
+     burst of clicks cannot become a burst of pulls. */
+  if(Date.now() - lastSync < 90000){
+    setNote("A sync just started — give it a moment.");
+    return;
+  }
+  lastSync = Date.now();
+
+  const before = state.shopify?.fetchedAt || "";
+  btn.textContent = "Starting…"; btn.style.opacity = ".6";
+  setNote("Pulling fresh data…");
+  try{
+    const r = await fetch(`https://api.github.com/repos/${SYNC_REPO}/actions/workflows/sync.yml/dispatches`, {
+      method:"POST",
+      headers:{ Authorization:`Bearer ${SYNC_TOKEN}`, Accept:"application/vnd.github+json", "Content-Type":"application/json" },
+      body: JSON.stringify({ ref:"main", inputs:{ days:String(SYNC_DAYS) } }),
+    });
+    if(r.status !== 204){
+      const detail = await r.text();
+      /* Name the likely cause instead of leaving a bare status code. */
+      const hint = r.status===401 ? "the token is invalid or expired"
+                 : r.status===403 ? "the token lacks Actions write on this repo"
+                 : r.status===404 ? "check SYNC_REPO and that sync.yml is on main"
+                 : detail.slice(0,120);
+      throw new Error(`${r.status} — ${hint}`);
+    }
+  }catch(e){
+    lastSync = 0;
+    btn.textContent="Sync"; btn.style.opacity="1";
+    setNote(`Could not start — ${e.message||e}`, true);
+    return;
+  }
+  /* The run takes a couple of minutes; poll until the files change. */
+  const started = Date.now();
+  const tick = async () => {
+    await reload(true);
+    if((state.shopify?.fetchedAt||"") !== before){
+      btn.textContent="Sync"; btn.style.opacity="1";
+      setNote("Up to date.");
+      setTimeout(()=>setNote(""), 5000);
+      return;
+    }
+    const mins = (Date.now()-started)/60000;
+    if(mins > 12){
+      btn.textContent="Sync"; btn.style.opacity="1";
+      setNote("Taking longer than usual — check the Actions tab.", true);
+      return;
+    }
+    btn.textContent = `Pulling… ${Math.max(1,Math.round(mins))}m`;
+    setTimeout(tick, 12000);
+  };
+  setTimeout(tick, 25000);
+}
+
+async function reload(silent){
+  const btn = $("#sync");
+  if(btn && !silent && !SYNC_TOKEN){ btn.textContent = "Checking…"; btn.style.opacity = ".6"; }
+  state.errors = [];
+  const [sh,go,er,mt,ga,gw] = await Promise.all([
+    load("shopify"), load("google"), loadEretail(),
+    load("meta"), load("ga4-app"), load("ga4-web")]);
+  if(sh) state.shopify=sh; if(go) state.google=go; if(er) state.eretail=er;
+  if(mt) state.meta=mt; if(ga) state.ga4app=ga; if(gw) state.ga4web=gw;
+  stamp();
+  if(btn && !silent && !SYNC_TOKEN){ btn.textContent = "Sync"; btn.style.opacity = "1"; }
+  render();
+}
+
+/* One overall timestamp hides a single stalled source, so each is
+   tracked separately and the worst one drives the chip. */
+function sourceAges(){
+  return [
+    ["Shopify", state.shopify?.fetchedAt, 80],
+    /* Ads run at eight fixed times, so the longest daytime gap is three
+       hours and the overnight gap is eight. Flag only a real stall. */
+    ["Google", state.google?.fetchedAt, 260],
+    ["Meta", state.meta?.fetchedAt, 260],
+    ["GA4 web", state.ga4web?.fetchedAt, 260],
+  ].filter(x=>x[1]).map(([name,at,limit])=>({
+    name, at, mins:(Date.now()-new Date(at))/60000, limit,
+  }));
+}
+
+function stamp(){
+  const ages = sourceAges();
+  const chip = $("#fresh");
+  if(!ages.length){ chip.className="chip stale"; chip.querySelector("span").textContent="no data published"; return; }
+  /* Each source has its own tolerance: Shopify runs every 30 minutes,
+     the ad platforms hourly. */
+  const late = ages.filter(a=>a.mins>a.limit);
+  const shopify = ages.find(a=>a.name==="Shopify");
+  chip.className = "chip"+(late.length?" stale":"");
+  chip.title = ages.map(a=>`${a.name}: ${ago(a.at)}`).join("\n");
+  chip.querySelector("span").textContent = late.length
+    ? `${late.map(a=>a.name).join(", ")} behind`
+    : (shopify ? `live · orders ${ago(shopify.at)}` : "updated "+ago(ages[0].at));
+}
+
 (async function init(){
   const [sh,go,er,mt,ga,gw] = await Promise.all([
     load("shopify"), load("google"), loadEretail(),
@@ -946,14 +1093,16 @@ async function loadEretail(){
   state.shopify=sh; state.google=go; state.eretail=er;
   state.meta=mt; state.ga4app=ga; state.ga4web=gw;
 
-  const newest = [sh?.fetchedAt, go?.fetchedAt, mt?.fetchedAt, ga?.fetchedAt, gw?.fetchedAt].filter(Boolean).sort().pop();
-  const chip = $("#fresh");
-  if(!newest){ chip.className="chip stale"; chip.querySelector("span").textContent="no data published"; }
-  else {
-    const hrs = (Date.now()-new Date(newest))/3600000;
-    chip.className = "chip"+(hrs>26?" stale":"");
-    chip.querySelector("span").textContent = (hrs>26?"stale · ":"")+"updated "+ago(newest);
-  }
+  stamp();
+  $("#sync").addEventListener("click", syncNow);
+  $("#sync").title = SYNC_TOKEN
+    ? `Pull the last ${SYNC_DAYS} days now — takes about two minutes`
+    : "Re-read published files (no token configured)";
+  /* Poll often enough that a 30-minute Shopify job shows up without
+     anyone thinking about it. */
+  setInterval(()=>reload(true), 2*60*1000);
+  /* Poll quietly so a scheduled pull appears without anyone reloading. */
+  document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) reload(true); });
   const v = location.hash.slice(1);
   if(views[v]) state.view=v;
   render();
