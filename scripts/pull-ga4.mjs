@@ -26,7 +26,9 @@ const inr = (v) => "₹" + Math.round(v || 0).toLocaleString("en-IN");
 const pad = (s, n) => String(s).padEnd(n);
 
 async function main() {
-  const since = `${DAYS}daysAgo`, until = "yesterday";
+  /* GA4 takes real dates as well as relative ones. */
+  const since = process.env.START_DATE || `${DAYS}daysAgo`;
+  const until = process.env.END_DATE || (process.env.INCLUDE_TODAY === "1" ? "today" : "yesterday");
   console.log(`GA4 pull · ${LABEL} · property ${PROPERTY} · last ${DAYS} days`);
 
   const METRICS = ["sessions", "activeUsers", "addToCarts", "checkouts", "ecommercePurchases", "purchaseRevenue"]
