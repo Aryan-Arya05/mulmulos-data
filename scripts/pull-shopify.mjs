@@ -37,17 +37,39 @@ async function main() {
   const shop = await fetchShop();
   console.log(`  store: ${shop.name} (${shop.myshopifyDomain}) · ${shop.currencyCode}`);
 
-  const { orders, truncated } = await fetchOrders(fetchWin);
-  console.log(`  orders fetched: ${orders.length}${truncated ? "  ⚠ TRUNCATED at the page cap" : ""}`);
+  const { orders, truncated } = await fetchOrders({
+    ...fetchWin,
+    onProgress: (count) => console.log(`    ${count} orders…`),
+  });
+  console.log(`  orders fetched: ${orders.length}`);
   if (!orders.length) {
     console.error("\nNo orders returned. Not writing — an empty file would read as zero sales.");
     process.exit(1);
   }
+  /* A truncated pull drops the newest days while still looking whole, so
+     it must fail rather than write. */
+  if (truncated) {
+    console.error("\nHit the page cap — the newest orders are missing. Not writing. Shorten the window or raise maxPages.");
+    process.exit(1);
+  }
+
+  /* Prove the window actually reaches the requested end. */
+  const days = [...new Set(orders.map((o) => String(o.createdAt || "").slice(0, 10)))].sort();
+  const covered = `${days[0]} → ${days[days.length - 1]}`;
+  console.log(`  covered: ${covered}${days[days.length - 1] < report.endDate ? "  ⚠ ENDS EARLY" : ""}`);
 
   /* Events are only needed for drafts with no other marker. */
-  const needEvents = orders.filter(
+  const allNeedEvents = orders.filter(
     (o) => isDraftApp(o) && !o.cancelledAt && !retailStoreOf(o) && !giftSignal(o)
   );
+  /* One request per order, so a long window can mean thousands. Cap it
+     and say plainly which orders went unattributed rather than letting
+     the job time out halfway. */
+  const EVENT_CAP = Number(process.env.EVENT_CAP || 3000);
+  const needEvents = allNeedEvents.slice(-EVENT_CAP);   // newest first matters most
+  if (allNeedEvents.length > EVENT_CAP) {
+    console.log(`  ⚠ ${allNeedEvents.length} drafts need timelines; fetching the ${EVENT_CAP} most recent. Older ones will land in draft_unclassified.`);
+  }
   console.log(`  fetching timeline for ${needEvents.length} unmarked drafts (stylist attribution)…`);
   await attachEvents(needEvents, {
     onProgress: (d, t) => { if (d % 50 === 0 || d === t) console.log(`    ${d}/${t}`); },
