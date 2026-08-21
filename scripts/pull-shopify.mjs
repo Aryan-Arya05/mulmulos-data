@@ -122,11 +122,14 @@ async function main() {
     /* Capped so the committed file stays small; covers the busiest
        lines, which is what anyone actually filters on. */
     productDaily: s.productDaily.slice(0, 4000),
+    bucketDaily: s.bucketDaily,
+    stylistDaily: s.stylistDaily,
+    storeDaily: s.storeDaily,
   };
 
   await mkdir("data", { recursive: true });
   await writeFile("data/shopify.json", JSON.stringify(payload, null, 2));
-  console.log(`\nWrote data/shopify.json · ${s.categories.length} categories · ${Math.min(s.productDaily.length, 4000)} product-day rows`);
+  console.log(`\nWrote data/shopify.json · ${s.categories.length} categories · ${Math.min(s.productDaily.length, 4000)} product-day rows · ${s.bucketDaily.length} bucket-days`);
 
   await appendFile("data/shopify-history.jsonl", JSON.stringify({
     ts: payload.fetchedAt,
