@@ -10,10 +10,11 @@ name: Live · Shopify
 
 on:
   schedule:
-    # Hourly, round the clock. Shopify is a one-minute job and orders are
-    # the one number that is genuinely real-time, so it gets the tightest
-    # cadence of anything here.
-    - cron: "0 * * * *"
+    # Every 30 minutes, 06:00–23:00 IST (00:30–17:30 UTC).
+    # Orders are the only genuinely real-time number here and this is a
+    # one-minute job, so it gets the tightest cadence. Overnight is left
+    # out — the 06:00 run catches whatever arrived while we slept.
+    - cron: "0,30 0-17 * * *"
   workflow_dispatch:
 
 permissions:
