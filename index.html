@@ -215,7 +215,7 @@ channels(){
     : b==="stylist"||b==="retail_assist" ? "var(--violet)"
     : b==="gift" ? "var(--warn)" : b.includes("_to_draft")||b==="draft_unclassified" ? "var(--warn)" : "var(--muted)";
 
-  return `${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This shopify.json predates daily channel rows. Re-run <b>Pull Shopify</b> for date filtering.</div></div>`}
+  return `${coverageWarning(s, w)}${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This shopify.json predates daily channel rows. Re-run <b>Pull Shopify</b> for date filtering.</div></div>`}
   <div class="grid">
     ${kpi("Revenue", lakh(tot), w?`${esc(w.from)} → ${esc(w.to)}`:esc(s.range||""))}
     ${kpi("Orders", num(buckets.reduce((a,b)=>a+b.orders,0)), "in range")}
@@ -259,7 +259,7 @@ stylists(){
   }
   const tot = rows.reduce((a,r)=>a+r.revenue,0);
 
-  return `${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This shopify.json predates daily stylist rows. Re-run <b>Pull Shopify</b> for date filtering.</div></div>`}
+  return `${coverageWarning(s, w)}${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This shopify.json predates daily stylist rows. Re-run <b>Pull Shopify</b> for date filtering.</div></div>`}
   <div class="grid">
     ${kpi("Stylist revenue", lakh(tot), `${rows.length} stylists`, "var(--violet)")}
     ${kpi("Orders", num(rows.reduce((a,r)=>a+r.orders,0)), w?`${w.days} day${w.days===1?"":"s"}`:"")}
@@ -295,7 +295,7 @@ stores(){
   const tot = rows.reduce((a,r)=>a+r.revenue,0);
   const merged = rows.filter(r=>r.merged);
 
-  return `${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This shopify.json predates daily store rows. Re-run <b>Pull Shopify</b> for date filtering.</div></div>`}
+  return `${coverageWarning(s, w)}${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This shopify.json predates daily store rows. Re-run <b>Pull Shopify</b> for date filtering.</div></div>`}
   <div class="grid">
     ${kpi("Retail-assist revenue", lakh(tot), `${rows.length} stores`)}
     ${kpi("Top store", esc(rows[0]?.store||"—"), inr(rows[0]?.revenue))}
@@ -479,7 +479,7 @@ google(){
       .sort((a,b)=>b.spend-a.spend);
   }
 
-  return `${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This google.json predates daily rows. Re-run <b>Pull Google Ads</b> for date filtering.</div></div>`}
+  return `${coverageWarning(g, w)}${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This google.json predates daily rows. Re-run <b>Pull Google Ads</b> for date filtering.</div></div>`}
   <div class="grid">
     ${kpi("Web spend", lakh(t.webSpend), esc(p.name))}
     ${kpi("Web revenue", lakh(t.webRevenue), "Google attributed")}
@@ -752,6 +752,23 @@ function windowFrom(dates){
   if(to > last) to = last;
   if(from > to) from = to;
   return {from, to, first, last, days: sorted.filter(x=>x>=from && x<=to).length};
+}
+
+/* A pull that stops short of its own stated range is the failure mode
+   that looks like success. Say it on the view, not just in the log. */
+function coverageWarning(src, w){
+  if(!src?.range || !w?.last) return "";
+  const m = /(\d{4}-\d{2}-\d{2})\s*→\s*(\d{4}-\d{2}-\d{2})/.exec(src.range);
+  if(!m) return "";
+  const [,reqFrom,reqTo] = m;
+  const short = w.last < reqTo;
+  const late  = w.first > reqFrom;
+  if(!short && !late && !src.truncated) return "";
+  return `<div class="card" style="margin-top:0"><div class="note err">
+    <b>Incomplete data.</b> The pull asked for ${esc(reqFrom)} → ${esc(reqTo)} but the file only covers
+    ${esc(w.first)} → ${esc(w.last)}${src.truncated?" and is flagged truncated":""}.
+    Everything below is limited to what actually arrived. Re-run the pull.
+  </div></div>`;
 }
 
 function windowBar(w, note){
