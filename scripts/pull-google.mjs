@@ -33,6 +33,12 @@ const FIELDS = "date,campaign_name,cost,impressions,clicks,conversions,conversio
 
 const inr = (n) => "₹" + Math.round(n || 0).toLocaleString("en-IN");
 
+/* Row cap. 20 campaigns x 120 days is 2,400 rows for one account, so a
+   1,000 cap silently returned only the earliest ~92 days and made the
+   dashboard look stale. Supermetrics orders date-ascending, so the
+   truncation is invisible unless you check the newest date. */
+const MAX_ROWS = Number(process.env.MAX_ROWS || 100000);
+
 const MAPPING = {
   date: { field: "date" },
   name: { field: "campaign_name" },
@@ -47,16 +53,22 @@ async function fetchRows(accountId) {
   const tried = [];
   for (const candidate of dsId ? [dsId] : DS_CANDIDATES) {
     try {
-      const rows = await query({
+      const raw = await query({
         dsId: candidate,
         accounts: accountId,
         fields: FIELDS,
         startDate,
         endDate,
-        maxRows: 1000,
+        maxRows: MAX_ROWS,
       });
       dsId = candidate; // lock it in for the remaining accounts
-      return toObjects(rows, FIELDS, MAPPING);
+      const rows = toObjects(raw, FIELDS, MAPPING);
+      /* Never let a silent cap through again: a truncated pull looks
+         identical to a real one except the newest dates are missing. */
+      if (rows.length >= MAX_ROWS) {
+        throw new Error(`hit the ${MAX_ROWS}-row cap — data truncated. Raise MAX_ROWS or shorten the window.`);
+      }
+      return rows;
     } catch (e) {
       tried.push(`${candidate}: ${e.message}`);
       /* Only keep trying if the source id itself looks wrong. */
@@ -87,7 +99,7 @@ async function pullCreatives(accountId) {
   try {
     const raw = await query({
       dsId, accounts: accountId, fields: CREATIVE_FIELDS,
-      startDate, endDate, maxRows: 500,
+      startDate, endDate, maxRows: 5000,
     });
     return { ok: true, rows: toObjects(raw, CREATIVE_FIELDS, CREATIVE_MAPPING) };
   } catch (e) {
@@ -100,8 +112,12 @@ async function pullAccount(acct) {
   try {
     const rows = await fetchRows(acct.id);
     const split = splitChannels(rows);
+    /* Print the newest date so a short window is obvious in the log. */
+    const dates = rows.map((r) => r.date).filter(Boolean).sort();
+    const span = dates.length ? `${dates[0]}→${dates[dates.length - 1]}` : "no dates";
+    const short = dates.length && dates[dates.length - 1] < endDate;
     console.log(
-      `ok — ${rows.length} campaigns, web ROAS ${split.totals.webRoas?.toFixed(2) ?? "—"}x, OMNI ${(100 * split.totals.omniShare).toFixed(0)}%`
+      `ok — ${rows.length} rows, ${span}${short ? " ⚠ ENDS EARLY" : ""}, web ROAS ${split.totals.webRoas?.toFixed(2) ?? "—"}x, OMNI ${(100 * split.totals.omniShare).toFixed(0)}%`
     );
     return { account: acct, ok: true, ...split };
   } catch (e) {
@@ -153,6 +169,7 @@ async function main() {
       rows: ok.flatMap((r) => [...r.web, ...r.omni]),
       extra: {
         dsId,
+        maxRows: MAX_ROWS,
         attribution: "Google default attribution. An efficiency ratio, not incrementality.",
         rule: "OMNI campaigns optimise store visits; conversion value is a visit count, not rupees. Never graded on ROAS.",
       },
