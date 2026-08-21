@@ -82,8 +82,11 @@ async function fetchRows(accountId) {
    ad layer at all — Shopping renders from the product feed and
    Performance Max exposes asset groups rather than ads. So this is
    attempted, and a failure is recorded rather than killing the run. */
-const CREATIVE_FIELDS = "campaign_name,ad_id,headline,description,cost,impressions,clicks,conversions,conversion_value";
+/* `date` first, so creatives can be filtered by the same window as
+   everything else rather than being stuck on the full period. */
+const CREATIVE_FIELDS = "date,campaign_name,ad_id,headline,description,cost,impressions,clicks,conversions,conversion_value";
 const CREATIVE_MAPPING = {
+  date: { field: "date" },
   campaign: { field: "campaign_name" },
   adId: { field: "ad_id" },
   headline: { field: "headline" },
@@ -99,7 +102,7 @@ async function pullCreatives(accountId) {
   try {
     const raw = await query({
       dsId, accounts: accountId, fields: CREATIVE_FIELDS,
-      startDate, endDate, maxRows: 5000,
+      startDate, endDate, maxRows: MAX_ROWS,
     });
     return { ok: true, rows: toObjects(raw, CREATIVE_FIELDS, CREATIVE_MAPPING) };
   } catch (e) {
