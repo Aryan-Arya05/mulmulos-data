@@ -12,9 +12,15 @@ import { shapeMetaRow, summariseMeta, envelope } from "./lib/shape.mjs";
 const ACCOUNT = process.env.META_ACCOUNT_ID || "277407879800547";
 const DAYS = Number(process.env.DAYS || 7);
 
+const INCLUDE_TODAY = process.env.INCLUDE_TODAY === "1";
+
 function window(days) {
+  /* An explicit range wins over DAYS. */
+  if (process.env.START_DATE && process.env.END_DATE) {
+    return { since: process.env.START_DATE, until: process.env.END_DATE };
+  }
   const end = new Date(Date.now() + 5.5 * 3600 * 1000);
-  end.setUTCDate(end.getUTCDate() - 1);           // yesterday: today is partial
+  if (!INCLUDE_TODAY) end.setUTCDate(end.getUTCDate() - 1);
   const start = new Date(end);
   start.setUTCDate(start.getUTCDate() - (days - 1));
   const f = (d) => d.toISOString().slice(0, 10);
