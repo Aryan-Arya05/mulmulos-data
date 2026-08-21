@@ -311,6 +311,11 @@ export function summariseOrders(orders = [], index = null) {
   /* Flat rows keyed by date x product x bucket, so the dashboard can
      filter by any of the three without a second pull. */
   const grain = new Map();
+  /* The same idea for channels, stylists and stores: without a date on
+     each row the dashboard can only ever show the whole pull window. */
+  const bucketGrain = new Map();
+  const stylistGrain = new Map();
+  const storeGrain = new Map();
   const unclassified = [];
   let newCustomers = 0, returningCustomers = 0;
   let rebookCount = 0, rebookValue = 0;
@@ -354,6 +359,30 @@ export function summariseOrders(orders = [], index = null) {
     if (n != null) (Number(n) <= 1 ? newCustomers++ : returningCustomers++);
 
     const day = String(o.createdAt || "").slice(0, 10);
+
+    /* date x bucket */
+    const bk = `${day}|${bucket}`;
+    const bg = bucketGrain.get(bk) || { date: day, bucket, revenue: 0, orders: 0, newCustomers: 0, returningCustomers: 0, waived: 0 };
+    bg.revenue += amount; bg.orders += 1;
+    if (n != null) (Number(n) <= 1 ? bg.newCustomers++ : bg.returningCustomers++);
+    if (bucket === "gift") bg.waived += Number(o?.totalDiscountsSet?.shopMoney?.amount || 0);
+    bucketGrain.set(bk, bg);
+
+    /* date x stylist */
+    if (bucket === "stylist" && detail) {
+      const sk = `${day}|${detail.toUpperCase()}`;
+      const sg = stylistGrain.get(sk) || { date: day, stylist: detail, revenue: 0, orders: 0 };
+      sg.revenue += amount; sg.orders += 1;
+      stylistGrain.set(sk, sg);
+    }
+
+    /* date x store */
+    if (bucket === "retail_assist" && detail) {
+      const kk = `${day}|${detail}`;
+      const kg = storeGrain.get(kk) || { date: day, store: detail, revenue: 0, orders: 0 };
+      kg.revenue += amount; kg.orders += 1;
+      storeGrain.set(kk, kg);
+    }
     for (const li of o?.lineItems?.nodes || []) {
       const qty = Number(li.quantity || 0);
       const rev = Number(li?.discountedTotalSet?.shopMoney?.amount || 0);
@@ -407,6 +436,9 @@ export function summariseOrders(orders = [], index = null) {
     products: top,
     /* date x product x bucket — the filterable grain */
     productDaily: [...grain.values()].sort((a, b) => b.units - a.units),
+    bucketDaily: [...bucketGrain.values()].sort((a, b) => a.date.localeCompare(b.date)),
+    stylistDaily: [...stylistGrain.values()].sort((a, b) => b.revenue - a.revenue),
+    storeDaily: [...storeGrain.values()].sort((a, b) => b.revenue - a.revenue),
     categories: [...new Set([...products.values()].map((p) => p.category))].filter(Boolean).sort(),
     /* Volume that is NOT digital — the Zuri check, now precise. */
     nonDigital: top.filter((p) => p.units >= 5 && p.digitalShare != null && p.digitalShare < 0.35)
