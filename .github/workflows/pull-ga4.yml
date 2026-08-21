@@ -1,16 +1,18 @@
-name: Pull GA4 (app)
+name: Backfill · GA4 (app)
 
 on:
   schedule:
     # 07:15 and 19:15 IST — last in the stagger, behind Google, Shopify and Meta.
-    - cron: "45 1 * * *"
-    - cron: "45 13 * * *"
+    # 1st and 15th at 03:00 IST. These exist to backfill what the live jobs
+    # skip — stylist timelines, creatives, full history — not to keep
+    # the dashboard fresh. The live jobs do that.
+    - cron: "30 21 1,15 * *"
   workflow_dispatch:
     inputs:
       days:
         description: "How many days back to pull"
         required: false
-        default: "28"
+        default: "90"
 
 permissions:
   contents: write
@@ -30,13 +32,13 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Pull GA4 (app)
+      - name: Backfill · GA4 (app)
         env:
           # The ENTIRE service-account JSON key file, pasted as one secret.
           GA4_SERVICE_ACCOUNT: ${{ secrets.GA4_SERVICE_ACCOUNT }}
           GA4_PROPERTY_ID: "469222398"   # mulmulappbrew — the app property
           GA4_LABEL: "app"
-          DAYS: ${{ inputs.days || '28' }}
+          DAYS: ${{ inputs.days || '90' }}
         run: node scripts/pull-ga4.mjs
 
       - name: Commit if changed
