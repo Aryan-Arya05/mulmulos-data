@@ -1,0 +1,51 @@
+name: Live · Shopify
+
+# Shopify is the only genuinely real-time source: an order exists the
+# moment it is placed. So it gets the fast cadence, and the ad platforms
+# — which revise attribution for hours regardless of how often we ask —
+# get their own slower job.
+#
+# Lean by design: 2-day window, no stylist timelines. About one minute a
+# run. The weekly full pull backfills attribution.
+
+on:
+  schedule:
+    # Hourly, round the clock. Shopify is a one-minute job and orders are
+    # the one number that is genuinely real-time, so it gets the tightest
+    # cadence of anything here.
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: live-shopify
+  cancel-in-progress: true   # a queued run is already stale
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "24" }
+
+      - name: Shopify (today + yesterday)
+        env:
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP: shopmulmul.myshopify.com
+          DAYS: "2"
+          INCLUDE_TODAY: "1"
+          SKIP_EVENTS: "1"
+        run: node scripts/pull-shopify.mjs
+
+      - name: Commit
+        run: |
+          git config user.name  "mulmulos-bot"
+          git config user.email "actions@github.com"
+          git pull --rebase --autostash || true
+          git add data/
+          git diff --staged --quiet || git commit -m "live: shopify $(TZ=Asia/Kolkata date +%H:%M) IST"
+          git push || true
