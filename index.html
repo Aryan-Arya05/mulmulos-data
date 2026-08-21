@@ -190,7 +190,43 @@ overview(){
 
 channels(){
   const s = state.shopify; if(!s) return missing("shopify");
-  return `<div class="card"><h3>Every channel<em>${esc(s.range||"")}</em></h3>${bucketRows(s)}</div>
+  const grain = s.bucketDaily||[];
+  const w = grain.length ? windowFrom(grain.map(g=>g.date)) : null;
+
+  let buckets = s.buckets||[], tot = s.totals?.revenue||0, newC = s.totals?.newCustomers, retC = s.totals?.returningCustomers;
+  if(w){
+    const m = new Map();
+    let nc=0, rc=0;
+    for(const g of grain){
+      if(g.date < w.from || g.date > w.to) continue;
+      const o = m.get(g.bucket) || {bucket:g.bucket, revenue:0, orders:0};
+      o.revenue += g.revenue; o.orders += g.orders;
+      nc += g.newCustomers||0; rc += g.returningCustomers||0;
+      m.set(g.bucket,o);
+    }
+    const rows=[...m.values()];
+    tot = rows.reduce((a,b)=>a+b.revenue,0);
+    buckets = rows.map(b=>({...b, share: tot?b.revenue/tot:0, aov: b.orders?b.revenue/b.orders:null}))
+      .sort((a,b)=>b.revenue-a.revenue);
+    newC=nc; retC=rc;
+  }
+
+  const colour = b => b.startsWith("online")||b==="app" ? "var(--cyan)"
+    : b==="stylist"||b==="retail_assist" ? "var(--violet)"
+    : b==="gift" ? "var(--warn)" : b.includes("_to_draft")||b==="draft_unclassified" ? "var(--warn)" : "var(--muted)";
+
+  return `${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This shopify.json predates daily channel rows. Re-run <b>Pull Shopify</b> for date filtering.</div></div>`}
+  <div class="grid">
+    ${kpi("Revenue", lakh(tot), w?`${esc(w.from)} → ${esc(w.to)}`:esc(s.range||""))}
+    ${kpi("Orders", num(buckets.reduce((a,b)=>a+b.orders,0)), "in range")}
+    ${kpi("New customers", num(newC), (newC+retC)?pct(newC/(newC+retC))+" of buyers":"", "var(--ok)")}
+  </div>
+  <div class="card"><h3>Every channel<em>${w?`${w.days} day${w.days===1?"":"s"}`:esc(s.range||"")}</em></h3>
+  ${table(["Bucket","Revenue","Orders","AOV","Share"], buckets.map(b=>[
+    `<span style="color:${colour(b.bucket)}">${esc(b.bucket)}</span>`,
+    inr(b.revenue), num(b.orders), inr(b.aov),
+    `${pct(b.share)}<div class="bar"><i style="width:${100*b.share}%"></i></div>`
+  ]), "No orders in this range.")}</div>
   <div class="card"><h3>What each bucket means</h3>
   ${table(["Bucket","Meaning"],[
     ["online","Web checkout"],["app","Appbrew mobile app"],
@@ -207,27 +243,60 @@ channels(){
 
 stylists(){
   const s = state.shopify; if(!s) return missing("shopify");
-  const rows = s.stylists||[];
+  const grain = s.stylistDaily||[];
+  const w = grain.length ? windowFrom(grain.map(g=>g.date)) : null;
+
+  let rows = s.stylists||[];
+  if(w){
+    const m = new Map();
+    for(const g of grain){
+      if(g.date < w.from || g.date > w.to) continue;
+      const o = m.get(g.stylist) || {stylist:g.stylist, revenue:0, orders:0};
+      o.revenue += g.revenue; o.orders += g.orders;
+      m.set(g.stylist,o);
+    }
+    rows = [...m.values()].sort((a,b)=>b.revenue-a.revenue);
+  }
   const tot = rows.reduce((a,r)=>a+r.revenue,0);
-  return `<div class="grid">
+
+  return `${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This shopify.json predates daily stylist rows. Re-run <b>Pull Shopify</b> for date filtering.</div></div>`}
+  <div class="grid">
     ${kpi("Stylist revenue", lakh(tot), `${rows.length} stylists`, "var(--violet)")}
-    ${kpi("Orders", num(rows.reduce((a,r)=>a+r.orders,0)),"in this window")}
+    ${kpi("Orders", num(rows.reduce((a,r)=>a+r.orders,0)), w?`${w.days} day${w.days===1?"":"s"}`:"")}
     ${kpi("Top stylist", esc(rows[0]?.stylist||"—"), inr(rows[0]?.revenue))}
   </div>
   <div class="card"><h3>Stylists by revenue<em>from the order timeline</em></h3>
   ${table(["Stylist","Revenue","Orders","AOV","Share"], rows.map(r=>[
     esc(r.stylist), inr(r.revenue), num(r.orders), inr(r.revenue/r.orders),
     `${pct(tot?r.revenue/tot:0)}<div class="bar"><i style="width:${tot?100*r.revenue/tot:0}%"></i></div>`
-  ]), "No stylist orders in this window.")}
+  ]), "No stylist orders in this range.")}
   <div class="note">Attribution comes from a comment posted on each order seconds after creation. A mistyped or missing comment lands the order in <b>draft_unclassified</b> rather than being assigned to anyone.</div></div>`;
 },
 
 stores(){
   const s = state.shopify; if(!s) return missing("shopify");
-  const rows = s.stores||[];
+  const grain = s.storeDaily||[];
+  const w = grain.length ? windowFrom(grain.map(g=>g.date)) : null;
+
+  let rows = s.stores||[];
+  if(w){
+    const m = new Map();
+    for(const g of grain){
+      if(g.date < w.from || g.date > w.to) continue;
+      const o = m.get(g.store) || {store:g.store, revenue:0, orders:0};
+      o.revenue += g.revenue; o.orders += g.orders;
+      m.set(g.store,o);
+    }
+    /* Carry the merge provenance across from the full-window list. */
+    const meta = new Map((s.stores||[]).map(x=>[x.store,x]));
+    rows = [...m.values()].map(x=>({...x, merged:meta.get(x.store)?.merged, variants:meta.get(x.store)?.variants||[], matched:meta.get(x.store)?.matched}))
+      .sort((a,b)=>b.revenue-a.revenue);
+  }
   const tot = rows.reduce((a,r)=>a+r.revenue,0);
   const merged = rows.filter(r=>r.merged);
-  return `<div class="grid">
+
+  return `${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This shopify.json predates daily store rows. Re-run <b>Pull Shopify</b> for date filtering.</div></div>`}
+  <div class="grid">
     ${kpi("Retail-assist revenue", lakh(tot), `${rows.length} stores`)}
     ${kpi("Top store", esc(rows[0]?.store||"—"), inr(rows[0]?.revenue))}
     ${kpi("Names merged", num(merged.length), merged.length?"spelling variants":"none", merged.length?"var(--warn)":null)}
@@ -237,8 +306,8 @@ stores(){
     esc(r.store)+(r.merged?`<span class="pill">merged</span>`:"")+(r.matched==="unmatched"?`<span class="pill" style="color:var(--warn)">off roster</span>`:""),
     inr(r.revenue), num(r.orders), inr(r.revenue/r.orders),
     `${pct(tot?r.revenue/tot:0)}<div class="bar"><i style="width:${tot?100*r.revenue/tot:0}%"></i></div>`
-  ]), "No retail-assist orders.")}
-  ${merged.length?`<div class="note">Merged from hand-typed variants: ${merged.map(m=>esc(m.variants.join(" / "))).join(" · ")}. Fixing the note format at source would remove the need to guess.</div>`:""}
+  ]), "No retail-assist orders in this range.")}
+  ${merged.length?`<div class="note">Merged from hand-typed variants: ${merged.map(m=>esc((m.variants||[]).join(" / "))).join(" · ")}. Fixing the note format at source would remove the need to guess.</div>`:""}
   <div class="note">This is not store sell-through. It is only what store staff booked through Shopify because an item was out of stock.</div></div>`;
 },
 
