@@ -1,16 +1,20 @@
 name: Live · Ads and analytics
 
-# Meta, Google and GA4 keep attributing conversions for hours after the
-# click, so pulling them every half hour would burn minutes re-fetching
-# numbers that have not settled. Hourly is as live as these sources get.
+# Google and Meta only. GA4 sits in its own job at four times a day:
+# session data is the least time-critical thing here and it was the
+# slowest step, so hourly it was the main cost driver.
 
 on:
   schedule:
-    # Eight fixed slots IST: 12am, 8, 11, 1, 3, 5, 7, 9pm.
-    # (IST is UTC+5:30, so midnight IST is 18:30 UTC the previous day.)
-    # Ad platforms revise attribution for hours, so a tighter cadence
-    # would just re-fetch numbers that have not settled.
-    - cron: "30 18,2,5,7,9,11,13,15 * * *"
+    # Nine slots IST: 6, 8, 11am, 1, 3, 5, 6:30, 8, 10pm.
+    # (IST is UTC+5:30.) Two crons because 6:30pm IST falls on the hour
+    # in UTC while every other slot falls on the half hour.
+    #
+    # Gaps run 2–3 hours in the morning and tighten to 90 minutes through
+    # the evening peak. Ad platforms keep attributing conversions for
+    # hours, so anything tighter would re-fetch unsettled numbers.
+    - cron: "30 0,2,5,7,9,11,14,16 * * *"
+    - cron: "0 13 * * *"
   workflow_dispatch:
 
 permissions:
@@ -50,6 +54,8 @@ jobs:
           INCLUDE_TODAY: "1"
         run: node scripts/pull-meta.mjs
 
+      # GA4 rides along here rather than in its own job — same schedule,
+      # no extra runner time, and it keeps the allowance in budget.
       - name: GA4 web
         continue-on-error: true
         env:
