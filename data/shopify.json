@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-20 → 2026-08-21 IST",
-  "fetchedAt": "2026-08-21T15:01:34.985Z",
-  "rowCount": 269,
+  "fetchedAt": "2026-08-21T15:56:39.445Z",
+  "rowCount": 273,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 5000364.2,
-    "orders": 258,
-    "digitalRevenue": 1660362.2,
-    "digitalShare": 0.3320482536052074,
-    "newCustomers": 116,
-    "returningCustomers": 142,
-    "newCustomerShare": 0.4496124031007752,
+    "revenue": 5072514.2,
+    "orders": 262,
+    "digitalRevenue": 1732512.2,
+    "digitalShare": 0.3415490093650206,
+    "newCustomers": 117,
+    "returningCustomers": 145,
+    "newCustomerShare": 0.44656488549618323,
     "rebookOrders": 12,
     "rebookValue": 267315,
-    "revenueExcludingRebooks": 4733049.2,
+    "revenueExcludingRebooks": 4805199.2,
     "giftGrossValue": 171150,
     "giftCashReceived": 53840,
     "giftValueWaived": 117310
@@ -36,63 +36,63 @@
       "bucket": "stylist",
       "revenue": 1629702,
       "orders": 80,
-      "share": 0.3259166602304688,
+      "share": 0.321280914304784,
       "aov": 20371.275
+    },
+    {
+      "bucket": "online",
+      "revenue": 1206540,
+      "orders": 64,
+      "share": 0.23785837800118922,
+      "aov": 18852.1875
     },
     {
       "bucket": "retail_assist",
       "revenue": 1197890,
       "orders": 59,
-      "share": 0.23956055040950816,
+      "share": 0.23615310924117275,
       "aov": 20303.22033898305
-    },
-    {
-      "bucket": "online",
-      "revenue": 1134390,
-      "orders": 60,
-      "share": 0.22686147541013113,
-      "aov": 18906.5
     },
     {
       "bucket": "app",
       "revenue": 525972.2,
       "orders": 28,
-      "share": 0.10518677819507626,
+      "share": 0.10369063136383136,
       "aov": 18784.721428571425
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 191255,
       "orders": 10,
-      "share": 0.038248214000092234,
+      "share": 0.03770418227710432,
       "aov": 19125.5
     },
     {
       "bucket": "other_to_draft",
       "revenue": 190165,
       "orders": 8,
-      "share": 0.03803022987805568,
+      "share": 0.03748929869925253,
       "aov": 23770.625
     },
     {
       "bucket": "online_to_draft",
       "revenue": 55750,
       "orders": 3,
-      "share": 0.011149187893153863,
+      "share": 0.010990605013979063,
       "aov": 18583.333333333332
     },
     {
       "bucket": "gift",
       "revenue": 53840,
       "orders": 9,
-      "share": 0.010767215716007245,
+      "share": 0.010614065900495654,
       "aov": 5982.222222222223
     },
     {
       "bucket": "app_to_draft",
       "revenue": 21400,
       "orders": 1,
-      "share": 0.004279688267506594,
+      "share": 0.004218815198191067,
       "aov": 21400
     }
   ],
@@ -590,6 +590,18 @@
       "digitalShare": 0.4
     },
     {
+      "title": "Elaan Organza Pink Kurta with Farshi Salwar",
+      "category": "Kurta Sets",
+      "units": 5,
+      "revenue": 99500,
+      "byBucket": {
+        "online": 3,
+        "retail_assist": 2
+      },
+      "digitalUnits": 3,
+      "digitalShare": 0.6
+    },
+    {
       "title": "Alouette Organza Light Blue Co-Ord Set",
       "category": "Co-ord Set",
       "units": 5,
@@ -664,18 +676,6 @@
         "stylist": 1,
         "online": 1,
         "app": 1
-      },
-      "digitalUnits": 2,
-      "digitalShare": 0.5
-    },
-    {
-      "title": "Elaan Organza Pink Kurta with Farshi Salwar",
-      "category": "Kurta Sets",
-      "units": 4,
-      "revenue": 79600,
-      "byBucket": {
-        "online": 2,
-        "retail_assist": 2
       },
       "digitalUnits": 2,
       "digitalShare": 0.5
@@ -840,6 +840,19 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Laina Cupro Satin Orange Long Kurta Set",
+      "category": "Kurta Sets",
+      "units": 3,
+      "revenue": 64200,
+      "byBucket": {
+        "app_to_draft": 1,
+        "stylist": 1,
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.3333333333333333
     },
     {
       "title": "Shvi Cupro Satin Fuchsia Kurta With Farshi Salwar",
@@ -1043,18 +1056,6 @@
       },
       "digitalUnits": 1,
       "digitalShare": 0.5
-    },
-    {
-      "title": "Laina Cupro Satin Orange Long Kurta Set",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 42800,
-      "byBucket": {
-        "app_to_draft": 1,
-        "stylist": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
     },
     {
       "title": "Nino Organza Sky Blue Kurta Set",
@@ -2678,6 +2679,28 @@
       "revenue": 9950,
       "byBucket": {
         "app": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Kalari Lawn Mustard Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 17900,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Misa Supima Cotton Fuchsia Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 12950,
+      "byBucket": {
+        "online": 1
       },
       "digitalUnits": 1,
       "digitalShare": 1
@@ -5072,6 +5095,38 @@
       "bucket": "app",
       "units": 1,
       "revenue": 9950
+    },
+    {
+      "date": "2026-08-21",
+      "title": "Kalari Lawn Mustard Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 17900
+    },
+    {
+      "date": "2026-08-21",
+      "title": "Elaan Organza Pink Kurta with Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 19900
+    },
+    {
+      "date": "2026-08-21",
+      "title": "Laina Cupro Satin Orange Long Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 21400
+    },
+    {
+      "date": "2026-08-21",
+      "title": "Misa Supima Cotton Fuchsia Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 12950
     }
   ],
   "bucketDaily": [
@@ -5159,10 +5214,10 @@
     {
       "date": "2026-08-21",
       "bucket": "online",
-      "revenue": 356650,
-      "orders": 19,
-      "newCustomers": 10,
-      "returningCustomers": 9,
+      "revenue": 428800,
+      "orders": 23,
+      "newCustomers": 11,
+      "returningCustomers": 12,
       "waived": 0
     },
     {
