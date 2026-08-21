@@ -8,7 +8,7 @@
 
 import { writeFile, appendFile, mkdir } from "node:fs/promises";
 import { query, toObjects, lastNDays } from "./lib/supermetrics.mjs";
-import { splitChannels, envelope, campaignType, hasCreatives } from "./lib/shape.mjs";
+import { splitChannels, envelope, campaignType, hasCreatives, isOmni } from "./lib/shape.mjs";
 
 const ACCOUNTS = [
   { id: "3669746941", name: "Shop Mul Mul", note: "India — primary web account" },
@@ -27,11 +27,14 @@ let dsId = null;
 
 const DAYS = Number(process.env.DAYS || 7);
 const { startDate, endDate } = lastNDays(DAYS);
-const FIELDS = "campaign_name,cost,impressions,clicks,conversions,conversion_value";
+/* `date` makes every row a campaign-day, so the dashboard can filter
+   any range client-side instead of being stuck with one window. */
+const FIELDS = "date,campaign_name,cost,impressions,clicks,conversions,conversion_value";
 
 const inr = (n) => "₹" + Math.round(n || 0).toLocaleString("en-IN");
 
 const MAPPING = {
+  date: { field: "date" },
   name: { field: "campaign_name" },
   spend: { field: "cost", type: "number" },
   impressions: { field: "impressions", type: "number" },
@@ -165,6 +168,13 @@ async function main() {
       web: r.web,
       omni: r.omni,
     })),
+    /* Flat campaign-day rows for client-side date filtering. */
+    daily: results.filter((r) => r.ok).flatMap((r) =>
+      [...(r.web || []), ...(r.omni || [])].map((c) => ({
+        date: c.date, account: r.account.id, name: c.name, type: campaignType(c.name),
+        omni: isOmni(c.name), spend: c.spend, revenue: c.revenue,
+        conversions: c.conversions, clicks: c.clicks, impressions: c.impressions,
+      })).filter((x) => x.date)),
     creatives: {
       available: creatives.ok,
       error: creatives.ok ? null : creatives.error,
@@ -177,7 +187,8 @@ async function main() {
 
   await mkdir("data", { recursive: true });
   await writeFile("data/google.json", JSON.stringify(payload, null, 2));
-  console.log(`\nWrote data/google.json (${ok.length}/${ACCOUNTS.length} accounts, ds_id=${dsId})`);
+  const dayCount = new Set(payload.daily.map((d) => d.date)).size;
+  console.log(`\nWrote data/google.json (${ok.length}/${ACCOUNTS.length} accounts, ds_id=${dsId}, ${dayCount} days × ${payload.daily.length} campaign-days)`);
 
   /* One line per run — the repo becomes the trend history for free. */
   const primary = results.find((r) => r.account.id === "3669746941");
