@@ -14,13 +14,28 @@ const REBOOK_WINDOW = Number(process.env.REBOOK_DAYS || 3);
 
 /* IST: the store reports in Asia/Kolkata, and a UTC window would clip
    five and a half hours off the end of every Indian day. */
+/* INCLUDE_TODAY makes the window end today rather than yesterday.
+   Shopify orders are real-time, so today's revenue and order count are
+   accurate the moment they land — unlike ad attribution, which lags. */
+const INCLUDE_TODAY = process.env.INCLUDE_TODAY === "1";
+
+/* An explicit range wins over DAYS, so the dashboard can ask for exactly
+   the window on screen instead of a rolling count of days. */
+const REQ_FROM = process.env.START_DATE || null;
+const REQ_TO = process.env.END_DATE || null;
+
 function istWindow(days, extraLookback = 0) {
+  const fmt = (d) => d.toISOString().slice(0, 10);
+  if (REQ_FROM && REQ_TO) {
+    const start = new Date(REQ_FROM + "T00:00:00Z");
+    start.setUTCDate(start.getUTCDate() - extraLookback);
+    return { startDate: fmt(start), endDate: REQ_TO };
+  }
   const now = new Date(Date.now() + 5.5 * 3600 * 1000);
   const end = new Date(now);
-  end.setUTCDate(end.getUTCDate() - 1); // yesterday: today is partial
+  if (!INCLUDE_TODAY) end.setUTCDate(end.getUTCDate() - 1);
   const start = new Date(end);
   start.setUTCDate(start.getUTCDate() - (days - 1 + extraLookback));
-  const fmt = (d) => d.toISOString().slice(0, 10);
   return { startDate: fmt(start), endDate: fmt(end) };
 }
 
@@ -65,12 +80,20 @@ async function main() {
   /* One request per order, so a long window can mean thousands. Cap it
      and say plainly which orders went unattributed rather than letting
      the job time out halfway. */
-  const EVENT_CAP = Number(process.env.EVENT_CAP || 3000);
+  /* The timeline fetch is one request per draft and dominates runtime,
+     so a fast refresh skips it. Those orders land in draft_unclassified
+     until the next full pull, which is stated rather than hidden. */
+  const SKIP_EVENTS = process.env.SKIP_EVENTS === "1";
+  const EVENT_CAP = SKIP_EVENTS ? 0 : Number(process.env.EVENT_CAP || 3000);
   const needEvents = allNeedEvents.slice(-EVENT_CAP);   // newest first matters most
   if (allNeedEvents.length > EVENT_CAP) {
     console.log(`  ⚠ ${allNeedEvents.length} drafts need timelines; fetching the ${EVENT_CAP} most recent. Older ones will land in draft_unclassified.`);
   }
-  console.log(`  fetching timeline for ${needEvents.length} unmarked drafts (stylist attribution)…`);
+  if (SKIP_EVENTS) {
+    console.log(`  ⚠ skipping timelines (fast refresh) — ${allNeedEvents.length} drafts stay unattributed until the next full pull.`);
+  } else {
+    console.log(`  fetching timeline for ${needEvents.length} unmarked drafts (stylist attribution)…`);
+  }
   await attachEvents(needEvents, {
     onProgress: (d, t) => { if (d % 50 === 0 || d === t) console.log(`    ${d}/${t}`); },
   });
@@ -124,6 +147,8 @@ async function main() {
         currency: shop.currencyCode,
         truncated,
         rebookWindowDays: REBOOK_WINDOW,
+        includesToday: INCLUDE_TODAY,
+        stylistAttribution: process.env.SKIP_EVENTS === "1" ? "skipped on this run" : "complete",
         rules: {
           retail_assist: "note matches REC AT <store> — endless aisle, not full retail",
           stylist: "timeline CommentEvent carrying the stylist's name",
