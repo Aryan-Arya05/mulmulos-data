@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-20 → 2026-08-21 IST",
-  "fetchedAt": "2026-08-21T12:34:02.403Z",
-  "rowCount": 264,
+  "fetchedAt": "2026-08-21T13:40:37.453Z",
+  "rowCount": 266,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 4869964.2,
-    "orders": 253,
+    "revenue": 4946114.2,
+    "orders": 255,
     "digitalRevenue": 1606112.2,
-    "digitalShare": 0.3297995907238907,
-    "newCustomers": 112,
-    "returningCustomers": 141,
-    "newCustomerShare": 0.4426877470355731,
+    "digitalShare": 0.32472202117775606,
+    "newCustomers": 113,
+    "returningCustomers": 142,
+    "newCustomerShare": 0.44313725490196076,
     "rebookOrders": 12,
     "rebookValue": 267315,
-    "revenueExcludingRebooks": 4602649.2,
+    "revenueExcludingRebooks": 4678799.2,
     "giftGrossValue": 171150,
     "giftCashReceived": 53840,
     "giftValueWaived": 117310
@@ -36,63 +36,63 @@
       "bucket": "stylist",
       "revenue": 1629702,
       "orders": 80,
-      "share": 0.33464352776967027,
+      "share": 0.3294913813352712,
       "aov": 20371.275
     },
     {
       "bucket": "retail_assist",
-      "revenue": 1154590,
-      "orders": 58,
-      "share": 0.23708387835787376,
-      "aov": 19906.724137931036
+      "revenue": 1197890,
+      "orders": 59,
+      "share": 0.2421880999027479,
+      "aov": 20303.22033898305
     },
     {
       "bucket": "online",
       "revenue": 1111490,
       "orders": 59,
-      "share": 0.22823371062974138,
+      "share": 0.22471984168905765,
       "aov": 18838.813559322032
     },
     {
       "bucket": "app",
       "revenue": 494622.2,
       "orders": 26,
-      "share": 0.10156588009414935,
+      "share": 0.10000217948869843,
       "aov": 19023.93076923077
+    },
+    {
+      "bucket": "draft_unclassified",
+      "revenue": 191255,
+      "orders": 10,
+      "share": 0.03866772829466816,
+      "aov": 19125.5
     },
     {
       "bucket": "other_to_draft",
       "revenue": 190165,
       "orders": 8,
-      "share": 0.03904854167100448,
+      "share": 0.03844735327785193,
       "aov": 23770.625
-    },
-    {
-      "bucket": "draft_unclassified",
-      "revenue": 158405,
-      "orders": 9,
-      "share": 0.03252693315486795,
-      "aov": 17600.555555555555
     },
     {
       "bucket": "online_to_draft",
       "revenue": 55750,
       "orders": 3,
-      "share": 0.011447722757387004,
+      "share": 0.01127147448394944,
       "aov": 18583.333333333332
     },
     {
       "bucket": "gift",
       "revenue": 53840,
       "orders": 9,
-      "share": 0.011055522749017332,
+      "share": 0.01088531275723476,
       "aov": 5982.222222222223
     },
     {
       "bucket": "app_to_draft",
       "revenue": 21400,
       "orders": 1,
-      "share": 0.004394282816288464,
+      "share": 0.004326628770520502,
       "aov": 21400
     }
   ],
@@ -185,6 +185,17 @@
       "merged": false
     },
     {
+      "store": "LUDHIANA",
+      "revenue": 157050,
+      "orders": 7,
+      "variants": [
+        "LUDHIANA",
+        "LDUHIANA"
+      ],
+      "matched": "exact",
+      "merged": true
+    },
+    {
       "store": "GURUGRAM",
       "revenue": 116600,
       "orders": 6,
@@ -193,17 +204,6 @@
       ],
       "matched": "unmatched",
       "merged": false
-    },
-    {
-      "store": "LUDHIANA",
-      "revenue": 113750,
-      "orders": 6,
-      "variants": [
-        "LUDHIANA",
-        "LDUHIANA"
-      ],
-      "matched": "exact",
-      "merged": true
     },
     {
       "store": "LOWER PAREL",
@@ -365,8 +365,8 @@
     },
     {
       "title": "Veya Cupro Satin Lime & Pink Kurta Set",
-      "units": 12,
-      "digitalShare": 0.25
+      "units": 13,
+      "digitalShare": 0.23
     },
     {
       "title": "Mulmul Perfume",
@@ -444,6 +444,11 @@
       "name": "#ML237216",
       "amount": 11560,
       "note": null
+    },
+    {
+      "name": "#ML237264",
+      "amount": 32850,
+      "note": null
     }
   ],
   "products": [
@@ -462,17 +467,18 @@
     {
       "title": "Veya Cupro Satin Lime & Pink Kurta Set",
       "category": "Kurta Sets",
-      "units": 12,
-      "revenue": 247950,
+      "units": 13,
+      "revenue": 269850,
       "byBucket": {
         "online": 2,
         "stylist": 7,
         "other_to_draft": 1,
         "app": 1,
-        "online_to_draft": 1
+        "online_to_draft": 1,
+        "draft_unclassified": 1
       },
       "digitalUnits": 3,
-      "digitalShare": 0.25
+      "digitalShare": 0.23076923076923078
     },
     {
       "title": "Mulmul Perfume",
@@ -554,6 +560,20 @@
       },
       "digitalUnits": 1,
       "digitalShare": 0.16666666666666666
+    },
+    {
+      "title": "Ceya Lawn Printed Off White Kurta Set",
+      "category": "Kurta Sets",
+      "units": 5,
+      "revenue": 87000,
+      "byBucket": {
+        "retail_assist": 2,
+        "stylist": 1,
+        "online": 1,
+        "app": 1
+      },
+      "digitalUnits": 2,
+      "digitalShare": 0.4
     },
     {
       "title": "Lavya Cupro Satin Printed Pink Kurta Set",
@@ -649,20 +669,6 @@
       "digitalShare": 0.5
     },
     {
-      "title": "Ceya Lawn Printed Off White Kurta Set",
-      "category": "Kurta Sets",
-      "units": 4,
-      "revenue": 69600,
-      "byBucket": {
-        "retail_assist": 1,
-        "stylist": 1,
-        "online": 1,
-        "app": 1
-      },
-      "digitalUnits": 2,
-      "digitalShare": 0.5
-    },
-    {
       "title": "Elaan Organza Pink Kurta with Farshi Salwar",
       "category": "Kurta Sets",
       "units": 4,
@@ -682,6 +688,19 @@
       "byBucket": {
         "other_to_draft": 1,
         "stylist": 3
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
+      "title": "Lavya Cupro Satin Printed Lime Kurta Set",
+      "category": "Kurta Sets",
+      "units": 4,
+      "revenue": 87600,
+      "byBucket": {
+        "stylist": 2,
+        "gift": 1,
+        "draft_unclassified": 1
       },
       "digitalUnits": 0,
       "digitalShare": 0
@@ -811,18 +830,6 @@
       "digitalShare": 0.3333333333333333
     },
     {
-      "title": "Lavya Cupro Satin Printed Lime Kurta Set",
-      "category": "Kurta Sets",
-      "units": 3,
-      "revenue": 65700,
-      "byBucket": {
-        "stylist": 2,
-        "gift": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
       "title": "Chitra Cupro Satin Blue Kaftan Set",
       "category": "Kaftan Sets",
       "units": 3,
@@ -926,6 +933,18 @@
       "byBucket": {
         "retail_assist": 1,
         "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.5
+    },
+    {
+      "title": "Tissue Shamili Lavender Kurta Set",
+      "category": "Kurta Sets",
+      "units": 2,
+      "revenue": 51800,
+      "byBucket": {
+        "online": 1,
+        "retail_assist": 1
       },
       "digitalUnits": 1,
       "digitalShare": 0.5
@@ -1392,17 +1411,6 @@
       "category": "Kurta Sets",
       "units": 1,
       "revenue": 14850,
-      "byBucket": {
-        "online": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 1
-    },
-    {
-      "title": "Tissue Shamili Lavender Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 25900,
       "byBucket": {
         "online": 1
       },
@@ -4994,6 +5002,38 @@
       "bucket": "stylist",
       "units": 1,
       "revenue": 18900
+    },
+    {
+      "date": "2026-08-21",
+      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "draft_unclassified",
+      "units": 1,
+      "revenue": 21900
+    },
+    {
+      "date": "2026-08-21",
+      "title": "Lavya Cupro Satin Printed Lime Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "draft_unclassified",
+      "units": 1,
+      "revenue": 21900
+    },
+    {
+      "date": "2026-08-21",
+      "title": "Tissue Shamili Lavender Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "retail_assist",
+      "units": 1,
+      "revenue": 25900
+    },
+    {
+      "date": "2026-08-21",
+      "title": "Ceya Lawn Printed Off White Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "retail_assist",
+      "units": 1,
+      "revenue": 17400
     }
   ],
   "bucketDaily": [
@@ -5108,9 +5148,9 @@
     {
       "date": "2026-08-21",
       "bucket": "retail_assist",
-      "revenue": 458545,
-      "orders": 27,
-      "newCustomers": 27,
+      "revenue": 501845,
+      "orders": 28,
+      "newCustomers": 28,
       "returningCustomers": 0,
       "waived": 0
     },
@@ -5135,10 +5175,10 @@
     {
       "date": "2026-08-21",
       "bucket": "draft_unclassified",
-      "revenue": 11560,
-      "orders": 1,
+      "revenue": 44410,
+      "orders": 2,
       "newCustomers": 0,
-      "returningCustomers": 1,
+      "returningCustomers": 2,
       "waived": 0
     },
     {
@@ -5335,6 +5375,12 @@
       "orders": 4
     },
     {
+      "date": "2026-08-21",
+      "store": "LUDHIANA",
+      "revenue": 73150,
+      "orders": 3
+    },
+    {
       "date": "2026-08-20",
       "store": "LOWER PAREL",
       "revenue": 71200,
@@ -5362,12 +5408,6 @@
       "date": "2026-08-20",
       "store": "RAIPUR",
       "revenue": 32350,
-      "orders": 2
-    },
-    {
-      "date": "2026-08-21",
-      "store": "LUDHIANA",
-      "revenue": 29850,
       "orders": 2
     },
     {
