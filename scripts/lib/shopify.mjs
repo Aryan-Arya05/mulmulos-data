@@ -126,8 +126,16 @@ query Events($id: ID!) {
   }
 }`;
 
-/** Every order created in the window, paginated. */
-export async function fetchOrders({ startDate, endDate, maxPages = 60 }) {
+/**
+ * Every order created in the window, paginated.
+ *
+ * The page cap exists only to stop a runaway loop. It must never be the
+ * thing that ends a pull: Shopify returns orders oldest-first, so a cap
+ * hit silently drops the NEWEST days and the file still looks complete.
+ * 60 pages was 3,000 orders — about five weeks at this volume — which is
+ * why a 120-day pull appeared to stop in May.
+ */
+export async function fetchOrders({ startDate, endDate, maxPages = 4000, onProgress }) {
   const q = `created_at:>=${startDate} AND created_at:<=${endDate}`;
   const out = [];
   let after = null;
@@ -136,10 +144,10 @@ export async function fetchOrders({ startDate, endDate, maxPages = 60 }) {
     const data = await gql(ORDERS_QUERY, { q, after });
     const conn = data.orders;
     out.push(...conn.nodes);
+    if (onProgress && page % 10 === 9) onProgress(out.length);
     if (!conn.pageInfo.hasNextPage) return { orders: out, truncated: false };
     after = conn.pageInfo.endCursor;
   }
-  /* Say so rather than silently returning a partial window. */
   return { orders: out, truncated: true };
 }
 
