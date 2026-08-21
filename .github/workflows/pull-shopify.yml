@@ -1,17 +1,19 @@
-name: Pull Shopify
+name: Backfill · Shopify
 
 on:
   schedule:
     # 07:05 and 19:05 IST — five minutes after Google, so the two
     # jobs never race each other for the same commit.
-    - cron: "35 1 * * *"
-    - cron: "35 13 * * *"
+    # 1st and 15th at 03:00 IST. These exist to backfill what the live jobs
+    # skip — stylist timelines, creatives, full history — not to keep
+    # the dashboard fresh. The live jobs do that.
+    - cron: "30 21 1,15 * *"
   workflow_dispatch:
     inputs:
       days:
         description: "How many days back to pull"
         required: false
-        default: "7"
+        default: "30"
 
 permissions:
   contents: write
@@ -32,11 +34,11 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Pull Shopify
+      - name: Backfill · Shopify
         env:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP: shopmulmul.myshopify.com
-          DAYS: ${{ inputs.days || '7' }}
+          DAYS: ${{ inputs.days || '30' }}
         run: node scripts/pull-shopify.mjs
 
       - name: Commit if changed
