@@ -133,7 +133,7 @@ function ago(iso){
 
 const state = { shopify:null, google:null, eretail:null, meta:null, ga4app:null, ga4web:null, view:"overview", errors:[],
   range:"ytd", cmp:"prev_year", channel:"all",
-  pBucket:"all", pCat:"all", pDays:"all", pSort:"units", gType:"all" };
+  pBucket:"all", pCat:"all", pDays:"all", pSort:"units", gType:"all", win:"all" };
 
 async function load(name){
   try{
@@ -337,8 +337,27 @@ google(){
   const live = (g.accounts||[]).filter(a=>a.ok && a.totals);
   const p = live.find(a=>a.id==="3669746941") || live[0];
   if(!p) return `<div class="card"><div class="empty">No account returned data.</div></div>`;
-  const t = p.totals;
-  return `<div class="grid">
+
+  const dailyAll = (g.daily||[]).filter(d=>d.account===p.id);
+  const w = dailyAll.length ? windowFrom(dailyAll.map(d=>d.date)) : null;
+  let t = p.totals, webRows = p.web||[], omniRows = p.omni||[];
+
+  if(w){
+    const rows = rollup(dailyAll, w, r=>r.name, ["spend","revenue","conversions","clicks","impressions"]);
+    const web = rows.filter(r=>!r._row.omni), om = rows.filter(r=>r._row.omni);
+    const ws = web.reduce((a,r)=>a+r.spend,0), wv = web.reduce((a,r)=>a+r.revenue,0);
+    const os = om.reduce((a,r)=>a+r.spend,0), ov = om.reduce((a,r)=>a+r.conversions,0);
+    t = {webSpend:ws, webRevenue:wv, webRoas:ws?wv/ws:null, omniSpend:os, omniVisits:ov,
+         omniCostPerVisit:ov?os/ov:null, omniShare:(ws+os)?os/(ws+os):0,
+         naiveBlendedRoas:(ws+os)?(wv+ov)/(ws+os):null};
+    webRows = web.map(r=>({name:r.key, type:r._row.type, spend:r.spend, revenue:r.revenue, roas:r.spend?r.revenue/r.spend:null}))
+      .sort((a,b)=>b.spend-a.spend);
+    omniRows = om.map(r=>({name:r.key, spend:r.spend, conversions:r.conversions, costPerVisit:r.conversions?r.spend/r.conversions:null}))
+      .sort((a,b)=>b.spend-a.spend);
+  }
+
+  return `${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This google.json predates daily rows. Re-run <b>Pull Google Ads</b> for date filtering.</div></div>`}
+  <div class="grid">
     ${kpi("Web spend", lakh(t.webSpend), esc(p.name))}
     ${kpi("Web revenue", lakh(t.webRevenue), "Google attributed")}
     ${kpi("Web ROAS", xx(t.webRoas), "OMNI excluded", "var(--ok)")}
@@ -357,9 +376,9 @@ google(){
 
   <div class="card"><h3>Web campaigns<em>graded on ROAS</em></h3>
   ${(()=>{
-    const types = [...new Set((p.web||[]).map(c=>c.type).filter(Boolean))];
+    const types = [...new Set(webRows.map(c=>c.type).filter(Boolean))];
     const seg=(k,l)=>`<a data-gtype="${esc(k)}" class="seg${state.gType===k?" on":""}">${esc(l)}</a>`;
-    const rows = (p.web||[]).filter(c=>state.gType==="all" || c.type===state.gType);
+    const rows = webRows.filter(c=>state.gType==="all" || c.type===state.gType);
     return (types.length>1?`<div class="segs" style="margin-bottom:14px">
       <span class="seglbl">Type</span>${seg("all","All")}${types.map(t=>seg(t,t)).join("")}
     </div>`:"") +
@@ -441,9 +460,34 @@ history(){
 meta(){
   const m = state.meta;
   if(!m) return missing("meta");
-  const t = m.totals;
+  const dailyAll = m.rows||[];
+  const w = dailyAll.length ? windowFrom(dailyAll.map(d=>d.date)) : null;
+  let t = m.totals, camps = m.campaigns||[];
+
+  if(w){
+    const rows = rollup(dailyAll.filter(r=>!/store_visits|store traffic/i.test(`${r.objective||""} ${r.name||""}`)),
+      w, r=>r.name, ["spend","webRevenue","omniRevenue","impressions","clicks","webPurchases","addToCart","checkouts"]);
+    const S=k=>rows.reduce((a,r)=>a+r[k],0);
+    const spend=S("spend"), wr=S("webRevenue"), orv=S("omniRevenue"), imp=S("impressions"), clk=S("clicks");
+    t = {spend, webRevenue:wr, omniRevenue:orv, webRoas:spend?wr/spend:null, omniRoas:spend?orv/spend:null,
+      omniInflation:wr?(orv-wr)/wr:null, webPurchases:S("webPurchases"), addToCart:S("addToCart"),
+      checkouts:S("checkouts"), impressions:imp, clicks:clk,
+      cpm:imp?(spend/imp)*1000:null, ctr:imp?(100*clk)/imp:null, cpc:clk?spend/clk:null,
+      cpa:S("webPurchases")?spend/S("webPurchases"):null,
+      cartToCheckout:S("addToCart")?S("checkouts")/S("addToCart"):null,
+      checkoutToPurchase:S("checkouts")?S("webPurchases")/S("checkouts"):null,
+      storeVisitSpend:(m.totals||{}).storeVisitSpend};
+    camps = rows.map(r=>({name:r.key, spend:r.spend, webRevenue:r.webRevenue, omniRevenue:r.omniRevenue,
+      impressions:r.impressions, clicks:r.clicks,
+      webRoas:r.spend?r.webRevenue/r.spend:null, omniRoas:r.spend?r.omniRevenue/r.spend:null,
+      cpm:r.impressions?(r.spend/r.impressions)*1000:null,
+      ctr:r.impressions?(100*r.clicks)/r.impressions:null,
+      cpc:r.clicks?r.spend/r.clicks:null,
+      cpa:r.webPurchases?r.spend/r.webPurchases:null})).sort((a,b)=>b.spend-a.spend);
+  }
   const inflate = t.omniInflation;
-  return `<div class="grid">
+  return `${w?windowBar(w):""}
+  <div class="grid">
     ${kpi("Spend", lakh(t.spend), esc(m.range||""))}
     ${kpi("Website revenue", lakh(t.webRevenue), "7-day click, pixel", "var(--cyan)")}
     ${kpi("Website ROAS", xx(t.webRoas), "the report figure", "var(--ok)")}
@@ -469,7 +513,7 @@ meta(){
     ])}
   </div>
   <div class="card"><h3>Campaigns<em>website vs omni side by side</em></h3>
-    ${table(["Campaign","Spend","CPM","CTR","CPC","CPA","Web revenue","Web ROAS","Omni ROAS"], (m.campaigns||[]).map(c=>[
+    ${table(["Campaign","Spend","CPM","CTR","CPC","CPA","Web revenue","Web ROAS","Omni ROAS"], camps.map(c=>[
       esc(c.name), inr(c.spend), inr(c.cpm),
       c.ctr==null?"—":`<span style="color:${c.ctr<0.5?"var(--warn)":"var(--muted)"}">${c.ctr.toFixed(2)}%</span>`,
       inr(c.cpc), inr(c.cpa), inr(c.webRevenue),
@@ -483,9 +527,24 @@ meta(){
 funnels(){
   const a = state.ga4app, w = state.ga4web;
   if(!a && !w) return missing("ga4-web");
-  const row = (d,label) => d ? {label, t:d.totals, trend:d.trend, range:d.range} : null;
+  const allDates = [...(w?.daily||[]), ...(a?.daily||[])].map(x=>x.date);
+  const win = allDates.length ? windowFrom(allDates) : null;
+  const scope = (d) => {
+    if(!win || !d?.daily?.length) return d?.totals;
+    const days = d.daily.filter(x=>x.date>=win.from && x.date<=win.to);
+    const S=k=>days.reduce((acc,x)=>acc+(Number(x[k])||0),0);
+    const s0=S("sessions");
+    return {sessions:s0, users:S("users"), addToCarts:S("addToCarts"), checkouts:S("checkouts"),
+      purchases:S("purchases"), revenue:S("revenue"),
+      conversionRate:s0?S("purchases")/s0:null, cartRate:s0?S("addToCarts")/s0:null,
+      cartToCheckout:S("addToCarts")?S("checkouts")/S("addToCarts"):null,
+      checkoutToPurchase:S("checkouts")?S("purchases")/S("checkouts"):null,
+      aov:S("purchases")?S("revenue")/S("purchases"):null};
+  };
+  const row = (d,label) => d ? {label, t:scope(d), trend:d.trend, range:win?`${win.from} → ${win.to}`:d.range} : null;
   const both = [row(w,"Web"), row(a,"App")].filter(Boolean);
-  return `<div class="card" style="margin-top:0"><h3>Where each surface loses people<em>GA4</em></h3>
+  return `${win?windowBar(win,"applies to both surfaces"):""}
+  <div class="card"><h3>Where each surface loses people<em>GA4</em></h3>
     ${table(["Surface","Sessions","Add to cart","Cart → checkout","Checkout → purchase","Conversion","AOV"],
       both.map(b=>[
         esc(b.label), num(b.t.sessions),
@@ -538,6 +597,46 @@ quality(){
   <div class="note">Meta's website figure has not yet been checked against an Ads Manager export. Until it has, treat it as a candidate rather than the report number.</div></div>`;
 }};
 
+
+/* ---------- shared date window ---------- */
+/* One control, reused by any view whose source carries daily rows.
+   Views without daily data say so rather than showing a picker that
+   silently does nothing. */
+const WINDOWS = [["all","Full window"],["30","30 days"],["14","14 days"],["7","7 days"],["3","3 days"],["1","Yesterday"]];
+
+function windowFrom(dates){
+  const sorted = [...new Set(dates)].filter(Boolean).sort();
+  if(!sorted.length) return null;
+  const to = sorted[sorted.length-1];
+  if(state.win==="all") return {from:sorted[0], to, days:sorted.length};
+  const d = new Date(to+"T00:00:00Z");
+  d.setUTCDate(d.getUTCDate()-(Number(state.win)-1));
+  const from = d.toISOString().slice(0,10);
+  return {from, to, days:sorted.filter(x=>x>=from).length};
+}
+
+function windowBar(w, note){
+  const seg=([k,l])=>`<a data-win="${k}" class="seg${state.win===k?" on":""}">${esc(l)}</a>`;
+  return `<div class="card" style="margin-top:0">
+    <div class="segs"><span class="seglbl">Period</span>${WINDOWS.map(seg).join("")}</div>
+    <div style="font-size:11.5px;color:var(--dim);margin-top:10px">
+      ${w?`${esc(w.from)} → ${esc(w.to)} · ${w.days} day${w.days===1?"":"s"}`:"no daily data"}${note?` · ${esc(note)}`:""}
+    </div>
+  </div>`;
+}
+
+/* Sum any daily rows inside the window, grouped by a key. */
+function rollup(rows, w, keyFn, fields){
+  const out = new Map();
+  for(const r of rows||[]){
+    if(!r.date || r.date < w.from || r.date > w.to) continue;
+    const k = keyFn(r);
+    const o = out.get(k) || {key:k, ...Object.fromEntries(fields.map(f=>[f,0])), _row:r};
+    for(const f of fields) o[f] += Number(r[f])||0;
+    out.set(k,o);
+  }
+  return [...out.values()];
+}
 
 /* ---------- date range helpers ---------- */
 const iso = d => d.toISOString().slice(0,10);
@@ -637,7 +736,7 @@ document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>{
 }));
 /* range / comparison / channel controls */
 document.addEventListener("click", e=>{
-  const el = e.target.closest("[data-range],[data-cmp],[data-chan],[data-pbucket],[data-pcat],[data-pdays],[data-psort],[data-gtype]");
+  const el = e.target.closest("[data-range],[data-cmp],[data-chan],[data-pbucket],[data-pcat],[data-pdays],[data-psort],[data-gtype],[data-win]");
   if(!el) return;
   if(el.dataset.range) state.range = el.dataset.range;
   if(el.dataset.cmp) state.cmp = el.dataset.cmp;
@@ -647,6 +746,7 @@ document.addEventListener("click", e=>{
   if(el.dataset.pdays) state.pDays = el.dataset.pdays;
   if(el.dataset.psort) state.pSort = el.dataset.psort;
   if(el.dataset.gtype) state.gType = el.dataset.gtype;
+  if(el.dataset.win) state.win = el.dataset.win;
   render();
 });
 
