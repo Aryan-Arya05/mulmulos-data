@@ -26,7 +26,19 @@ const DS_CANDIDATES = (process.env.DS_ID || "AW,GAWA").split(",");
 let dsId = null;
 
 const DAYS = Number(process.env.DAYS || 7);
-const { startDate, endDate } = lastNDays(DAYS);
+/* Ad platforms revise attribution for hours, so today's ROAS is a
+   provisional number. Included only when explicitly asked for. */
+const INCLUDE_TODAY = process.env.INCLUDE_TODAY === "1";
+const SKIP_CREATIVES = process.env.SKIP_CREATIVES === "1";
+/* An explicit range wins over DAYS. */
+const { startDate, endDate } = (() => {
+  if (process.env.START_DATE && process.env.END_DATE) {
+    return { startDate: process.env.START_DATE, endDate: process.env.END_DATE };
+  }
+  const w = lastNDays(DAYS);
+  if (!INCLUDE_TODAY) return w;
+  return { startDate: w.startDate, endDate: new Date().toISOString().slice(0, 10) };
+})();
 /* `date` makes every row a campaign-day, so the dashboard can filter
    any range client-side instead of being stuck with one window. */
 const FIELDS = "date,campaign_name,cost,impressions,clicks,conversions,conversion_value";
@@ -139,7 +151,7 @@ async function main() {
      no campaigns in the tested window. */
   const primaryAcct = ACCOUNTS[0];
   let creatives = { ok: false, rows: [], error: "not attempted" };
-  if (results.find((r) => r.account.id === primaryAcct.id)?.ok) {
+  if (!SKIP_CREATIVES && results.find((r) => r.account.id === primaryAcct.id)?.ok) {
     process.stdout.write(`  creatives (${primaryAcct.name})… `);
     creatives = await pullCreatives(primaryAcct.id);
     console.log(creatives.ok
@@ -174,6 +186,8 @@ async function main() {
         dsId,
         maxRows: MAX_ROWS,
         attribution: "Google default attribution. An efficiency ratio, not incrementality.",
+        includesToday: INCLUDE_TODAY,
+        todayIsProvisional: INCLUDE_TODAY ? "Today's row will revise upward as conversions are attributed." : null,
         rule: "OMNI campaigns optimise store visits; conversion value is a visit count, not rupees. Never graded on ROAS.",
       },
     }),
