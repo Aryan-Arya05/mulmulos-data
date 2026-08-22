@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-21 → 2026-08-22 IST",
-  "fetchedAt": "2026-08-22T10:13:12.474Z",
-  "rowCount": 204,
+  "fetchedAt": "2026-08-22T10:46:57.007Z",
+  "rowCount": 206,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 4057145.7,
-    "orders": 197,
+    "revenue": 4105945.7,
+    "orders": 199,
     "digitalRevenue": 1467698.7,
-    "digitalShare": 0.36175646834669994,
+    "digitalShare": 0.3574569191209713,
     "newCustomers": 90,
-    "returningCustomers": 107,
-    "newCustomerShare": 0.45685279187817257,
+    "returningCustomers": 109,
+    "newCustomerShare": 0.45226130653266333,
     "rebookOrders": 4,
     "rebookValue": 53250,
-    "revenueExcludingRebooks": 4003895.7,
+    "revenueExcludingRebooks": 4052695.7,
     "giftGrossValue": 207850,
     "giftCashReceived": 64850,
     "giftValueWaived": 143000
@@ -34,71 +34,71 @@
   "buckets": [
     {
       "bucket": "stylist",
-      "revenue": 1290202,
-      "orders": 65,
-      "share": 0.3180073123822001,
-      "aov": 19849.26153846154
+      "revenue": 1339002,
+      "orders": 67,
+      "share": 0.3261129342260907,
+      "aov": 19985.10447761194
     },
     {
       "bucket": "online",
       "revenue": 1055928.5,
       "orders": 49,
-      "share": 0.2602638845334048,
+      "share": 0.2571705953149843,
       "aov": 21549.561224489797
     },
     {
       "bucket": "retail_assist",
       "revenue": 871495,
       "orders": 46,
-      "share": 0.21480495511906314,
+      "share": 0.2122519545253606,
       "aov": 18945.543478260868
     },
     {
       "bucket": "app",
       "revenue": 411770.2,
       "orders": 21,
-      "share": 0.10149258381329514,
+      "share": 0.10028632380598701,
       "aov": 19608.104761904764
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 309650,
       "orders": 4,
-      "share": 0.07632212961935284,
+      "share": 0.0754150255810738,
       "aov": 77412.5
     },
     {
       "bucket": "gift",
       "revenue": 64850,
       "orders": 8,
-      "share": 0.015984143729420416,
+      "share": 0.01579416892921891,
       "aov": 8106.25
     },
     {
       "bucket": "online_to_draft",
       "revenue": 38300,
       "orders": 3,
-      "share": 0.00944013423032848,
+      "share": 0.009327936314403767,
       "aov": 12766.666666666666
     },
     {
       "bucket": "other_to_draft",
       "revenue": 14950,
       "orders": 1,
-      "share": 0.003684856572935007,
+      "share": 0.0036410613028808442,
       "aov": 14950
     }
   ],
   "stylists": [
     {
+      "stylist": "NIDHI",
+      "revenue": 252882,
+      "orders": 12
+    },
+    {
       "stylist": "Rashika",
       "revenue": 230835,
       "orders": 9
-    },
-    {
-      "stylist": "NIDHI",
-      "revenue": 204082,
-      "orders": 10
     },
     {
       "stylist": "Sagrika",
@@ -341,7 +341,7 @@
   "nonDigital": [
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
-      "units": 37,
+      "units": 39,
       "digitalShare": 0
     },
     {
@@ -401,10 +401,10 @@
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
       "category": "Potli Bag",
-      "units": 37,
+      "units": 39,
       "revenue": 0,
       "byBucket": {
-        "stylist": 37
+        "stylist": 39
       },
       "digitalUnits": 0,
       "digitalShare": 0
@@ -2317,6 +2317,28 @@
       },
       "digitalUnits": 1,
       "digitalShare": 1
+    },
+    {
+      "title": "Saaj Cupro Satin Navy Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 22900,
+      "byBucket": {
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
+      "title": "Tissue Shamili Fuschia Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 25900,
+      "byBucket": {
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
     }
   ],
   "categories": [
@@ -2355,7 +2377,7 @@
       "title": "Mulmul Potli Bag (Colour may vary)",
       "category": "Potli Bag",
       "bucket": "stylist",
-      "units": 17,
+      "units": 19,
       "revenue": 0
     },
     {
@@ -4301,6 +4323,22 @@
       "bucket": "app",
       "units": 1,
       "revenue": 21900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Saaj Cupro Satin Navy Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 22900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Tissue Shamili Fuschia Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 25900
     }
   ],
   "bucketDaily": [
@@ -4388,10 +4426,10 @@
     {
       "date": "2026-08-22",
       "bucket": "stylist",
-      "revenue": 583039,
-      "orders": 32,
+      "revenue": 631839,
+      "orders": 34,
       "newCustomers": 6,
-      "returningCustomers": 26,
+      "returningCustomers": 28,
       "waived": 0
     },
     {
@@ -4450,8 +4488,8 @@
     {
       "date": "2026-08-22",
       "stylist": "NIDHI",
-      "revenue": 121982,
-      "orders": 6
+      "revenue": 170782,
+      "orders": 8
     },
     {
       "date": "2026-08-21",
