@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-21 → 2026-08-22 IST",
-  "fetchedAt": "2026-08-22T04:02:23.850Z",
-  "rowCount": 126,
+  "fetchedAt": "2026-08-22T04:57:51.124Z",
+  "rowCount": 128,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,75 +17,75 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 2345268.7,
-    "orders": 124,
-    "digitalRevenue": 1023200.7,
-    "digitalShare": 0.43628292996874934,
-    "newCustomers": 59,
+    "revenue": 2374518.7,
+    "orders": 126,
+    "digitalRevenue": 1052450.7,
+    "digitalShare": 0.44322695795152084,
+    "newCustomers": 61,
     "returningCustomers": 65,
-    "newCustomerShare": 0.47580645161290325,
+    "newCustomerShare": 0.48412698412698413,
     "rebookOrders": 3,
     "rebookValue": 48800,
-    "revenueExcludingRebooks": 2296468.7,
+    "revenueExcludingRebooks": 2325718.7,
     "giftGrossValue": 14850,
     "giftCashReceived": 6950,
     "giftValueWaived": 7900
   },
   "buckets": [
     {
+      "bucket": "online",
+      "revenue": 731478.5,
+      "orders": 41,
+      "share": 0.3080533751955712,
+      "aov": 17840.939024390245
+    },
+    {
       "bucket": "stylist",
       "revenue": 720063,
       "orders": 34,
-      "share": 0.3070279324497018,
+      "share": 0.3032458746271402,
       "aov": 21178.323529411766
-    },
-    {
-      "bucket": "online",
-      "revenue": 702228.5,
-      "orders": 39,
-      "share": 0.299423473310329,
-      "aov": 18005.858974358973
     },
     {
       "bucket": "retail_assist",
       "revenue": 501845,
       "orders": 28,
-      "share": 0.2139818776415683,
+      "share": 0.21134598771532098,
       "aov": 17923.035714285714
     },
     {
       "bucket": "app",
       "revenue": 320972.2,
       "orders": 16,
-      "share": 0.13685945665842042,
+      "share": 0.13517358275594965,
       "aov": 20060.7625
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 44410,
       "orders": 2,
-      "share": 0.018935996544873514,
+      "share": 0.01870273752739871,
       "aov": 22205
     },
     {
       "bucket": "online_to_draft",
       "revenue": 33850,
       "orders": 2,
-      "share": 0.014433314186984202,
+      "share": 0.014255520497690752,
       "aov": 16925
     },
     {
       "bucket": "other_to_draft",
       "revenue": 14950,
       "orders": 1,
-      "share": 0.006374536103261856,
+      "share": 0.006296012745656624,
       "aov": 14950
     },
     {
       "bucket": "gift",
       "revenue": 6950,
       "orders": 2,
-      "share": 0.002963413104860863,
+      "share": 0.0029269089352718086,
       "aov": 3475
     }
   ],
@@ -454,6 +454,18 @@
       "digitalShare": 0.6666666666666666
     },
     {
+      "title": "Evara Lawn Printed Black Co-ord Set",
+      "category": "Co-ord Set",
+      "units": 3,
+      "revenue": 38700,
+      "byBucket": {
+        "online": 2,
+        "stylist": 1
+      },
+      "digitalUnits": 2,
+      "digitalShare": 0.6666666666666666
+    },
+    {
       "title": "Laina Cupro Satin Orange Long Kurta Set",
       "category": "Kurta Sets",
       "units": 3,
@@ -522,18 +534,6 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
-    },
-    {
-      "title": "Evara Lawn Printed Black Co-ord Set",
-      "category": "Co-ord Set",
-      "units": 2,
-      "revenue": 25800,
-      "byBucket": {
-        "online": 1,
-        "stylist": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 0.5
     },
     {
       "title": "Savaan Lawn Yellow Kurta Set",
@@ -1444,6 +1444,39 @@
       },
       "digitalUnits": 1,
       "digitalShare": 1
+    },
+    {
+      "title": "Mulmul Cupro Vida Grey Kurta",
+      "category": "Kurta",
+      "units": 1,
+      "revenue": 5450,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Mulmul Supima Cotton Avira Orange Pant",
+      "category": "Pajama",
+      "units": 1,
+      "revenue": 3950,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Mulmul Supima Cotton Avira Orange Kurta",
+      "category": "Kurta",
+      "units": 1,
+      "revenue": 6950,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
     }
   ],
   "categories": [
@@ -1456,6 +1489,7 @@
     "Kurta",
     "Kurta Sets",
     "Lehenga",
+    "Pajama",
     "Pant",
     "Perfume",
     "Potli Bag",
@@ -2487,6 +2521,38 @@
       "bucket": "online",
       "units": 1,
       "revenue": 15950
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Mulmul Cupro Vida Grey Kurta",
+      "category": "Kurta",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 5450
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Mulmul Supima Cotton Avira Orange Pant",
+      "category": "Pajama",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 3950
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Mulmul Supima Cotton Avira Orange Kurta",
+      "category": "Kurta",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 6950
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Evara Lawn Printed Black Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 12900
     }
   ],
   "bucketDaily": [
@@ -2565,9 +2631,9 @@
     {
       "date": "2026-08-22",
       "bucket": "online",
-      "revenue": 44850,
-      "orders": 3,
-      "newCustomers": 0,
+      "revenue": 74100,
+      "orders": 5,
+      "newCustomers": 2,
       "returningCustomers": 3,
       "waived": 0
     }
