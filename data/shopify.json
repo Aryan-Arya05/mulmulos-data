@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-21 → 2026-08-22 IST",
-  "fetchedAt": "2026-08-22T14:12:32.645Z",
-  "rowCount": 245,
+  "fetchedAt": "2026-08-22T14:45:25.684Z",
+  "rowCount": 246,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 4937678.7,
+    "revenue": 4937628.7,
     "orders": 236,
-    "digitalRevenue": 1788698.7,
-    "digitalShare": 0.3622549802602587,
+    "digitalRevenue": 1788648.7,
+    "digitalShare": 0.36224852225117693,
     "newCustomers": 110,
     "returningCustomers": 126,
     "newCustomerShare": 0.4661016949152542,
     "rebookOrders": 5,
     "rebookValue": 72150,
-    "revenueExcludingRebooks": 4865528.7,
+    "revenueExcludingRebooks": 4865478.7,
     "giftGrossValue": 207850,
     "giftCashReceived": 64850,
     "giftValueWaived": 143000
@@ -36,63 +36,63 @@
       "bucket": "stylist",
       "revenue": 1492105,
       "orders": 75,
-      "share": 0.3021875441186564,
+      "share": 0.3021906041659228,
       "aov": 19894.733333333334
     },
     {
       "bucket": "online",
-      "revenue": 1275878.5,
+      "revenue": 1275828.5,
       "orders": 58,
-      "share": 0.2583964201639932,
-      "aov": 21997.905172413793
+      "share": 0.2583889104500709,
+      "aov": 21997.043103448275
     },
     {
       "bucket": "retail_assist",
       "revenue": 1201195,
       "orders": 58,
-      "share": 0.24327119543035475,
+      "share": 0.24327365887191962,
       "aov": 20710.258620689656
     },
     {
       "bucket": "app",
       "revenue": 512820.2,
       "orders": 27,
-      "share": 0.10385856009626547,
+      "share": 0.10385961180110606,
       "aov": 18993.34074074074
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 318680,
       "orders": 5,
-      "share": 0.06454044893605572,
+      "share": 0.06454110249318666,
       "aov": 63736
     },
     {
       "bucket": "gift",
       "revenue": 64850,
       "orders": 8,
-      "share": 0.013133701874931635,
+      "share": 0.013133834870977641,
       "aov": 8106.25
     },
     {
       "bucket": "online_to_draft",
       "revenue": 38300,
       "orders": 3,
-      "share": 0.007756681292365175,
+      "share": 0.007756759838989108,
       "aov": 12766.666666666666
     },
     {
       "bucket": "app_to_draft",
       "revenue": 18900,
       "orders": 1,
-      "share": 0.0038277095672507,
+      "share": 0.003827748327856244,
       "aov": 18900
     },
     {
       "bucket": "other_to_draft",
       "revenue": 14950,
       "orders": 1,
-      "share": 0.0030277385201268763,
+      "share": 0.0030277691799709444,
       "aov": 14950
     }
   ],
@@ -909,18 +909,6 @@
       "digitalShare": 0
     },
     {
-      "title": "Savaan Lawn Yellow Kurta Set",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 29850,
-      "byBucket": {
-        "retail_assist": 1,
-        "online": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 0.5
-    },
-    {
       "title": "Scarlet Blue Denim Block Heel",
       "category": "Heels",
       "units": 2,
@@ -1248,6 +1236,17 @@
       "category": "Kurta",
       "units": 1,
       "revenue": 11700,
+      "byBucket": {
+        "retail_assist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
+      "title": "Savaan Lawn Yellow Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 16900,
       "byBucket": {
         "retail_assist": 1
       },
@@ -2683,6 +2682,17 @@
       },
       "digitalUnits": 1,
       "digitalShare": 1
+    },
+    {
+      "title": "Mava Denim Kurta Set",
+      "category": "Kurta Set",
+      "units": 1,
+      "revenue": 12900,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
     }
   ],
   "categories": [
@@ -2695,6 +2705,7 @@
     "Kaftan Sets",
     "Kids",
     "Kurta",
+    "Kurta Set",
     "Kurta Sets",
     "Lehenga",
     "Pajama",
@@ -3675,14 +3686,6 @@
       "bucket": "app",
       "units": 1,
       "revenue": 13400
-    },
-    {
-      "date": "2026-08-21",
-      "title": "Savaan Lawn Yellow Kurta Set",
-      "category": "Kurta Sets",
-      "bucket": "online",
-      "units": 1,
-      "revenue": 12950
     },
     {
       "date": "2026-08-21",
@@ -5043,15 +5046,23 @@
       "bucket": "online",
       "units": 1,
       "revenue": 18950
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Mava Denim Kurta Set",
+      "category": "Kurta Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 12900
     }
   ],
   "bucketDaily": [
     {
       "date": "2026-08-21",
       "bucket": "online",
-      "revenue": 591728.5,
-      "orders": 32,
-      "newCustomers": 12,
+      "revenue": 578778.5,
+      "orders": 31,
+      "newCustomers": 11,
       "returningCustomers": 20,
       "waived": 0
     },
@@ -5121,9 +5132,9 @@
     {
       "date": "2026-08-22",
       "bucket": "online",
-      "revenue": 684150,
-      "orders": 26,
-      "newCustomers": 8,
+      "revenue": 697050,
+      "orders": 27,
+      "newCustomers": 9,
       "returningCustomers": 18,
       "waived": 0
     },
