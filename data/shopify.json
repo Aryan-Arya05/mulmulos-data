@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-21 → 2026-08-22 IST",
-  "fetchedAt": "2026-08-22T13:49:57.803Z",
-  "rowCount": 240,
+  "fetchedAt": "2026-08-22T14:12:32.645Z",
+  "rowCount": 245,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 4821728.7,
-    "orders": 231,
-    "digitalRevenue": 1672748.7,
-    "digitalShare": 0.34691887579655817,
-    "newCustomers": 108,
-    "returningCustomers": 123,
-    "newCustomerShare": 0.4675324675324675,
+    "revenue": 4937678.7,
+    "orders": 236,
+    "digitalRevenue": 1788698.7,
+    "digitalShare": 0.3622549802602587,
+    "newCustomers": 110,
+    "returningCustomers": 126,
+    "newCustomerShare": 0.4661016949152542,
     "rebookOrders": 5,
     "rebookValue": 72150,
-    "revenueExcludingRebooks": 4749578.7,
+    "revenueExcludingRebooks": 4865528.7,
     "giftGrossValue": 207850,
     "giftCashReceived": 64850,
     "giftValueWaived": 143000
@@ -36,63 +36,63 @@
       "bucket": "stylist",
       "revenue": 1492105,
       "orders": 75,
-      "share": 0.30945436643915697,
+      "share": 0.3021875441186564,
       "aov": 19894.733333333334
+    },
+    {
+      "bucket": "online",
+      "revenue": 1275878.5,
+      "orders": 58,
+      "share": 0.2583964201639932,
+      "aov": 21997.905172413793
     },
     {
       "bucket": "retail_assist",
       "revenue": 1201195,
       "orders": 58,
-      "share": 0.24912123322077412,
+      "share": 0.24327119543035475,
       "aov": 20710.258620689656
     },
     {
-      "bucket": "online",
-      "revenue": 1192778.5,
-      "orders": 55,
-      "share": 0.2473756974339929,
-      "aov": 21686.881818181817
-    },
-    {
       "bucket": "app",
-      "revenue": 479970.2,
-      "orders": 25,
-      "share": 0.09954317836256528,
-      "aov": 19198.808
+      "revenue": 512820.2,
+      "orders": 27,
+      "share": 0.10385856009626547,
+      "aov": 18993.34074074074
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 318680,
       "orders": 5,
-      "share": 0.0660924784092477,
+      "share": 0.06454044893605572,
       "aov": 63736
     },
     {
       "bucket": "gift",
       "revenue": 64850,
       "orders": 8,
-      "share": 0.013449533151875592,
+      "share": 0.013133701874931635,
       "aov": 8106.25
     },
     {
       "bucket": "online_to_draft",
       "revenue": 38300,
       "orders": 3,
-      "share": 0.007943209247753819,
+      "share": 0.007756681292365175,
       "aov": 12766.666666666666
     },
     {
       "bucket": "app_to_draft",
       "revenue": 18900,
       "orders": 1,
-      "share": 0.003919755999544312,
+      "share": 0.0038277095672507,
       "aov": 18900
     },
     {
       "bucket": "other_to_draft",
       "revenue": 14950,
       "orders": 1,
-      "share": 0.0031005477350892845,
+      "share": 0.0030277385201268763,
       "aov": 14950
     }
   ],
@@ -617,6 +617,19 @@
       "digitalShare": 0.2
     },
     {
+      "title": "Alouette Organza Fuchsia Co-Ord Set",
+      "category": "Co-ord Set",
+      "units": 5,
+      "revenue": 67000,
+      "byBucket": {
+        "online": 3,
+        "app": 1,
+        "stylist": 1
+      },
+      "digitalUnits": 4,
+      "digitalShare": 0.8
+    },
+    {
       "title": "Arlette Cupro Satin Red Long Kaftan Set",
       "category": "Co-ord Set",
       "units": 4,
@@ -629,17 +642,18 @@
       "digitalShare": 0.25
     },
     {
-      "title": "Alouette Organza Fuchsia Co-Ord Set",
-      "category": "Co-ord Set",
+      "title": "Ayra Lawn Printed Pink Kurta with Garara",
+      "category": "Kurta Sets",
       "units": 4,
-      "revenue": 53600,
+      "revenue": 71150,
       "byBucket": {
-        "online": 2,
-        "app": 1,
-        "stylist": 1
+        "online": 1,
+        "stylist": 1,
+        "draft_unclassified": 1,
+        "app": 1
       },
-      "digitalUnits": 3,
-      "digitalShare": 0.75
+      "digitalUnits": 2,
+      "digitalShare": 0.5
     },
     {
       "title": "Lavya Cupro Satin Printed Lime Kurta Set",
@@ -772,19 +786,6 @@
       },
       "digitalUnits": 2,
       "digitalShare": 0.6666666666666666
-    },
-    {
-      "title": "Ayra Lawn Printed Pink Kurta with Garara",
-      "category": "Kurta Sets",
-      "units": 3,
-      "revenue": 52250,
-      "byBucket": {
-        "online": 1,
-        "stylist": 1,
-        "draft_unclassified": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 0.3333333333333333
     },
     {
       "title": "Laina Cupro Satin Orange Long Kurta Set",
@@ -1129,6 +1130,18 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Ayra Lawn Printed Fuchsia Kurta with Garara",
+      "category": "Kurta Sets",
+      "units": 2,
+      "revenue": 37800,
+      "byBucket": {
+        "draft_unclassified": 1,
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.5
     },
     {
       "title": "Arohi Lawn Printed Yellow Long Kurta Set",
@@ -2243,17 +2256,6 @@
       "digitalShare": 0
     },
     {
-      "title": "Ayra Lawn Printed Fuchsia Kurta with Garara",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 18900,
-      "byBucket": {
-        "draft_unclassified": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
       "title": "Arohi Lawn Printed White Long Kurta Set",
       "category": "Kurta Sets",
       "units": 1,
@@ -2637,6 +2639,50 @@
       },
       "digitalUnits": 1,
       "digitalShare": 1
+    },
+    {
+      "title": "Suvi Lawn Printed Off-White & Blue Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 13950,
+      "byBucket": {
+        "app": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Saeli Lawn Printed Black Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 13950,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Zela Lawn Printed Fuchsia Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 17900,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Elia Lawn Printed Red Kurta with Farshi Salwar",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 18950,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
     }
   ],
   "categories": [
@@ -2901,6 +2947,14 @@
       "bucket": "online",
       "units": 2,
       "revenue": 35800
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Alouette Organza Fuchsia Co-Ord Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 2,
+      "revenue": 26800
     },
     {
       "date": "2026-08-21",
@@ -4680,14 +4734,6 @@
     },
     {
       "date": "2026-08-22",
-      "title": "Alouette Organza Fuchsia Co-Ord Set",
-      "category": "Co-ord Set",
-      "bucket": "online",
-      "units": 1,
-      "revenue": 13400
-    },
-    {
-      "date": "2026-08-22",
       "title": "Siara Lawn Printed Pink Kurta Set",
       "category": "Kurta Sets",
       "bucket": "stylist",
@@ -4949,6 +4995,54 @@
       "bucket": "online",
       "units": 1,
       "revenue": 11900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Ayra Lawn Printed Pink Kurta with Garara",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 18900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Suvi Lawn Printed Off-White & Blue Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 13950
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Saeli Lawn Printed Black Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 13950
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Zela Lawn Printed Fuchsia Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 17900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Ayra Lawn Printed Fuchsia Kurta with Garara",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 18900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Elia Lawn Printed Red Kurta with Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 18950
     }
   ],
   "bucketDaily": [
@@ -5027,10 +5121,10 @@
     {
       "date": "2026-08-22",
       "bucket": "online",
-      "revenue": 601050,
-      "orders": 23,
-      "newCustomers": 7,
-      "returningCustomers": 16,
+      "revenue": 684150,
+      "orders": 26,
+      "newCustomers": 8,
+      "returningCustomers": 18,
       "waived": 0
     },
     {
@@ -5054,10 +5148,10 @@
     {
       "date": "2026-08-22",
       "bucket": "app",
-      "revenue": 173448,
-      "orders": 10,
-      "newCustomers": 7,
-      "returningCustomers": 3,
+      "revenue": 206298,
+      "orders": 12,
+      "newCustomers": 8,
+      "returningCustomers": 4,
       "waived": 0
     },
     {
