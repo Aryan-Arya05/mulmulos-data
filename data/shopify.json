@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-21 → 2026-08-22 IST",
-  "fetchedAt": "2026-08-22T13:07:46.015Z",
-  "rowCount": 237,
+  "fetchedAt": "2026-08-22T13:49:57.803Z",
+  "rowCount": 240,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 4744098.7,
-    "orders": 228,
-    "digitalRevenue": 1604148.7,
-    "digitalShare": 0.3381356083506441,
-    "newCustomers": 107,
-    "returningCustomers": 121,
-    "newCustomerShare": 0.4692982456140351,
+    "revenue": 4821728.7,
+    "orders": 231,
+    "digitalRevenue": 1672748.7,
+    "digitalShare": 0.34691887579655817,
+    "newCustomers": 108,
+    "returningCustomers": 123,
+    "newCustomerShare": 0.4675324675324675,
     "rebookOrders": 5,
     "rebookValue": 72150,
-    "revenueExcludingRebooks": 4671948.7,
+    "revenueExcludingRebooks": 4749578.7,
     "giftGrossValue": 207850,
     "giftCashReceived": 64850,
     "giftValueWaived": 143000
@@ -36,63 +36,63 @@
       "bucket": "stylist",
       "revenue": 1492105,
       "orders": 75,
-      "share": 0.3145181191108018,
+      "share": 0.30945436643915697,
       "aov": 19894.733333333334
     },
     {
       "bucket": "retail_assist",
       "revenue": 1201195,
       "orders": 58,
-      "share": 0.25319772541831814,
+      "share": 0.24912123322077412,
       "aov": 20710.258620689656
     },
     {
       "bucket": "online",
-      "revenue": 1141128.5,
-      "orders": 54,
-      "share": 0.24053641632708864,
-      "aov": 21132.00925925926
+      "revenue": 1192778.5,
+      "orders": 55,
+      "share": 0.2473756974339929,
+      "aov": 21686.881818181817
     },
     {
       "bucket": "app",
-      "revenue": 463020.2,
-      "orders": 24,
-      "share": 0.09759919202355549,
-      "aov": 19292.508333333335
+      "revenue": 479970.2,
+      "orders": 25,
+      "share": 0.09954317836256528,
+      "aov": 19198.808
     },
     {
       "bucket": "draft_unclassified",
-      "revenue": 309650,
-      "orders": 4,
-      "share": 0.0652705644593777,
-      "aov": 77412.5
+      "revenue": 318680,
+      "orders": 5,
+      "share": 0.0660924784092477,
+      "aov": 63736
     },
     {
       "bucket": "gift",
       "revenue": 64850,
       "orders": 8,
-      "share": 0.013669614420121571,
+      "share": 0.013449533151875592,
       "aov": 8106.25
     },
     {
       "bucket": "online_to_draft",
       "revenue": 38300,
       "orders": 3,
-      "share": 0.008073187853364012,
+      "share": 0.007943209247753819,
       "aov": 12766.666666666666
     },
     {
       "bucket": "app_to_draft",
       "revenue": 18900,
       "orders": 1,
-      "share": 0.003983896878030805,
+      "share": 0.003919755999544312,
       "aov": 18900
     },
     {
       "bucket": "other_to_draft",
       "revenue": 14950,
       "orders": 1,
-      "share": 0.003151283509341827,
+      "share": 0.0031005477350892845,
       "aov": 14950
     }
   ],
@@ -383,7 +383,7 @@
   "nonDigital": [
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
-      "units": 47,
+      "units": 48,
       "digitalShare": 0
     },
     {
@@ -398,8 +398,8 @@
     },
     {
       "title": "Mivya Cupro Satin Off-white Kurta with Balloon Pants",
-      "units": 7,
-      "digitalShare": 0
+      "units": 8,
+      "digitalShare": 0.13
     },
     {
       "title": "Sakhi Denim Kurta With Farshi Salwar",
@@ -447,16 +447,22 @@
       "name": "#ML237365",
       "amount": 249340,
       "note": null
+    },
+    {
+      "name": "#ML237407",
+      "amount": 9030,
+      "note": null
     }
   ],
   "products": [
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
       "category": "Potli Bag",
-      "units": 47,
+      "units": 48,
       "revenue": 0,
       "byBucket": {
-        "stylist": 47
+        "stylist": 47,
+        "draft_unclassified": 1
       },
       "digitalUnits": 0,
       "digitalShare": 0
@@ -493,15 +499,16 @@
     {
       "title": "Mivya Cupro Satin Off-white Kurta with Balloon Pants",
       "category": "Kurta Sets",
-      "units": 7,
-      "revenue": 121350,
+      "units": 8,
+      "revenue": 135300,
       "byBucket": {
         "stylist": 5,
         "gift": 1,
-        "draft_unclassified": 1
+        "draft_unclassified": 1,
+        "online": 1
       },
-      "digitalUnits": 0,
-      "digitalShare": 0
+      "digitalUnits": 1,
+      "digitalShare": 0.125
     },
     {
       "title": "Suvi Lawn Printed Red Kurta Set",
@@ -755,6 +762,18 @@
       "digitalShare": 0.6666666666666666
     },
     {
+      "title": "Pankhuri Banarasi Fuchsia Saree",
+      "category": "Saree",
+      "units": 3,
+      "revenue": 50850,
+      "byBucket": {
+        "stylist": 1,
+        "app": 2
+      },
+      "digitalUnits": 2,
+      "digitalShare": 0.6666666666666666
+    },
+    {
       "title": "Ayra Lawn Printed Pink Kurta with Garara",
       "category": "Kurta Sets",
       "units": 3,
@@ -778,6 +797,19 @@
       },
       "digitalUnits": 2,
       "digitalShare": 0.6666666666666666
+    },
+    {
+      "title": "Vela Cupro Satin Printed Black Co-ord Set",
+      "category": "Co-ord Set",
+      "units": 3,
+      "revenue": 38700,
+      "byBucket": {
+        "stylist": 1,
+        "draft_unclassified": 1,
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.3333333333333333
     },
     {
       "title": "Suvi Lawn Printed Pink Kurta Set",
@@ -932,18 +964,6 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
-    },
-    {
-      "title": "Pankhuri Banarasi Fuchsia Saree",
-      "category": "Saree",
-      "units": 2,
-      "revenue": 33900,
-      "byBucket": {
-        "stylist": 1,
-        "app": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 0.5
     },
     {
       "title": "Zani Cupro Satin Purple Kurta with Draped Pants",
@@ -1424,17 +1444,6 @@
       "category": "Kurta Sets",
       "units": 1,
       "revenue": 23900,
-      "byBucket": {
-        "stylist": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
-      "title": "Vela Cupro Satin Printed Black Co-ord Set",
-      "category": "Co-ord Set",
-      "units": 1,
-      "revenue": 12900,
       "byBucket": {
         "stylist": 1
       },
@@ -2606,6 +2615,28 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Desi Lawn Navy Jacket Set",
+      "category": "Co-ord Set",
+      "units": 1,
+      "revenue": 12900,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Akira Lawn Off White Co-ord Set",
+      "category": "Co-ord Set",
+      "units": 1,
+      "revenue": 11900,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
     }
   ],
   "categories": [
@@ -4862,6 +4893,62 @@
       "bucket": "retail_assist",
       "units": 1,
       "revenue": 20900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Vela Cupro Satin Printed Black Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "draft_unclassified",
+      "units": 1,
+      "revenue": 12900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Mulmul Potli Bag (Colour may vary)",
+      "category": "Potli Bag",
+      "bucket": "draft_unclassified",
+      "units": 1,
+      "revenue": 0
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Pankhuri Banarasi Fuchsia Saree",
+      "category": "Saree",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 16950
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Mivya Cupro Satin Off-white Kurta with Balloon Pants",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 13950
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Vela Cupro Satin Printed Black Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 12900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Desi Lawn Navy Jacket Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 12900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Akira Lawn Off White Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 11900
     }
   ],
   "bucketDaily": [
@@ -4940,10 +5027,10 @@
     {
       "date": "2026-08-22",
       "bucket": "online",
-      "revenue": 549400,
-      "orders": 22,
+      "revenue": 601050,
+      "orders": 23,
       "newCustomers": 7,
-      "returningCustomers": 15,
+      "returningCustomers": 16,
       "waived": 0
     },
     {
@@ -4967,9 +5054,9 @@
     {
       "date": "2026-08-22",
       "bucket": "app",
-      "revenue": 156498,
-      "orders": 9,
-      "newCustomers": 6,
+      "revenue": 173448,
+      "orders": 10,
+      "newCustomers": 7,
       "returningCustomers": 3,
       "waived": 0
     },
@@ -4985,10 +5072,10 @@
     {
       "date": "2026-08-22",
       "bucket": "draft_unclassified",
-      "revenue": 265240,
-      "orders": 2,
+      "revenue": 274270,
+      "orders": 3,
       "newCustomers": 0,
-      "returningCustomers": 2,
+      "returningCustomers": 3,
       "waived": 0
     },
     {
