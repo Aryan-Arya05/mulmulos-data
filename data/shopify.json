@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-21 → 2026-08-22 IST",
-  "fetchedAt": "2026-08-22T04:57:51.124Z",
-  "rowCount": 128,
+  "fetchedAt": "2026-08-22T05:22:27.868Z",
+  "rowCount": 130,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,75 +17,75 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 2374518.7,
-    "orders": 126,
+    "revenue": 2431230.7,
+    "orders": 128,
     "digitalRevenue": 1052450.7,
-    "digitalShare": 0.44322695795152084,
+    "digitalShare": 0.43288804308040363,
     "newCustomers": 61,
-    "returningCustomers": 65,
-    "newCustomerShare": 0.48412698412698413,
+    "returningCustomers": 67,
+    "newCustomerShare": 0.4765625,
     "rebookOrders": 3,
     "rebookValue": 48800,
-    "revenueExcludingRebooks": 2325718.7,
+    "revenueExcludingRebooks": 2382430.7,
     "giftGrossValue": 14850,
     "giftCashReceived": 6950,
     "giftValueWaived": 7900
   },
   "buckets": [
     {
+      "bucket": "stylist",
+      "revenue": 776775,
+      "orders": 36,
+      "share": 0.31949868023630995,
+      "aov": 21577.083333333332
+    },
+    {
       "bucket": "online",
       "revenue": 731478.5,
       "orders": 41,
-      "share": 0.3080533751955712,
+      "share": 0.3008675811801817,
       "aov": 17840.939024390245
-    },
-    {
-      "bucket": "stylist",
-      "revenue": 720063,
-      "orders": 34,
-      "share": 0.3032458746271402,
-      "aov": 21178.323529411766
     },
     {
       "bucket": "retail_assist",
       "revenue": 501845,
       "orders": 28,
-      "share": 0.21134598771532098,
+      "share": 0.20641603447998577,
       "aov": 17923.035714285714
     },
     {
       "bucket": "app",
       "revenue": 320972.2,
       "orders": 16,
-      "share": 0.13517358275594965,
+      "share": 0.13202046190022196,
       "aov": 20060.7625
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 44410,
       "orders": 2,
-      "share": 0.01870273752739871,
+      "share": 0.018266468912226223,
       "aov": 22205
     },
     {
       "bucket": "online_to_draft",
       "revenue": 33850,
       "orders": 2,
-      "share": 0.014255520497690752,
+      "share": 0.013922989702293574,
       "aov": 16925
     },
     {
       "bucket": "other_to_draft",
       "revenue": 14950,
       "orders": 1,
-      "share": 0.006296012745656624,
+      "share": 0.006149149070880027,
       "aov": 14950
     },
     {
       "bucket": "gift",
       "revenue": 6950,
       "orders": 2,
-      "share": 0.0029269089352718086,
+      "share": 0.0028586345179007484,
       "aov": 3475
     }
   ],
@@ -96,6 +96,11 @@
       "orders": 6
     },
     {
+      "stylist": "Kashish",
+      "revenue": 124100,
+      "orders": 4
+    },
+    {
       "stylist": "Sagrika",
       "revenue": 100367,
       "orders": 6
@@ -104,11 +109,6 @@
       "stylist": "NIDHI",
       "revenue": 95000,
       "orders": 5
-    },
-    {
-      "stylist": "Kashish",
-      "revenue": 79300,
-      "orders": 3
     },
     {
       "stylist": "Riddhima",
@@ -137,8 +137,8 @@
     },
     {
       "stylist": "Muskan",
-      "revenue": 13950,
-      "orders": 1
+      "revenue": 25862,
+      "orders": 2
     },
     {
       "stylist": "Nidhi Singh",
@@ -291,7 +291,7 @@
   "nonDigital": [
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
-      "units": 21,
+      "units": 23,
       "digitalShare": 0
     },
     {
@@ -321,10 +321,10 @@
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
       "category": "Potli Bag",
-      "units": 21,
+      "units": 23,
       "revenue": 0,
       "byBucket": {
-        "stylist": 21
+        "stylist": 23
       },
       "digitalUnits": 0,
       "digitalShare": 0
@@ -1477,6 +1477,39 @@
       },
       "digitalUnits": 1,
       "digitalShare": 1
+    },
+    {
+      "title": "Diti Lawn Printed Blue Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 14900,
+      "byBucket": {
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
+      "title": "Saaj Cupro Satin Orange Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 22900,
+      "byBucket": {
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
+      "title": "Sahi Cupro Satin Printed Navy Kurta with Navy Salwar Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 21900,
+      "byBucket": {
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
     }
   ],
   "categories": [
@@ -1641,6 +1674,14 @@
       "bucket": "online",
       "units": 2,
       "revenue": 1000
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Mulmul Potli Bag (Colour may vary)",
+      "category": "Potli Bag",
+      "bucket": "stylist",
+      "units": 2,
+      "revenue": 0
     },
     {
       "date": "2026-08-21",
@@ -2553,6 +2594,30 @@
       "bucket": "online",
       "units": 1,
       "revenue": 12900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Diti Lawn Printed Blue Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 14900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Saaj Cupro Satin Orange Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 22900
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Sahi Cupro Satin Printed Navy Kurta with Navy Salwar Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 21900
     }
   ],
   "bucketDaily": [
@@ -2636,6 +2701,15 @@
       "newCustomers": 2,
       "returningCustomers": 3,
       "waived": 0
+    },
+    {
+      "date": "2026-08-22",
+      "bucket": "stylist",
+      "revenue": 56712,
+      "orders": 2,
+      "newCustomers": 0,
+      "returningCustomers": 2,
+      "waived": 0
     }
   ],
   "stylistDaily": [
@@ -2676,6 +2750,12 @@
       "orders": 3
     },
     {
+      "date": "2026-08-22",
+      "stylist": "Kashish",
+      "revenue": 44800,
+      "orders": 1
+    },
+    {
       "date": "2026-08-21",
       "stylist": "Anjali",
       "revenue": 43182,
@@ -2703,6 +2783,12 @@
       "date": "2026-08-21",
       "stylist": "Nidhi Singh",
       "revenue": 12279,
+      "orders": 1
+    },
+    {
+      "date": "2026-08-22",
+      "stylist": "Muskan",
+      "revenue": 11912,
       "orders": 1
     }
   ],
