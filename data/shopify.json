@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-22 → 2026-08-23 IST",
-  "fetchedAt": "2026-08-23T04:59:16.948Z",
-  "rowCount": 151,
+  "fetchedAt": "2026-08-23T05:29:14.640Z",
+  "rowCount": 153,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 3243754,
-    "orders": 151,
-    "digitalRevenue": 1345492,
-    "digitalShare": 0.41479471007974095,
+    "revenue": 3271549,
+    "orders": 153,
+    "digitalRevenue": 1373287,
+    "digitalShare": 0.41976659985835457,
     "newCustomers": 68,
-    "returningCustomers": 83,
-    "newCustomerShare": 0.4503311258278146,
+    "returningCustomers": 85,
+    "newCustomerShare": 0.4444444444444444,
     "rebookOrders": 2,
     "rebookValue": 23350,
-    "revenueExcludingRebooks": 3220404,
+    "revenueExcludingRebooks": 3248199,
     "giftGrossValue": 193000,
     "giftCashReceived": 57900,
     "giftValueWaived": 135100
@@ -34,58 +34,58 @@
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 1024294,
-      "orders": 46,
-      "share": 0.31577425415120874,
-      "aov": 22267.260869565216
+      "revenue": 1052089,
+      "orders": 48,
+      "share": 0.3215874192928182,
+      "aov": 21918.520833333332
     },
     {
       "bucket": "stylist",
       "revenue": 823492,
       "orders": 44,
-      "share": 0.25387005303114846,
+      "share": 0.2517131792921335,
       "aov": 18715.727272727272
     },
     {
       "bucket": "retail_assist",
       "revenue": 706300,
       "orders": 31,
-      "share": 0.2177415426693886,
+      "share": 0.21589161586759056,
       "aov": 22783.870967741936
     },
     {
       "bucket": "app",
       "revenue": 321198,
       "orders": 18,
-      "share": 0.09902045592853219,
+      "share": 0.09817918056553639,
       "aov": 17844.333333333332
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 287220,
       "orders": 4,
-      "share": 0.08854555555076002,
+      "share": 0.08779327468425507,
       "aov": 71805
     },
     {
       "bucket": "gift",
       "revenue": 57900,
       "orders": 6,
-      "share": 0.017849688971481807,
+      "share": 0.01769803845212161,
       "aov": 9650
     },
     {
       "bucket": "app_to_draft",
       "revenue": 18900,
       "orders": 1,
-      "share": 0.005826582410380072,
+      "share": 0.005777079909241769,
       "aov": 18900
     },
     {
       "bucket": "online_to_draft",
       "revenue": 4450,
       "orders": 1,
-      "share": 0.0013718672871000698,
+      "share": 0.0013602119363029562,
       "aov": 4450
     }
   ],
@@ -493,6 +493,18 @@
       "digitalShare": 0.3333333333333333
     },
     {
+      "title": "Gift box",
+      "category": "Gift Box",
+      "units": 3,
+      "revenue": 1285,
+      "byBucket": {
+        "stylist": 1,
+        "online": 2
+      },
+      "digitalUnits": 2,
+      "digitalShare": 0.6666666666666666
+    },
+    {
       "title": "Samvi Denim Long Kurta Set",
       "category": "Kurta Sets",
       "units": 3,
@@ -701,18 +713,6 @@
       "byBucket": {
         "stylist": 1,
         "app": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 0.5
-    },
-    {
-      "title": "Gift box",
-      "category": "Gift Box",
-      "units": 2,
-      "revenue": 790,
-      "byBucket": {
-        "stylist": 1,
-        "online": 1
       },
       "digitalUnits": 1,
       "digitalShare": 0.5
@@ -2074,6 +2074,28 @@
       },
       "digitalUnits": 1,
       "digitalShare": 1
+    },
+    {
+      "title": "Mulmul Organza Zeke Black Kurta With Mulmul Pima Satin Zeke Black Pyajama",
+      "category": "Men",
+      "units": 1,
+      "revenue": 9400,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Zivae Cupro Satin Printed Pink Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 17900,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
     }
   ],
   "categories": [
@@ -2089,6 +2111,7 @@
     "Kurta",
     "Kurta Set",
     "Kurta Sets",
+    "Men",
     "Pajama",
     "Pant",
     "Perfume",
@@ -2266,6 +2289,14 @@
       "bucket": "stylist",
       "units": 2,
       "revenue": 0
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Gift box",
+      "category": "Gift Box",
+      "bucket": "online",
+      "units": 2,
+      "revenue": 990
     },
     {
       "date": "2026-08-22",
@@ -3685,14 +3716,6 @@
     },
     {
       "date": "2026-08-23",
-      "title": "Gift box",
-      "category": "Gift Box",
-      "bucket": "online",
-      "units": 1,
-      "revenue": 495
-    },
-    {
-      "date": "2026-08-23",
       "title": "Saia Denim Kurta with Farshi Salwar",
       "category": "Kurta Sets",
       "bucket": "online",
@@ -3714,6 +3737,22 @@
       "bucket": "app",
       "units": 1,
       "revenue": 13400
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Mulmul Organza Zeke Black Kurta With Mulmul Pima Satin Zeke Black Pyajama",
+      "category": "Men",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 9400
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Zivae Cupro Satin Printed Pink Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 17900
     }
   ],
   "bucketDaily": [
@@ -3792,10 +3831,10 @@
     {
       "date": "2026-08-23",
       "bucket": "online",
-      "revenue": 86395,
-      "orders": 5,
+      "revenue": 114190,
+      "orders": 7,
       "newCustomers": 2,
-      "returningCustomers": 3,
+      "returningCustomers": 5,
       "waived": 0
     },
     {
