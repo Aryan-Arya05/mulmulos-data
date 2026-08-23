@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-22 → 2026-08-23 IST",
-  "fetchedAt": "2026-08-23T10:47:28.117Z",
-  "rowCount": 188,
+  "fetchedAt": "2026-08-23T11:13:00.072Z",
+  "rowCount": 190,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 3787678,
-    "orders": 180,
-    "digitalRevenue": 1594187,
-    "digitalShare": 0.4208876784140574,
+    "revenue": 3818028,
+    "orders": 182,
+    "digitalRevenue": 1608637,
+    "digitalShare": 0.4213266639217942,
     "newCustomers": 74,
-    "returningCustomers": 106,
-    "newCustomerShare": 0.4111111111111111,
+    "returningCustomers": 108,
+    "newCustomerShare": 0.4065934065934066,
     "rebookOrders": 5,
     "rebookValue": 94500,
-    "revenueExcludingRebooks": 3693178,
+    "revenueExcludingRebooks": 3723528,
     "giftGrossValue": 193000,
     "giftCashReceived": 57900,
     "giftValueWaived": 135100
@@ -34,65 +34,65 @@
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 1211739,
-      "orders": 57,
-      "share": 0.31991605411019625,
-      "aov": 21258.57894736842
+      "revenue": 1226189,
+      "orders": 58,
+      "share": 0.3211576761616206,
+      "aov": 21141.189655172413
     },
     {
       "bucket": "stylist",
-      "revenue": 974921,
-      "orders": 53,
-      "share": 0.2573927878768998,
-      "aov": 18394.735849056604
+      "revenue": 990821,
+      "orders": 54,
+      "share": 0.2595111926890007,
+      "aov": 18348.537037037036
     },
     {
       "bucket": "retail_assist",
       "revenue": 778950,
       "orders": 34,
-      "share": 0.20565370129139807,
+      "share": 0.20401893333417145,
       "aov": 22910.29411764706
     },
     {
       "bucket": "app",
       "revenue": 382448,
       "orders": 21,
-      "share": 0.1009716243038611,
+      "share": 0.10016898776017358,
       "aov": 18211.809523809523
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 287220,
       "orders": 4,
-      "share": 0.07583009960191969,
+      "share": 0.07522731630045668,
       "aov": 71805
     },
     {
       "bucket": "gift",
       "revenue": 57900,
       "orders": 6,
-      "share": 0.01528641030203729,
+      "share": 0.015164896642979046,
       "aov": 9650
     },
     {
       "bucket": "other_to_draft",
       "revenue": 40300,
       "orders": 1,
-      "share": 0.01063976399260972,
+      "share": 0.010555187128014776,
       "aov": 40300
     },
     {
       "bucket": "app_to_draft",
       "revenue": 32850,
       "orders": 2,
-      "share": 0.008672859730948617,
+      "share": 0.008603918043555469,
       "aov": 16425
     },
     {
       "bucket": "online_to_draft",
       "revenue": 21350,
       "orders": 2,
-      "share": 0.005636698790129467,
+      "share": 0.005591891940027679,
       "aov": 10675
     }
   ],
@@ -114,8 +114,8 @@
     },
     {
       "stylist": "Priya",
-      "revenue": 99192,
-      "orders": 7
+      "revenue": 115092,
+      "orders": 8
     },
     {
       "stylist": "Anjali",
@@ -318,13 +318,13 @@
   "nonDigital": [
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
-      "units": 38,
+      "units": 39,
       "digitalShare": 0
     },
     {
       "title": "Mulmul Perfume",
-      "units": 14,
-      "digitalShare": 0.14
+      "units": 15,
+      "digitalShare": 0.13
     },
     {
       "title": "Shvi Cupro Satin Fuchsia Kurta With Farshi Salwar",
@@ -363,10 +363,10 @@
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
       "category": "Potli Bag",
-      "units": 38,
+      "units": 39,
       "revenue": 0,
       "byBucket": {
-        "stylist": 35,
+        "stylist": 36,
         "draft_unclassified": 2,
         "other_to_draft": 1
       },
@@ -376,15 +376,15 @@
     {
       "title": "Mulmul Perfume",
       "category": "Perfume",
-      "units": 14,
+      "units": 15,
       "revenue": 1000,
       "byBucket": {
-        "stylist": 10,
+        "stylist": 11,
         "online": 2,
         "other_to_draft": 2
       },
       "digitalUnits": 2,
-      "digitalShare": 0.14285714285714285
+      "digitalShare": 0.13333333333333333
     },
     {
       "title": "Shvi Cupro Satin Fuchsia Kurta With Farshi Salwar",
@@ -516,6 +516,19 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Zariya Lawn Printed Yellow & Teal Kurta with Farshi Salwar",
+      "category": "Kurta Sets",
+      "units": 3,
+      "revenue": 52250,
+      "byBucket": {
+        "gift": 1,
+        "draft_unclassified": 1,
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.3333333333333333
     },
     {
       "title": "Ruvya Denim Kurta with Farshi Salwar",
@@ -694,18 +707,6 @@
       },
       "digitalUnits": 1,
       "digitalShare": 0.5
-    },
-    {
-      "title": "Zariya Lawn Printed Yellow & Teal Kurta with Farshi Salwar",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 37800,
-      "byBucket": {
-        "gift": 1,
-        "draft_unclassified": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
     },
     {
       "title": "Zuri Cupro Satin Red Kurta With Farshi Salwar",
@@ -2237,6 +2238,17 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Survani Bemberg Satin Fuschia Kurta With Orange Salwar",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 15900,
+      "byBucket": {
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
     }
   ],
   "categories": [
@@ -2272,6 +2284,14 @@
       "revenue": 0
     },
     {
+      "date": "2026-08-23",
+      "title": "Mulmul Potli Bag (Colour may vary)",
+      "category": "Potli Bag",
+      "bucket": "stylist",
+      "units": 9,
+      "revenue": 0
+    },
+    {
       "date": "2026-08-22",
       "title": "Mulmul Perfume",
       "category": "Perfume",
@@ -2281,10 +2301,10 @@
     },
     {
       "date": "2026-08-23",
-      "title": "Mulmul Potli Bag (Colour may vary)",
-      "category": "Potli Bag",
+      "title": "Mulmul Perfume",
+      "category": "Perfume",
       "bucket": "stylist",
-      "units": 8,
+      "units": 3,
       "revenue": 0
     },
     {
@@ -2462,14 +2482,6 @@
       "bucket": "online",
       "units": 2,
       "revenue": 30850
-    },
-    {
-      "date": "2026-08-23",
-      "title": "Mulmul Perfume",
-      "category": "Perfume",
-      "bucket": "stylist",
-      "units": 2,
-      "revenue": 0
     },
     {
       "date": "2026-08-23",
@@ -4118,6 +4130,22 @@
       "bucket": "stylist",
       "units": 1,
       "revenue": 4450
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Zariya Lawn Printed Yellow & Teal Kurta with Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 14450
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Survani Bemberg Satin Fuschia Kurta With Orange Salwar",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 15900
     }
   ],
   "bucketDaily": [
@@ -4196,10 +4224,10 @@
     {
       "date": "2026-08-23",
       "bucket": "online",
-      "revenue": 299740,
-      "orders": 18,
+      "revenue": 314190,
+      "orders": 19,
       "newCustomers": 9,
-      "returningCustomers": 9,
+      "returningCustomers": 10,
       "waived": 0
     },
     {
@@ -4214,10 +4242,10 @@
     {
       "date": "2026-08-23",
       "bucket": "stylist",
-      "revenue": 189979,
-      "orders": 11,
+      "revenue": 205879,
+      "orders": 12,
       "newCustomers": 0,
-      "returningCustomers": 11,
+      "returningCustomers": 12,
       "waived": 0
     },
     {
@@ -4286,16 +4314,16 @@
       "orders": 5
     },
     {
+      "date": "2026-08-23",
+      "stylist": "Priya",
+      "revenue": 70792,
+      "orders": 5
+    },
+    {
       "date": "2026-08-22",
       "stylist": "Anjali",
       "revenue": 57700,
       "orders": 2
-    },
-    {
-      "date": "2026-08-23",
-      "stylist": "Priya",
-      "revenue": 54892,
-      "orders": 4
     },
     {
       "date": "2026-08-22",
