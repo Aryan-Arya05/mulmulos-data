@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-22 → 2026-08-23 IST",
-  "fetchedAt": "2026-08-23T16:13:57.963Z",
-  "rowCount": 219,
+  "fetchedAt": "2026-08-23T16:48:56.919Z",
+  "rowCount": 225,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 4203178.46,
-    "orders": 205,
-    "digitalRevenue": 1904087,
-    "digitalShare": 0.4530112195141008,
-    "newCustomers": 86,
-    "returningCustomers": 119,
-    "newCustomerShare": 0.4195121951219512,
+    "revenue": 4316228.46,
+    "orders": 211,
+    "digitalRevenue": 2017137,
+    "digitalShare": 0.4673378665410125,
+    "newCustomers": 90,
+    "returningCustomers": 121,
+    "newCustomerShare": 0.4265402843601896,
     "rebookOrders": 8,
     "rebookValue": 146038,
-    "revenueExcludingRebooks": 4057140.46,
+    "revenueExcludingRebooks": 4170190.46,
     "giftGrossValue": 193000,
     "giftCashReceived": 57900,
     "giftValueWaived": 135100
@@ -34,65 +34,65 @@
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 1428589,
-      "orders": 70,
-      "share": 0.3398830227160995,
-      "aov": 20408.414285714287
+      "revenue": 1496289,
+      "orders": 74,
+      "share": 0.34666584817431095,
+      "aov": 20220.12162162162
     },
     {
       "bucket": "stylist",
       "revenue": 1028983.46,
       "orders": 57,
-      "share": 0.24481079492399188,
+      "share": 0.23839874778083456,
       "aov": 18052.34140350877
     },
     {
       "bucket": "retail_assist",
       "revenue": 778950,
       "orders": 34,
-      "share": 0.18532403689564017,
+      "share": 0.18047005788011508,
       "aov": 22910.29411764706
     },
     {
       "bucket": "app",
-      "revenue": 475498,
-      "orders": 26,
-      "share": 0.11312819679800129,
-      "aov": 18288.384615384617
+      "revenue": 520848,
+      "orders": 28,
+      "share": 0.12067201836670156,
+      "aov": 18601.714285714286
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 287220,
       "orders": 4,
-      "share": 0.06833400074095355,
+      "share": 0.06654420697647687,
       "aov": 71805
     },
     {
       "bucket": "other_to_draft",
       "revenue": 78438,
       "orders": 3,
-      "share": 0.018661591637486645,
+      "share": 0.01817281006483146,
       "aov": 26146
     },
     {
       "bucket": "gift",
       "revenue": 57900,
       "orders": 6,
-      "share": 0.013775289474622974,
+      "share": 0.013414489185774007,
       "aov": 9650
     },
     {
       "bucket": "online_to_draft",
       "revenue": 34750,
       "orders": 3,
-      "share": 0.008267552836669228,
+      "share": 0.008051010348974902,
       "aov": 11583.333333333334
     },
     {
       "bucket": "app_to_draft",
       "revenue": 32850,
       "orders": 2,
-      "share": 0.007815513976534795,
+      "share": 0.00761081122198059,
       "aov": 16425
     }
   ],
@@ -426,16 +426,16 @@
     {
       "title": "Mivya Cupro Satin Off-white Kurta with Balloon Pants",
       "category": "Kurta Sets",
-      "units": 6,
-      "revenue": 103450,
+      "units": 7,
+      "revenue": 117400,
       "byBucket": {
         "gift": 1,
         "stylist": 1,
         "draft_unclassified": 1,
-        "online": 3
+        "online": 4
       },
-      "digitalUnits": 3,
-      "digitalShare": 0.5
+      "digitalUnits": 4,
+      "digitalShare": 0.5714285714285714
     },
     {
       "title": "Elaan Organza Pink Kurta with Farshi Salwar",
@@ -449,6 +449,31 @@
       },
       "digitalUnits": 2,
       "digitalShare": 0.5
+    },
+    {
+      "title": "Sorelle Supima Cotton Fuchsia Co-ord Set",
+      "category": "Co-ord Set",
+      "units": 4,
+      "revenue": 55600,
+      "byBucket": {
+        "online": 3,
+        "draft_unclassified": 1
+      },
+      "digitalUnits": 3,
+      "digitalShare": 0.75
+    },
+    {
+      "title": "Zuri Cupro Satin Red Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "units": 4,
+      "revenue": 81700,
+      "byBucket": {
+        "app": 2,
+        "other_to_draft": 1,
+        "online": 1
+      },
+      "digitalUnits": 3,
+      "digitalShare": 0.75
     },
     {
       "title": "Zariya Lawn Printed Off-White & Teal Kurta with Farshi Salwar",
@@ -478,16 +503,17 @@
       "digitalShare": 0.25
     },
     {
-      "title": "Sorelle Supima Cotton Fuchsia Co-ord Set",
-      "category": "Co-ord Set",
-      "units": 3,
-      "revenue": 41700,
+      "title": "Suvi Lawn Printed Red Kurta Set",
+      "category": "Kurta Sets",
+      "units": 4,
+      "revenue": 65860,
       "byBucket": {
-        "online": 2,
-        "draft_unclassified": 1
+        "stylist": 2,
+        "online": 1,
+        "app": 1
       },
       "digitalUnits": 2,
-      "digitalShare": 0.6666666666666666
+      "digitalShare": 0.5
     },
     {
       "title": "Misa Supima Cotton Yellow Kurta Set",
@@ -551,18 +577,6 @@
       "digitalShare": 0.3333333333333333
     },
     {
-      "title": "Zuri Cupro Satin Red Kurta With Farshi Salwar",
-      "category": "Kurta Sets",
-      "units": 3,
-      "revenue": 63750,
-      "byBucket": {
-        "app": 2,
-        "other_to_draft": 1
-      },
-      "digitalUnits": 2,
-      "digitalShare": 0.6666666666666666
-    },
-    {
       "title": "Arlette Cupro Satin Red Long Kaftan Set",
       "category": "Co-ord Set",
       "units": 3,
@@ -624,16 +638,17 @@
       "digitalShare": 1
     },
     {
-      "title": "Suvi Lawn Printed Red Kurta Set",
+      "title": "Lavya Cupro Satin Printed Pink Kurta Set",
       "category": "Kurta Sets",
       "units": 3,
-      "revenue": 51910,
+      "revenue": 65700,
       "byBucket": {
-        "stylist": 2,
+        "stylist": 1,
+        "app": 1,
         "online": 1
       },
-      "digitalUnits": 1,
-      "digitalShare": 0.3333333333333333
+      "digitalUnits": 2,
+      "digitalShare": 0.6666666666666666
     },
     {
       "title": "Veya Cupro Satin Fuchsia & Green Kurta Set",
@@ -932,18 +947,6 @@
       "category": "Kurta Sets",
       "units": 2,
       "revenue": 31350,
-      "byBucket": {
-        "stylist": 1,
-        "app": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 0.5
-    },
-    {
-      "title": "Lavya Cupro Satin Printed Pink Kurta Set",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 43800,
       "byBucket": {
         "stylist": 1,
         "app": 1
@@ -2362,6 +2365,28 @@
       },
       "digitalUnits": 1,
       "digitalShare": 1
+    },
+    {
+      "title": "Arvini Cupro Satin Fuschia Anarkali Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 19950,
+      "byBucket": {
+        "app": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Nriti Cupro Satin Printed Blue Co-ord set",
+      "category": "Co-ord Set",
+      "units": 1,
+      "revenue": 11950,
+      "byBucket": {
+        "app": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
     }
   ],
   "categories": [
@@ -2620,6 +2645,22 @@
       "bucket": "stylist",
       "units": 2,
       "revenue": 42850
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Sorelle Supima Cotton Fuchsia Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 2,
+      "revenue": 27800
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Mivya Cupro Satin Off-white Kurta with Balloon Pants",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 2,
+      "revenue": 31850
     },
     {
       "date": "2026-08-22",
@@ -4255,14 +4296,6 @@
     },
     {
       "date": "2026-08-23",
-      "title": "Sorelle Supima Cotton Fuchsia Co-ord Set",
-      "category": "Co-ord Set",
-      "bucket": "online",
-      "units": 1,
-      "revenue": 13900
-    },
-    {
-      "date": "2026-08-23",
       "title": "Lavya Cupro Satin Printed Lime Kurta Set",
       "category": "Kurta Sets",
       "bucket": "app",
@@ -4332,14 +4365,6 @@
       "bucket": "app",
       "units": 1,
       "revenue": 13450
-    },
-    {
-      "date": "2026-08-23",
-      "title": "Mivya Cupro Satin Off-white Kurta with Balloon Pants",
-      "category": "Kurta Sets",
-      "bucket": "online",
-      "units": 1,
-      "revenue": 17900
     },
     {
       "date": "2026-08-23",
@@ -4436,6 +4461,46 @@
       "bucket": "app",
       "units": 1,
       "revenue": 17900
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Zuri Cupro Satin Red Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 17950
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Lavya Cupro Satin Printed Pink Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 21900
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Arvini Cupro Satin Fuschia Anarkali Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 19950
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Suvi Lawn Printed Red Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 13950
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Nriti Cupro Satin Printed Blue Co-ord set",
+      "category": "Co-ord Set",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 11950
     }
   ],
   "bucketDaily": [
@@ -4514,10 +4579,10 @@
     {
       "date": "2026-08-23",
       "bucket": "online",
-      "revenue": 565390,
-      "orders": 33,
-      "newCustomers": 17,
-      "returningCustomers": 16,
+      "revenue": 633090,
+      "orders": 37,
+      "newCustomers": 20,
+      "returningCustomers": 17,
       "waived": 0
     },
     {
@@ -4541,10 +4606,10 @@
     {
       "date": "2026-08-23",
       "bucket": "app",
-      "revenue": 209000,
-      "orders": 11,
-      "newCustomers": 3,
-      "returningCustomers": 8,
+      "revenue": 254350,
+      "orders": 13,
+      "newCustomers": 4,
+      "returningCustomers": 9,
       "waived": 0
     },
     {
