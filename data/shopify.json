@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-22 → 2026-08-23 IST",
-  "fetchedAt": "2026-08-23T02:18:37.157Z",
-  "rowCount": 142,
+  "fetchedAt": "2026-08-23T03:27:49.004Z",
+  "rowCount": 145,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 3088009,
-    "orders": 142,
-    "digitalRevenue": 1241247,
-    "digitalShare": 0.4019570538816435,
-    "newCustomers": 66,
-    "returningCustomers": 76,
-    "newCustomerShare": 0.4647887323943662,
+    "revenue": 3129509,
+    "orders": 145,
+    "digitalRevenue": 1282747,
+    "digitalShare": 0.4098876213489081,
+    "newCustomers": 68,
+    "returningCustomers": 77,
+    "newCustomerShare": 0.4689655172413793,
     "rebookOrders": 2,
     "rebookValue": 23350,
-    "revenueExcludingRebooks": 3064659,
+    "revenueExcludingRebooks": 3106159,
     "giftGrossValue": 193000,
     "giftCashReceived": 57900,
     "giftValueWaived": 135100
@@ -34,58 +34,58 @@
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 937899,
-      "orders": 41,
-      "share": 0.30372288422734517,
-      "aov": 22875.585365853658
+      "revenue": 979399,
+      "orders": 44,
+      "share": 0.31295612187087496,
+      "aov": 22259.06818181818
     },
     {
       "bucket": "stylist",
       "revenue": 784942,
       "orders": 42,
-      "share": 0.2541903213364987,
+      "share": 0.2508195375057237,
       "aov": 18689.095238095237
     },
     {
       "bucket": "retail_assist",
       "revenue": 706300,
       "orders": 31,
-      "share": 0.2287234266480441,
+      "share": 0.22569035589928005,
       "aov": 22783.870967741936
     },
     {
       "bucket": "app",
       "revenue": 303348,
       "orders": 17,
-      "share": 0.09823416965429829,
+      "share": 0.09693149947803313,
       "aov": 17844
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 274270,
       "orders": 3,
-      "share": 0.0888177463213352,
+      "share": 0.08763994607460787,
       "aov": 91423.33333333333
     },
     {
       "bucket": "gift",
       "revenue": 57900,
       "orders": 6,
-      "share": 0.018749945353138543,
+      "share": 0.01850130483727639,
       "aov": 9650
     },
     {
       "bucket": "app_to_draft",
       "revenue": 18900,
       "orders": 1,
-      "share": 0.006120448483148851,
+      "share": 0.006039286034965868,
       "aov": 18900
     },
     {
       "bucket": "online_to_draft",
       "revenue": 4450,
       "orders": 1,
-      "share": 0.0014410579761911315,
+      "share": 0.0014219482992379954,
       "aov": 4450
     }
   ],
@@ -479,6 +479,19 @@
       "digitalShare": 0.6666666666666666
     },
     {
+      "title": "Ruvya Denim Kurta with Farshi Salwar",
+      "category": "Kurta Sets",
+      "units": 3,
+      "revenue": 65700,
+      "byBucket": {
+        "gift": 1,
+        "stylist": 1,
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.3333333333333333
+    },
+    {
       "title": "Samvi Denim Long Kurta Set",
       "category": "Kurta Sets",
       "units": 3,
@@ -616,18 +629,6 @@
       "byBucket": {
         "gift": 1,
         "draft_unclassified": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
-      "title": "Ruvya Denim Kurta with Farshi Salwar",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 43800,
-      "byBucket": {
-        "gift": 1,
-        "stylist": 1
       },
       "digitalUnits": 0,
       "digitalShare": 0
@@ -2015,9 +2016,32 @@
       },
       "digitalUnits": 1,
       "digitalShare": 1
+    },
+    {
+      "title": "Anaya Denim Co-Ord Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 14450,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Mulmul Ira Gold Clutch Bag",
+      "category": "Clutch Bag",
+      "units": 1,
+      "revenue": 5150,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
     }
   ],
   "categories": [
+    "Clutch Bag",
     "Co-ord Set",
     "Dress",
     "Dupatta",
@@ -3542,6 +3566,30 @@
       "bucket": "online",
       "units": 1,
       "revenue": 24900
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Anaya Denim Co-Ord Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 14450
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Mulmul Ira Gold Clutch Bag",
+      "category": "Clutch Bag",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 5150
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Ruvya Denim Kurta with Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 21900
     }
   ],
   "bucketDaily": [
@@ -3614,6 +3662,15 @@
       "revenue": 18900,
       "orders": 1,
       "newCustomers": 0,
+      "returningCustomers": 1,
+      "waived": 0
+    },
+    {
+      "date": "2026-08-23",
+      "bucket": "online",
+      "revenue": 41500,
+      "orders": 3,
+      "newCustomers": 2,
       "returningCustomers": 1,
       "waived": 0
     }
