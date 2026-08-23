@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-22 → 2026-08-23 IST",
-  "fetchedAt": "2026-08-23T17:13:03.907Z",
-  "rowCount": 226,
+  "fetchedAt": "2026-08-23T17:42:40.777Z",
+  "rowCount": 227,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 4332678.46,
-    "orders": 212,
-    "digitalRevenue": 2033587,
-    "digitalShare": 0.4693602395779908,
+    "revenue": 4479728.46,
+    "orders": 213,
+    "digitalRevenue": 2180637,
+    "digitalShare": 0.4867788348046435,
     "newCustomers": 91,
-    "returningCustomers": 121,
-    "newCustomerShare": 0.42924528301886794,
+    "returningCustomers": 122,
+    "newCustomerShare": 0.4272300469483568,
     "rebookOrders": 8,
     "rebookValue": 146038,
-    "revenueExcludingRebooks": 4186640.46,
+    "revenueExcludingRebooks": 4333690.46,
     "giftGrossValue": 193000,
     "giftCashReceived": 57900,
     "giftValueWaived": 135100
@@ -34,65 +34,65 @@
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 1496289,
-      "orders": 74,
-      "share": 0.34534965237184945,
-      "aov": 20220.12162162162
+      "revenue": 1643339,
+      "orders": 75,
+      "share": 0.3668389757713127,
+      "aov": 21911.18666666667
     },
     {
       "bucket": "stylist",
       "revenue": 1028983.46,
       "orders": 57,
-      "share": 0.2374936126693325,
+      "share": 0.22969773038430993,
       "aov": 18052.34140350877
     },
     {
       "bucket": "retail_assist",
       "revenue": 778950,
       "orders": 34,
-      "share": 0.17978486222584816,
+      "share": 0.1738833072038478,
       "aov": 22910.29411764706
     },
     {
       "bucket": "app",
       "revenue": 537298,
       "orders": 29,
-      "share": 0.1240105872061413,
+      "share": 0.11993985903333078,
       "aov": 18527.51724137931
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 287220,
       "orders": 4,
-      "share": 0.06629155674755519,
+      "share": 0.06411549328594796,
       "aov": 71805
     },
     {
       "bucket": "other_to_draft",
       "revenue": 78438,
       "orders": 3,
-      "share": 0.018103812854831605,
+      "share": 0.017509543424424436,
       "aov": 26146
     },
     {
       "bucket": "gift",
       "revenue": 57900,
       "orders": 6,
-      "share": 0.013363558024105025,
+      "share": 0.012924890541244993,
       "aov": 9650
     },
     {
       "bucket": "online_to_draft",
       "revenue": 34750,
       "orders": 3,
-      "share": 0.008020442855572532,
+      "share": 0.0077571666029061055,
       "aov": 11583.333333333334
     },
     {
       "bucket": "app_to_draft",
       "revenue": 32850,
       "orders": 2,
-      "share": 0.0075819150447642494,
+      "share": 0.0073330337526752686,
       "aov": 16425
     }
   ],
@@ -490,6 +490,19 @@
       "digitalShare": 0.25
     },
     {
+      "title": "Arlette Cupro Satin Red Long Kaftan Set",
+      "category": "Co-ord Set",
+      "units": 4,
+      "revenue": 67600,
+      "byBucket": {
+        "stylist": 2,
+        "online_to_draft": 1,
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.25
+    },
+    {
       "title": "Elaan Organza Off-White Kurta with Farshi Salwar",
       "category": "Kurta Sets",
       "units": 4,
@@ -589,18 +602,6 @@
       "digitalShare": 0.3333333333333333
     },
     {
-      "title": "Arlette Cupro Satin Red Long Kaftan Set",
-      "category": "Co-ord Set",
-      "units": 3,
-      "revenue": 50700,
-      "byBucket": {
-        "stylist": 2,
-        "online_to_draft": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
       "title": "Lavya Cupro Satin Printed Lime Kurta Set",
       "category": "Kurta Sets",
       "units": 3,
@@ -636,6 +637,18 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Arlette Cupro Satin Lime Long Kaftan Set",
+      "category": "Co-ord Set",
+      "units": 3,
+      "revenue": 50700,
+      "byBucket": {
+        "online": 2,
+        "app": 1
+      },
+      "digitalUnits": 3,
+      "digitalShare": 1
     },
     {
       "title": "Saia Denim Kurta with Farshi Salwar",
@@ -742,6 +755,18 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Mevi Organza Pink Long Kurta Set",
+      "category": "Kurta Sets",
+      "units": 2,
+      "revenue": 40050,
+      "byBucket": {
+        "retail_assist": 1,
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.5
     },
     {
       "title": "Zaria Cupro Satin Pista Green Co-ord Set",
@@ -908,22 +933,21 @@
       "digitalShare": 1
     },
     {
-      "title": "Arlette Cupro Satin Lime Long Kaftan Set",
-      "category": "Co-ord Set",
+      "title": "Suvi Lawn Printed Pink Kurta Set",
+      "category": "Kurta Sets",
       "units": 2,
-      "revenue": 33800,
+      "revenue": 35800,
       "byBucket": {
-        "online": 1,
-        "app": 1
+        "online": 2
       },
       "digitalUnits": 2,
       "digitalShare": 1
     },
     {
-      "title": "Suvi Lawn Printed Pink Kurta Set",
+      "title": "Mevi Organza Pista Green Long Kurta Set",
       "category": "Kurta Sets",
       "units": 2,
-      "revenue": 35800,
+      "revenue": 45000,
       "byBucket": {
         "online": 2
       },
@@ -1322,17 +1346,6 @@
       "digitalShare": 1
     },
     {
-      "title": "Mevi Organza Pink Long Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 17550,
-      "byBucket": {
-        "retail_assist": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
       "title": "Mulmul Veliena Pink kurta",
       "category": "Kurta",
       "units": 1,
@@ -1678,17 +1691,6 @@
       "category": "Kurta Sets",
       "units": 1,
       "revenue": 17900,
-      "byBucket": {
-        "online": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 1
-    },
-    {
-      "title": "Mevi Organza Pista Green Long Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 22500,
       "byBucket": {
         "online": 1
       },
@@ -2384,6 +2386,39 @@
       "revenue": 11950,
       "byBucket": {
         "app": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Phulkari Cupro Satin Lime Green Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 19950,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Itriya Organza Off White Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 26900,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Laina Cupro Satin Orange Long Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 21400,
+      "byBucket": {
+        "online": 1
       },
       "digitalUnits": 1,
       "digitalShare": 1
@@ -4509,6 +4544,62 @@
       "bucket": "app",
       "units": 1,
       "revenue": 16950
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Phulkari Cupro Satin Lime Green Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 19950
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Itriya Organza Off White Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 26900
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Mevi Organza Pista Green Long Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 22500
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Laina Cupro Satin Orange Long Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 21400
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Mevi Organza Pink Long Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 22500
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Arlette Cupro Satin Red Long Kaftan Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 16900
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Arlette Cupro Satin Lime Long Kaftan Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 16900
     }
   ],
   "bucketDaily": [
@@ -4587,10 +4678,10 @@
     {
       "date": "2026-08-23",
       "bucket": "online",
-      "revenue": 633090,
-      "orders": 37,
+      "revenue": 780140,
+      "orders": 38,
       "newCustomers": 20,
-      "returningCustomers": 17,
+      "returningCustomers": 18,
       "waived": 0
     },
     {
