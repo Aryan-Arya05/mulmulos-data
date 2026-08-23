@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-22 → 2026-08-23 IST",
-  "fetchedAt": "2026-08-23T10:13:29.215Z",
-  "rowCount": 185,
+  "fetchedAt": "2026-08-23T10:47:28.117Z",
+  "rowCount": 188,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 3800178,
+    "revenue": 3787678,
     "orders": 180,
-    "digitalRevenue": 1625087,
-    "digitalShare": 0.4276344423866461,
-    "newCustomers": 76,
-    "returningCustomers": 104,
-    "newCustomerShare": 0.4222222222222222,
-    "rebookOrders": 4,
-    "rebookValue": 80550,
-    "revenueExcludingRebooks": 3719628,
+    "digitalRevenue": 1594187,
+    "digitalShare": 0.4208876784140574,
+    "newCustomers": 74,
+    "returningCustomers": 106,
+    "newCustomerShare": 0.4111111111111111,
+    "rebookOrders": 5,
+    "rebookValue": 94500,
+    "revenueExcludingRebooks": 3693178,
     "giftGrossValue": 193000,
     "giftCashReceived": 57900,
     "giftValueWaived": 135100
@@ -34,66 +34,66 @@
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 1228689,
-      "orders": 58,
-      "share": 0.3233240653464127,
-      "aov": 21184.293103448275
+      "revenue": 1211739,
+      "orders": 57,
+      "share": 0.31991605411019625,
+      "aov": 21258.57894736842
     },
     {
       "bucket": "stylist",
-      "revenue": 970471,
-      "orders": 52,
-      "share": 0.25537514295383007,
-      "aov": 18662.903846153848
+      "revenue": 974921,
+      "orders": 53,
+      "share": 0.2573927878768998,
+      "aov": 18394.735849056604
     },
     {
       "bucket": "retail_assist",
       "revenue": 778950,
       "orders": 34,
-      "share": 0.20497724053978525,
+      "share": 0.20565370129139807,
       "aov": 22910.29411764706
     },
     {
       "bucket": "app",
-      "revenue": 396398,
-      "orders": 22,
-      "share": 0.10431037704023338,
-      "aov": 18018.090909090908
+      "revenue": 382448,
+      "orders": 21,
+      "share": 0.1009716243038611,
+      "aov": 18211.809523809523
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 287220,
       "orders": 4,
-      "share": 0.0755806701686079,
+      "share": 0.07583009960191969,
       "aov": 71805
     },
     {
       "bucket": "gift",
       "revenue": 57900,
       "orders": 6,
-      "share": 0.015236128412932237,
+      "share": 0.01528641030203729,
       "aov": 9650
     },
     {
       "bucket": "other_to_draft",
       "revenue": 40300,
       "orders": 1,
-      "share": 0.010604766408310347,
+      "share": 0.01063976399260972,
       "aov": 40300
+    },
+    {
+      "bucket": "app_to_draft",
+      "revenue": 32850,
+      "orders": 2,
+      "share": 0.008672859730948617,
+      "aov": 16425
     },
     {
       "bucket": "online_to_draft",
       "revenue": 21350,
       "orders": 2,
-      "share": 0.005618157886288485,
+      "share": 0.005636698790129467,
       "aov": 10675
-    },
-    {
-      "bucket": "app_to_draft",
-      "revenue": 18900,
-      "orders": 1,
-      "share": 0.004973451243599642,
-      "aov": 18900
     }
   ],
   "stylists": [
@@ -114,8 +114,8 @@
     },
     {
       "stylist": "Priya",
-      "revenue": 94742,
-      "orders": 6
+      "revenue": 99192,
+      "orders": 7
     },
     {
       "stylist": "Anjali",
@@ -330,6 +330,11 @@
       "title": "Shvi Cupro Satin Fuchsia Kurta With Farshi Salwar",
       "units": 9,
       "digitalShare": 0.33
+    },
+    {
+      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
+      "units": 9,
+      "digitalShare": 0.33
     }
   ],
   "unclassified": [
@@ -382,21 +387,6 @@
       "digitalShare": 0.14285714285714285
     },
     {
-      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
-      "category": "Kurta Sets",
-      "units": 10,
-      "revenue": 199200,
-      "byBucket": {
-        "stylist": 2,
-        "gift": 2,
-        "retail_assist": 2,
-        "app": 1,
-        "online": 3
-      },
-      "digitalUnits": 4,
-      "digitalShare": 0.4
-    },
-    {
       "title": "Shvi Cupro Satin Fuchsia Kurta With Farshi Salwar",
       "category": "Kurta Sets",
       "units": 9,
@@ -406,6 +396,21 @@
         "stylist": 4,
         "online": 2,
         "app": 1
+      },
+      "digitalUnits": 3,
+      "digitalShare": 0.3333333333333333
+    },
+    {
+      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
+      "category": "Kurta Sets",
+      "units": 9,
+      "revenue": 182250,
+      "byBucket": {
+        "stylist": 2,
+        "gift": 2,
+        "retail_assist": 2,
+        "app": 1,
+        "online": 2
       },
       "digitalUnits": 3,
       "digitalShare": 0.3333333333333333
@@ -1915,17 +1920,6 @@
       "digitalShare": 1
     },
     {
-      "title": "Suvi Lawn Printed Off-White & Blue Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 13950,
-      "byBucket": {
-        "app": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 1
-    },
-    {
       "title": "Saeli Lawn Printed Black Kurta Set",
       "category": "Kurta Sets",
       "units": 1,
@@ -2218,6 +2212,28 @@
       "revenue": 18900,
       "byBucket": {
         "retail_assist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
+      "title": "Suvi Lawn Printed Off-White & Blue Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 13950,
+      "byBucket": {
+        "app_to_draft": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
+      "title": "Mulmul Zeyaara white Pant",
+      "category": "Pant",
+      "units": 1,
+      "revenue": 4450,
+      "byBucket": {
+        "stylist": 1
       },
       "digitalUnits": 0,
       "digitalShare": 0
@@ -3665,14 +3681,6 @@
     },
     {
       "date": "2026-08-22",
-      "title": "Suvi Lawn Printed Off-White & Blue Kurta Set",
-      "category": "Kurta Sets",
-      "bucket": "app",
-      "units": 1,
-      "revenue": 13950
-    },
-    {
-      "date": "2026-08-22",
       "title": "Saeli Lawn Printed Black Kurta Set",
       "category": "Kurta Sets",
       "bucket": "online",
@@ -3758,14 +3766,6 @@
       "bucket": "online",
       "units": 1,
       "revenue": 22500
-    },
-    {
-      "date": "2026-08-22",
-      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
-      "category": "Kurta Sets",
-      "bucket": "online",
-      "units": 1,
-      "revenue": 16950
     },
     {
       "date": "2026-08-22",
@@ -4102,15 +4102,31 @@
       "bucket": "stylist",
       "units": 1,
       "revenue": 16950
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Suvi Lawn Printed Off-White & Blue Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app_to_draft",
+      "units": 1,
+      "revenue": 13950
+    },
+    {
+      "date": "2026-08-23",
+      "title": "Mulmul Zeyaara white Pant",
+      "category": "Pant",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 4450
     }
   ],
   "bucketDaily": [
     {
       "date": "2026-08-22",
       "bucket": "online",
-      "revenue": 928949,
-      "orders": 40,
-      "newCustomers": 16,
+      "revenue": 911999,
+      "orders": 39,
+      "newCustomers": 15,
       "returningCustomers": 24,
       "waived": 0
     },
@@ -4135,9 +4151,9 @@
     {
       "date": "2026-08-22",
       "bucket": "app",
-      "revenue": 280448,
-      "orders": 16,
-      "newCustomers": 9,
+      "revenue": 266498,
+      "orders": 15,
+      "newCustomers": 8,
       "returningCustomers": 7,
       "waived": 0
     },
@@ -4198,10 +4214,10 @@
     {
       "date": "2026-08-23",
       "bucket": "stylist",
-      "revenue": 185529,
-      "orders": 10,
+      "revenue": 189979,
+      "orders": 11,
       "newCustomers": 0,
-      "returningCustomers": 10,
+      "returningCustomers": 11,
       "waived": 0
     },
     {
@@ -4239,6 +4255,15 @@
       "newCustomers": 0,
       "returningCustomers": 1,
       "waived": 0
+    },
+    {
+      "date": "2026-08-23",
+      "bucket": "app_to_draft",
+      "revenue": 13950,
+      "orders": 1,
+      "newCustomers": 0,
+      "returningCustomers": 1,
+      "waived": 0
     }
   ],
   "stylistDaily": [
@@ -4269,8 +4294,8 @@
     {
       "date": "2026-08-23",
       "stylist": "Priya",
-      "revenue": 50442,
-      "orders": 3
+      "revenue": 54892,
+      "orders": 4
     },
     {
       "date": "2026-08-22",
