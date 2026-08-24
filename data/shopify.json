@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-23 → 2026-08-24 IST",
-  "fetchedAt": "2026-08-24T03:29:39.677Z",
-  "rowCount": 91,
+  "fetchedAt": "2026-08-24T04:21:45.675Z",
+  "rowCount": 92,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 1641069.46,
-    "orders": 83,
-    "digitalRevenue": 1188740,
-    "digitalShare": 0.7243690952605991,
+    "revenue": 1668469.46,
+    "orders": 84,
+    "digitalRevenue": 1216140,
+    "digitalShare": 0.7288955711541762,
     "newCustomers": 33,
-    "returningCustomers": 50,
-    "newCustomerShare": 0.39759036144578314,
+    "returningCustomers": 51,
+    "newCustomerShare": 0.39285714285714285,
     "rebookOrders": 6,
     "rebookValue": 122688,
-    "revenueExcludingRebooks": 1518381.46,
+    "revenueExcludingRebooks": 1545781.46,
     "giftGrossValue": 0,
     "giftCashReceived": 0,
     "giftValueWaived": 0
@@ -34,58 +34,58 @@
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 917940,
-      "orders": 44,
-      "share": 0.5593547515045463,
-      "aov": 20862.272727272728
+      "revenue": 945340,
+      "orders": 45,
+      "share": 0.5665911319707344,
+      "aov": 21007.555555555555
     },
     {
       "bucket": "app",
       "revenue": 270800,
       "orders": 14,
-      "share": 0.16501434375605284,
+      "share": 0.1623044391834418,
       "aov": 19342.85714285714
     },
     {
       "bucket": "stylist",
       "revenue": 244041.46,
       "orders": 15,
-      "share": 0.14870879383740404,
+      "share": 0.14626666286118298,
       "aov": 16269.430666666665
     },
     {
       "bucket": "other_to_draft",
       "revenue": 78438,
       "orders": 3,
-      "share": 0.04779687996874916,
+      "share": 0.04701194830380653,
       "aov": 26146
     },
     {
       "bucket": "retail_assist",
       "revenue": 72650,
       "orders": 3,
-      "share": 0.044269911646518605,
+      "share": 0.043542900689353944,
       "aov": 24216.666666666668
     },
     {
       "bucket": "online_to_draft",
       "revenue": 30300,
       "orders": 2,
-      "share": 0.018463569482305764,
+      "share": 0.018160356378354087,
       "aov": 15150
     },
     {
       "bucket": "app_to_draft",
       "revenue": 13950,
       "orders": 1,
-      "share": 0.00850055426660612,
+      "share": 0.008360956154390744,
       "aov": 13950
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 12950,
       "orders": 1,
-      "share": 0.00789119553781715,
+      "share": 0.007761604458735493,
       "aov": 12950
     }
   ],
@@ -248,6 +248,17 @@
       "digitalShare": 1
     },
     {
+      "title": "Zivae Cupro Satin Printed Pink Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "units": 3,
+      "revenue": 49250,
+      "byBucket": {
+        "online": 3
+      },
+      "digitalUnits": 3,
+      "digitalShare": 1
+    },
+    {
       "title": "Suvi Lawn Printed Red Kurta Set",
       "category": "Kurta Sets",
       "units": 3,
@@ -278,17 +289,6 @@
       "category": "Gift Box",
       "units": 2,
       "revenue": 990,
-      "byBucket": {
-        "online": 2
-      },
-      "digitalUnits": 2,
-      "digitalShare": 1
-    },
-    {
-      "title": "Zivae Cupro Satin Printed Pink Kurta With Farshi Salwar",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 35800,
       "byBucket": {
         "online": 2
       },
@@ -1028,6 +1028,17 @@
       "category": "Kurta Sets",
       "units": 1,
       "revenue": 23900,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Mrina Cupro Satin Mustard Long Shirt Co-ord Set",
+      "category": "Co-ord Set",
+      "units": 1,
+      "revenue": 13950,
       "byBucket": {
         "online": 1
       },
@@ -1779,6 +1790,22 @@
       "bucket": "online",
       "units": 1,
       "revenue": 23900
+    },
+    {
+      "date": "2026-08-24",
+      "title": "Mrina Cupro Satin Mustard Long Shirt Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 13950
+    },
+    {
+      "date": "2026-08-24",
+      "title": "Zivae Cupro Satin Printed Pink Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 13450
     }
   ],
   "bucketDaily": [
@@ -1849,6 +1876,15 @@
       "date": "2026-08-23",
       "bucket": "app_to_draft",
       "revenue": 13950,
+      "orders": 1,
+      "newCustomers": 0,
+      "returningCustomers": 1,
+      "waived": 0
+    },
+    {
+      "date": "2026-08-24",
+      "bucket": "online",
+      "revenue": 27400,
       "orders": 1,
       "newCustomers": 0,
       "returningCustomers": 1,
