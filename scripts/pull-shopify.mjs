@@ -6,6 +6,7 @@
    ============================================================ */
 
 import { writeFile, appendFile, mkdir } from "node:fs/promises";
+import { mergeInto } from "./lib/merge.mjs";
 import { fetchOrders, attachEvents, fetchShop } from "./lib/shopify.mjs";
 import { summariseOrders, buildRebookIndex, isDraftApp, retailStoreOf, giftSignal, envelope } from "./lib/shape.mjs";
 
@@ -178,7 +179,22 @@ async function main() {
   };
 
   await mkdir("data", { recursive: true });
-  await writeFile("data/shopify.json", JSON.stringify(payload, null, 2));
+  /* Merge rather than overwrite.
+     The live job pulls two days every half hour; the backfill pulls
+     thirty. Whichever ran last used to win outright, so the file kept
+     flipping between a long history with no today and today with no
+     history. Daily rows are merged by key: this pull's window replaces
+     what was there for those dates, everything outside it is kept. */
+  const merged = await mergeInto("data/shopify.json", payload, {
+    productDaily: (r) => `${r.date}|${r.title}|${r.bucket}`,
+    bucketDaily: (r) => `${r.date}|${r.bucket}`,
+    stylistDaily: (r) => `${r.date}|${r.stylist}`,
+    storeDaily: (r) => `${r.date}|${r.store}`,
+    revenueDaily: (r) => `${r.date}|${r.bucket}`,
+    fakeOrders: (r) => r.name,
+  }, { from: report.startDate, to: report.endDate });
+
+  await writeFile("data/shopify.json", JSON.stringify(merged, null, 2));
   /* Both reports printed in the log too, so a failed pull is obvious
      without opening the dashboard. */
   const fk = s.fakeOrders;
