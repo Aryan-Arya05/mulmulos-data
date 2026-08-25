@@ -21,6 +21,7 @@ async function get(path, params) {
   const qs = new URLSearchParams({ ...params, access_token: TOKEN });
   const url = `${BASE}${path}?${qs}`;
 
+  let lastError = null;
   for (let attempt = 0; attempt < 5; attempt++) {
     const res = await fetch(url);
     const text = await res.text();
@@ -35,6 +36,7 @@ async function get(path, params) {
          means the request was too heavy or a backend hiccuped — both
          clear on retry, so they belong here rather than failing the run. */
       if ([1, 2, 4, 17, 613].includes(e.code) || e.is_transient) {
+        lastError = e;
         await sleep(5000 * (attempt + 1));
         continue;
       }
@@ -47,7 +49,59 @@ async function get(path, params) {
     if (!res.ok) throw new Error(`HTTP ${res.status} — ${text.slice(0, 200)}`);
     return body;
   }
-  throw new Error("Meta rate-limited us after 5 attempts.");
+  /* Say what actually failed. "Rate-limited" was a guess, and when the
+     real cause was error 1 (request too heavy) it pointed the wrong way. */
+  throw new Error(lastError
+    ? `Meta ${lastError.code} after 5 attempts: ${lastError.message}`
+    : "Meta failed after 5 attempts.");
+}
+
+/* One definition, used by both the synchronous and async paths — so the
+   two can never drift and quietly return different shapes. */
+const INSIGHT_FIELDS = [
+  "date_start", "campaign_id", "campaign_name", "objective",
+  "spend", "impressions", "reach", "frequency", "clicks", "ctr", "cpc", "cpm",
+  "actions", "action_values",
+].join(",");
+
+/**
+ * Heavy queries go through Meta's async insights job rather than the
+ * synchronous endpoint: submit, poll, collect. Months of daily
+ * campaign rows with action breakdowns exceed what the synchronous
+ * call will return, and it reports that as error 1 — "unknown error" —
+ * which retrying cannot fix.
+ */
+async function runAsyncInsights(accountId, params) {
+  const qs = new URLSearchParams({ ...params, access_token: TOKEN });
+  const res = await fetch(`${BASE}/act_${accountId}/insights?${qs}`, { method: "POST" });
+  /* .text() then parse, matching the rest of the client — Meta returns
+     HTML on some failures and .json() would throw an opaque error. */
+  const raw = await res.text();
+  let body;
+  try { body = JSON.parse(raw); }
+  catch { throw new Error(`Meta async submit returned non-JSON (${res.status}) — ${raw.slice(0, 200)}`); }
+  if (body.error) throw new Error(`Meta async submit ${body.error.code}: ${body.error.message}`);
+  const runId = body.report_run_id;
+  if (!runId) throw new Error("Meta accepted the async job but returned no report_run_id.");
+
+  for (let i = 0; i < 120; i++) {          // up to ~10 minutes
+    await sleep(5000);
+    const st = await get(`/${runId}`, { fields: "async_status,async_percent_completion" });
+    if (st.async_status === "Job Completed") break;
+    if (/Failed|Skipped/i.test(st.async_status || "")) {
+      throw new Error(`Meta async job ${st.async_status}`);
+    }
+    if (i === 119) throw new Error("Meta async job did not finish within 10 minutes.");
+  }
+
+  const out = [];
+  let after = null;
+  do {
+    const page = await get(`/${runId}/insights`, { limit: "500", ...(after ? { after } : {}) });
+    out.push(...(page.data || []));
+    after = page.paging?.cursors?.after && page.paging?.next ? page.paging.cursors.after : null;
+  } while (after);
+  return out;
 }
 
 /**
@@ -79,19 +133,32 @@ export function chunkRange(since, until, days = 31) {
 }
 
 export async function fetchInsights({ accountId, since, until, level = "campaign", chunkDays = 31 }) {
-  const chunks = chunkRange(since, until, chunkDays);
-  if (chunks.length > 1) {
-    console.log(`  range split into ${chunks.length} chunks of ≤${chunkDays} days — Meta rejects one large request`);
-    const all = [];
-    for (const c of chunks) {
-      process.stdout.write(`    ${c.since} → ${c.until} … `);
-      const rows = await fetchInsightsChunk({ accountId, since: c.since, until: c.until, level });
-      console.log(`${rows.length} rows`);
-      all.push(...rows);
-    }
-    return all;
+  const span = (Date.parse(until) - Date.parse(since)) / 86400000 + 1;
+
+  /* Short windows — the hourly live pull — stay synchronous because it
+     returns immediately. Anything longer goes async, which is slower to
+     start but is the only thing that completes. */
+  if (span <= 14) {
+    return fetchInsightsChunk({ accountId, since, until, level });
   }
-  return fetchInsightsChunk({ accountId, since, until, level });
+
+  const chunks = chunkRange(since, until, chunkDays);
+  console.log(`  ${span} days — using Meta's async report job, ${chunks.length} chunk(s) of ≤${chunkDays} days`);
+  const all = [];
+  for (const c of chunks) {
+    process.stdout.write(`    ${c.since} → ${c.until} … `);
+    const rows = await runAsyncInsights(accountId, {
+      level,
+      time_range: JSON.stringify({ since: c.since, until: c.until }),
+      time_increment: "1",
+      fields: INSIGHT_FIELDS,
+      action_attribution_windows: JSON.stringify(["7d_click"]),
+      limit: "500",
+    });
+    console.log(`${rows.length} rows`);
+    all.push(...rows);
+  }
+  return all;
 }
 
 async function fetchInsightsChunk({ accountId, since, until, level = "campaign" }) {
@@ -100,11 +167,7 @@ async function fetchInsightsChunk({ accountId, since, until, level = "campaign" 
     time_increment: "1",                       // one row per day
     time_range: JSON.stringify({ since, until }),
     action_attribution_windows: JSON.stringify(["7d_click"]),
-    fields: [
-      "date_start", "campaign_id", "campaign_name", "objective",
-      "spend", "impressions", "reach", "frequency", "clicks", "ctr", "cpc", "cpm",
-      "actions", "action_values",
-    ].join(","),
+    fields: INSIGHT_FIELDS,
     limit: "500",
   };
 
