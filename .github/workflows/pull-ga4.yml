@@ -39,6 +39,7 @@ jobs:
           GA4_PROPERTY_ID: "469222398"   # mulmulappbrew — the app property
           GA4_LABEL: "app"
           DAYS: ${{ inputs.days || '90' }}
+          INCLUDE_TODAY: "1"
         run: node scripts/pull-ga4.mjs
 
       - name: Commit if changed
