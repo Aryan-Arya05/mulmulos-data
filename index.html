@@ -83,6 +83,8 @@ tbody tr:nth-child(odd){background:#111c3155}
     <nav id="nav1">
       <a data-v="overview" class="on">Overview</a>
       <a data-v="channels">Channels</a>
+      <a data-v="actual">Actual revenue</a>
+      <a data-v="fake">Fake orders</a>
       <a data-v="stylists">Stylists</a>
       <a data-v="stores">Stores</a>
       <a data-v="products">Products</a>
@@ -722,6 +724,90 @@ funnels(){
   </div>`).join("")}`;
 },
 
+actual(){
+  const s = state.shopify; if(!s) return missing("shopify");
+  const ar = s.actualRevenue;
+  if(!ar) return `<div class="card"><div class="note err">This shopify.json predates the revenue report. Re-run <b>Pull Shopify</b>.</div></div>`;
+
+  const row = (k,label) => {
+    const r = ar[k]||{};
+    return `<div class="card"><h3>${label}<em>${esc(s.range||"")}</em></h3>
+      <div class="grid">
+        ${kpi("Actual revenue", lakh(r.actual), "gross + tax − reversals", "var(--ok)")}
+        ${kpi("Gross sales", lakh(r.grossSales), "before discounts")}
+        ${kpi("Taxes", lakh(r.tax), "as Shopify records them")}
+        ${kpi("Reversals", lakh(r.reversals), `${num(r.reversalCount)} same-day cancels`, r.reversals?"var(--err)":null)}
+        ${kpi("Orders", num(r.orders), "excluding cancelled")}
+      </div>
+      ${table(["Component","Amount"],[
+        ["Gross sales (pre-discount)", inr(r.grossSales)],
+        ["Discounts", "−"+inr(r.discounts)],
+        ["Taxes", "+"+inr(r.tax)],
+        ["Shipping", inr(r.shipping)],
+        ["<b>Gross + tax</b>", "<b>"+inr(r.grossPlusTax)+"</b>"],
+        ["Same-day reversals", "−"+inr(r.reversals)],
+        ["<b>Actual revenue</b>", `<b style="color:var(--ok)">${inr(r.actual)}</b>`],
+      ])}
+      ${r.rebookedCount?`<div class="note">${num(r.rebookedCount)} same-day cancellations worth ${inr(r.rebookedNotReversed)} were re-created as drafts. Those are <b>not</b> reversals — the sale still happened, so subtracting them would count the loss twice.</div>`:""}
+      ${r.cancelledOtherDayCount?`<div class="note">${num(r.cancelledOtherDayCount)} orders worth ${inr(r.cancelledOtherDay)} were placed on one day and cancelled on another. Outside the same-day rule, so shown here rather than netted off.</div>`:""}
+      <div class="note">Shopify's own net sales figure subtracts discounts and returns differently. If this does not match, the component table above shows which line diverges.</div>
+    </div>`;
+  };
+
+  return `<div class="card" style="margin-top:0"><div class="note">
+    <b>Actual = gross sales + taxes − same-day reversals.</b> A reversal is an order placed and cancelled on the same day that was <b>not</b> re-created as a draft.
+    Under GST-inclusive pricing Shopify reports gross excluding tax and lists tax separately, which is why they add rather than double-count.
+  </div></div>
+  ${row("online","Online store")}
+  ${row("app","Mobile app")}`;
+},
+
+fake(){
+  const s = state.shopify; if(!s) return missing("shopify");
+  const rows = s.fakeOrders;
+  if(!rows) return `<div class="card"><div class="note err">This shopify.json predates the fake-order report. Re-run <b>Pull Shopify</b>.</div></div>`;
+
+  const scoped = rows.filter(r=>r.bucket==="online"||r.bucket==="app");
+  const total = scoped.reduce((a,r)=>a+r.reversal,0);
+  const noUtm = scoped.filter(r=>!r.utmCampaign).length;
+
+  /* Which campaign is buying these is the point of the report. */
+  const byCampaign = new Map();
+  for(const r of scoped){
+    const k = r.utmCampaign || "(no UTM)";
+    const o = byCampaign.get(k) || {campaign:k, count:0, value:0};
+    o.count++; o.value += r.reversal || r.value;
+    byCampaign.set(k,o);
+  }
+  const camps = [...byCampaign.values()].sort((a,b)=>b.count-a.count);
+
+  return `<div class="grid">
+    ${kpi("Flagged orders", num(scoped.length), "online + app", scoped.length?"var(--err)":null)}
+    ${kpi("Value reversed", lakh(total), "cancelled only")}
+    ${kpi("Online", num(scoped.filter(r=>r.bucket==="online").length), "")}
+    ${kpi("App", num(scoped.filter(r=>r.bucket==="app").length), "")}
+  </div>
+
+  <div class="card"><h3>By campaign<em>where these are coming from</em></h3>
+  ${table(["UTM campaign","Orders","Value"], camps.map(c=>[
+    c.campaign==="(no UTM)"?`<span style="color:var(--dim)">(no UTM)</span>`:esc(c.campaign),
+    num(c.count), inr(c.value)]), "None flagged in this window.")}
+  ${noUtm?`<div class="note">${num(noUtm)} have no UTM. Shopify serves these through <b>customerJourneySummary</b>, which needs the protected customer data scope — without it the field is empty rather than wrong.</div>`:""}
+  <div class="note">This is the actionable part: a campaign appearing repeatedly here is buying fraudulent COD orders, and is worth cutting at source rather than cancelling one order at a time.</div>
+  </div>
+
+  <div class="card"><h3>Flagged orders</h3>
+  ${table(["Order","Channel","Ordered","Cancelled","Reversal","UTM campaign","UTM content","Tags"], scoped.map(r=>[
+    esc(r.name), esc(r.bucket), esc(r.orderedAt),
+    r.cancelledAt?esc(r.cancelledAt):`<span style="color:var(--warn)">not yet</span>`,
+    r.reversal?inr(r.reversal):`<span style="color:var(--dim)">—</span>`,
+    r.utmCampaign?esc(r.utmCampaign):`<span style="color:var(--dim)">—</span>`,
+    r.utmContent?esc(r.utmContent):`<span style="color:var(--dim)">—</span>`,
+    esc((r.tags||[]).join(", "))]), "None flagged in this window.")}
+  <div class="note">Matched on tags containing <b>fake</b> or <b>block_cod_method</b>, case-insensitive. Reversal is the full order value — on a cancelled COD order no money ever moved, so there is nothing to refund.</div>
+  </div>`;
+},
+
 quality(){
   const s = state.shopify, g = state.google;
   const u = s?.unclassified||[];
@@ -915,7 +1001,7 @@ const missing = n => `<div class="card"><div class="empty">
 </div></div>`;
 
 function render(){
-  $("#title").textContent = state.view==="google" ? "Google Ads" : state.view==="quality" ? "Data quality" : state.view==="history" ? "Retail history" : state.view==="meta" ? "Meta Ads" : state.view;
+  $("#title").textContent = state.view==="google" ? "Google Ads" : state.view==="quality" ? "Data quality" : state.view==="actual" ? "Actual revenue" : state.view==="fake" ? "Fake orders" : state.view==="history" ? "Retail history" : state.view==="meta" ? "Meta Ads" : state.view;
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on", a.dataset.v===state.view));
   $("#view").innerHTML = views[state.view] ? views[state.view]() : "";
   window.scrollTo(0,0);
