@@ -103,16 +103,16 @@ query Orders($q: String!, $after: String) {
       discountApplications(first: 5) { nodes { ... on DiscountCodeApplication { code } ... on ManualDiscountApplication { title description } } }
       tags
       customer { id displayName numberOfOrders }
-      /* Components, not just the total. Under GST-inclusive pricing
-         originalTotalSet already contains tax while subtotal does not,
-         so the only safe thing is to expose each piece and let the
-         numbers be reconciled against Shopify's own report. */
+      # Components, not just the total. Under GST-inclusive pricing
+      # originalTotalSet already contains tax while subtotal does not,
+      # so the only safe thing is to expose each piece and let the
+      # numbers be reconciled against Shopify's own report.
       currentSubtotalPriceSet { shopMoney { amount } }
       totalTaxSet { shopMoney { amount } }
       totalShippingPriceSet { shopMoney { amount } }
-      /* UTMs live behind protected customer data. If the scope is
-         missing Shopify returns an error alongside the data rather than
-         instead of it, which the client already handles. */
+      # UTMs live behind protected customer data. If the scope is
+      # missing Shopify returns an error alongside the data rather than
+      # instead of it, which the client already handles.
       customerJourneySummary {
         lastVisit { utmParameters { campaign content source medium } }
       }
