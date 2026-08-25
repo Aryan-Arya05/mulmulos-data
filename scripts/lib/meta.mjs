@@ -30,8 +30,11 @@ async function get(path, params) {
 
     if (body.error) {
       const e = body.error;
-      /* 4 = app rate limit, 17 = user rate limit, 613 = throttled. */
-      if ([4, 17, 613].includes(e.code) || e.is_transient) {
+      /* 4 = app rate limit, 17 = user rate limit, 613 = throttled.
+         1 and 2 are Meta's generic "unknown error", which in practice
+         means the request was too heavy or a backend hiccuped — both
+         clear on retry, so they belong here rather than failing the run. */
+      if ([1, 2, 4, 17, 613].includes(e.code) || e.is_transient) {
         await sleep(5000 * (attempt + 1));
         continue;
       }
@@ -55,7 +58,43 @@ async function get(path, params) {
  * cross-device and reads materially higher than the Ads Manager
  * "7-day click" column the reports use.
  */
-export async function fetchInsights({ accountId, since, until, level = "campaign" }) {
+/**
+ * Split a range into chunks of at most `days`.
+ *
+ * A four-month pull of daily campaign rows with action breakdowns is
+ * enough work that Meta returns error 1 rather than a result. Asking a
+ * month at a time succeeds where one large request does not.
+ */
+export function chunkRange(since, until, days = 31) {
+  const out = [];
+  let start = new Date(since + "T00:00:00Z");
+  const end = new Date(until + "T00:00:00Z");
+  while (start <= end) {
+    const stop = new Date(Math.min(
+      start.getTime() + (days - 1) * 86400000, end.getTime()));
+    out.push({ since: start.toISOString().slice(0, 10), until: stop.toISOString().slice(0, 10) });
+    start = new Date(stop.getTime() + 86400000);
+  }
+  return out;
+}
+
+export async function fetchInsights({ accountId, since, until, level = "campaign", chunkDays = 31 }) {
+  const chunks = chunkRange(since, until, chunkDays);
+  if (chunks.length > 1) {
+    console.log(`  range split into ${chunks.length} chunks of ≤${chunkDays} days — Meta rejects one large request`);
+    const all = [];
+    for (const c of chunks) {
+      process.stdout.write(`    ${c.since} → ${c.until} … `);
+      const rows = await fetchInsightsChunk({ accountId, since: c.since, until: c.until, level });
+      console.log(`${rows.length} rows`);
+      all.push(...rows);
+    }
+    return all;
+  }
+  return fetchInsightsChunk({ accountId, since, until, level });
+}
+
+async function fetchInsightsChunk({ accountId, since, until, level = "campaign" }) {
   const params = {
     level,
     time_increment: "1",                       // one row per day
