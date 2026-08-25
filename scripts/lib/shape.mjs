@@ -396,6 +396,9 @@ export function summariseOrders(orders = [], index = null) {
   const actualRevenue = {
     online: blankRevenue(), app: blankRevenue(),
   };
+  /* date x bucket, so the dashboard can show actual revenue for any
+     window rather than only the whole pull. */
+  const revenueGrain = new Map();
   const buckets = {};
   const stylists = new Map();
   const stores = new Map();
@@ -525,7 +528,17 @@ export function summariseOrders(orders = [], index = null) {
 
     if (bucket === "online" || bucket === "app") {
       const r = actualRevenue[bucket];
+      /* Reversals belong to the day the order was PLACED, matching the
+         same-day rule — a cancellation only counts against the revenue
+         it was originally booked into. */
+      const gk = `${day}|${bucket}`;
+      const g = revenueGrain.get(gk) || { date: day, bucket, ...blankRevenue() };
+      revenueGrain.set(gk, g);
+
       if (!o.cancelledAt) {
+        g.orders += 1; g.grossSales += parts.grossPreDiscount;
+        g.discounts += parts.discounts; g.tax += parts.tax;
+        g.shipping += parts.shipping; g.netTotal += parts.total;
         r.orders += 1;
         r.grossSales += parts.grossPreDiscount;
         r.discounts += parts.discounts;
@@ -539,11 +552,17 @@ export function summariseOrders(orders = [], index = null) {
         if (replacedByDraft(o, replacementIndex)) {
           r.rebookedNotReversed += parts.total;
           r.rebookedCount += 1;
+          g.rebookedNotReversed += parts.total;
+          g.rebookedCount += 1;
         } else {
           r.reversals += parts.total;
           r.reversalCount += 1;
+          g.reversals += parts.total;
+          g.reversalCount += 1;
         }
       } else {
+        g.cancelledOtherDay += parts.total;
+        g.cancelledOtherDayCount += 1;
         /* Placed one day, cancelled another. Outside the same-day rule,
            so surfaced rather than netted off. */
         r.cancelledOtherDay += parts.total;
@@ -592,6 +611,7 @@ export function summariseOrders(orders = [], index = null) {
     products: top,
     fakeOrders,
     actualRevenue,
+    revenueDaily: [...revenueGrain.values()].sort((a, b) => a.date.localeCompare(b.date)),
     /* date x product x bucket — the filterable grain */
     productDaily: [...grain.values()].sort((a, b) => b.units - a.units),
     bucketDaily: [...bucketGrain.values()].sort((a, b) => a.date.localeCompare(b.date)),
