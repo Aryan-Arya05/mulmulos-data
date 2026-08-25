@@ -5,6 +5,7 @@
    Local:  META_ACCESS_TOKEN=... node scripts/pull-meta.mjs
    ============================================================ */
 
+import { mergeInto } from "./lib/merge.mjs";
 import { writeFile, appendFile, mkdir } from "node:fs/promises";
 import { fetchInsights, fetchAccount } from "./lib/meta.mjs";
 import { shapeMetaRow, summariseMeta, envelope } from "./lib/shape.mjs";
@@ -90,7 +91,10 @@ async function main() {
   };
 
   await mkdir("data", { recursive: true });
-  await writeFile("data/meta.json", JSON.stringify(payload, null, 2));
+  const merged = await mergeInto("data/meta.json", payload,
+    { daily: (r) => `${r.date}|${r.name}`, rows: (r) => `${r.date}|${r.name}` },
+    { from: since, to: until });
+  await writeFile("data/meta.json", JSON.stringify(merged, null, 2));
   console.log(`\nWrote data/meta.json (${rows.length} daily rows)`);
 
   /* One line per day — the trend spine, same shape as the others. */
