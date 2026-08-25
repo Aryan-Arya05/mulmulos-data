@@ -6,6 +6,7 @@
      SUPERMETRICS_API_KEY=api_xxx node scripts/pull-google.mjs
    ============================================================ */
 
+import { mergeInto } from "./lib/merge.mjs";
 import { writeFile, appendFile, mkdir } from "node:fs/promises";
 import { query, toObjects, lastNDays } from "./lib/supermetrics.mjs";
 import { splitChannels, envelope, campaignType, hasCreatives, isOmni } from "./lib/shape.mjs";
@@ -220,7 +221,11 @@ async function main() {
   };
 
   await mkdir("data", { recursive: true });
-  await writeFile("data/google.json", JSON.stringify(payload, null, 2));
+  /* Merge so the hourly two-day pull does not erase the backfill. */
+  const merged = await mergeInto("data/google.json", payload,
+    { daily: (r) => `${r.date}|${r.account}|${r.name}` },
+    { from: startDate, to: endDate });
+  await writeFile("data/google.json", JSON.stringify(merged, null, 2));
   const dayCount = new Set(payload.daily.map((d) => d.date)).size;
   console.log(`\nWrote data/google.json (${ok.length}/${ACCOUNTS.length} accounts, ds_id=${dsId}, ${dayCount} days × ${payload.daily.length} campaign-days)`);
 
