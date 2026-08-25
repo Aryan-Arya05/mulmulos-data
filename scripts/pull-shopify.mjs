@@ -166,6 +166,7 @@ async function main() {
     unclassified: s.unclassified,
     fakeOrders: s.fakeOrders,
     actualRevenue: s.actualRevenue,
+    revenueDaily: s.revenueDaily,
     products: s.products.slice(0, 200),
     categories: s.categories,
     /* Capped so the committed file stays small; covers the busiest
