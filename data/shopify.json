@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-24 → 2026-08-25 IST",
-  "fetchedAt": "2026-08-25T12:27:06.073Z",
-  "rowCount": 250,
+  "fetchedAt": "2026-08-25T12:36:37.752Z",
+  "rowCount": 252,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 4569060,
-    "orders": 237,
+    "revenue": 4572168,
+    "orders": 238,
     "digitalRevenue": 1163957,
-    "digitalShare": 0.25474758484239646,
+    "digitalShare": 0.2545744163381573,
     "newCustomers": 124,
-    "returningCustomers": 113,
-    "newCustomerShare": 0.5232067510548524,
-    "rebookOrders": 8,
-    "rebookValue": 132400,
-    "revenueExcludingRebooks": 4436660,
+    "returningCustomers": 114,
+    "newCustomerShare": 0.5210084033613446,
+    "rebookOrders": 9,
+    "rebookValue": 145082,
+    "revenueExcludingRebooks": 4427086,
     "giftGrossValue": 138240,
     "giftCashReceived": 97650,
     "giftValueWaived": 40590
@@ -36,56 +36,56 @@
       "bucket": "retail_assist",
       "revenue": 1557950,
       "orders": 68,
-      "share": 0.3409782318463754,
+      "share": 0.3407464467622362,
       "aov": 22911.029411764706
     },
     {
       "bucket": "stylist",
-      "revenue": 1434748,
+      "revenue": 1425174,
       "orders": 85,
-      "share": 0.3140138234122555,
-      "aov": 16879.38823529412
+      "share": 0.311706393990772,
+      "aov": 16766.75294117647
     },
     {
       "bucket": "online",
       "revenue": 896857,
       "orders": 46,
-      "share": 0.19628917107676414,
+      "share": 0.1961557405589646,
       "aov": 19496.891304347828
     },
     {
       "bucket": "app",
       "revenue": 267100,
       "orders": 15,
-      "share": 0.058458413765632315,
+      "share": 0.058418675779192714,
       "aov": 17806.666666666668
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 182355,
       "orders": 10,
-      "share": 0.03991083505141101,
+      "share": 0.03988370506070643,
       "aov": 18235.5
     },
     {
       "bucket": "gift",
       "revenue": 97650,
       "orders": 5,
-      "share": 0.021372010873133642,
+      "share": 0.021357482927136535,
       "aov": 19530
     },
     {
       "bucket": "other_to_draft",
-      "revenue": 69650,
-      "orders": 4,
-      "share": 0.015243835712378476,
-      "aov": 17412.5
+      "revenue": 82332,
+      "orders": 5,
+      "share": 0.018007212333405073,
+      "aov": 16466.4
     },
     {
       "bucket": "online_to_draft",
       "revenue": 62750,
       "orders": 4,
-      "share": 0.013733678262049524,
+      "share": 0.013724342587586457,
       "aov": 15687.5
     }
   ],
@@ -97,8 +97,8 @@
     },
     {
       "stylist": "Rashika",
-      "revenue": 289586,
-      "orders": 13
+      "revenue": 279404,
+      "orders": 12
     },
     {
       "stylist": "Sagrika",
@@ -168,6 +168,11 @@
     {
       "stylist": "nidhi Singh",
       "revenue": 4450,
+      "orders": 1
+    },
+    {
+      "stylist": "Shivani / kashish",
+      "revenue": 608,
       "orders": 1
     }
   ],
@@ -392,8 +397,13 @@
     },
     {
       "title": "Mulmul Perfume",
-      "units": 10,
+      "units": 11,
       "digitalShare": 0
+    },
+    {
+      "title": "Anaya Denim Co-Ord Set",
+      "units": 6,
+      "digitalShare": 0.33
     },
     {
       "title": "Alouette Organza Fuchsia Co-Ord Set",
@@ -440,7 +450,7 @@
     {
       "name": "#ML237701",
       "amount": 9380,
-      "note": null
+      "note": "trackon"
     },
     {
       "name": "#ML237719",
@@ -567,8 +577,8 @@
       "units": 64,
       "revenue": 0,
       "byBucket": {
-        "stylist": 61,
-        "other_to_draft": 1,
+        "stylist": 60,
+        "other_to_draft": 2,
         "draft_unclassified": 2
       },
       "digitalUnits": 0,
@@ -577,10 +587,10 @@
     {
       "title": "Mulmul Perfume",
       "category": "Perfume",
-      "units": 10,
+      "units": 11,
       "revenue": 500,
       "byBucket": {
-        "stylist": 9,
+        "stylist": 10,
         "online_to_draft": 1
       },
       "digitalUnits": 0,
@@ -602,6 +612,19 @@
       "digitalShare": 0.4444444444444444
     },
     {
+      "title": "Anaya Denim Co-Ord Set",
+      "category": "Kurta Sets",
+      "units": 6,
+      "revenue": 86200,
+      "byBucket": {
+        "stylist": 3,
+        "online": 2,
+        "other_to_draft": 1
+      },
+      "digitalUnits": 2,
+      "digitalShare": 0.3333333333333333
+    },
+    {
       "title": "Mivya Cupro Satin Off-white Kurta with Balloon Pants",
       "category": "Kurta Sets",
       "units": 5,
@@ -613,18 +636,6 @@
       },
       "digitalUnits": 3,
       "digitalShare": 0.6
-    },
-    {
-      "title": "Anaya Denim Co-Ord Set",
-      "category": "Kurta Sets",
-      "units": 5,
-      "revenue": 71750,
-      "byBucket": {
-        "stylist": 3,
-        "online": 2
-      },
-      "digitalUnits": 2,
-      "digitalShare": 0.4
     },
     {
       "title": "Alouette Organza Fuchsia Co-Ord Set",
@@ -904,6 +915,18 @@
       "category": "Kurta Sets",
       "units": 2,
       "revenue": 49800,
+      "byBucket": {
+        "retail_assist": 1,
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
+      "title": "Mulmul Organza Zuri Red Dupatta",
+      "category": "Dupatta",
+      "units": 2,
+      "revenue": 9900,
       "byBucket": {
         "retail_assist": 1,
         "stylist": 1
@@ -1395,17 +1418,6 @@
       "digitalShare": 0
     },
     {
-      "title": "Mulmul Organza Zuri Red Dupatta",
-      "category": "Dupatta",
-      "units": 1,
-      "revenue": 4950,
-      "byBucket": {
-        "retail_assist": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
       "title": "Mevi Organza Pista Green Long Kurta Set",
       "category": "Kurta Sets",
       "units": 1,
@@ -1509,17 +1521,6 @@
       "category": "Kurta Sets",
       "units": 1,
       "revenue": 26900,
-      "byBucket": {
-        "stylist": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
-      "title": "Zavi Pima Satin Off White Printed Co-ord set",
-      "category": "Co-ord Set",
-      "units": 1,
-      "revenue": 11950,
       "byBucket": {
         "stylist": 1
       },
@@ -2833,7 +2834,7 @@
       "title": "Mulmul Potli Bag (Colour may vary)",
       "category": "Potli Bag",
       "bucket": "stylist",
-      "units": 33,
+      "units": 32,
       "revenue": 0
     },
     {
@@ -2850,6 +2851,14 @@
       "category": "Perfume",
       "bucket": "stylist",
       "units": 6,
+      "revenue": 0
+    },
+    {
+      "date": "2026-08-25",
+      "title": "Mulmul Perfume",
+      "category": "Perfume",
+      "bucket": "stylist",
+      "units": 4,
       "revenue": 0
     },
     {
@@ -2883,14 +2892,6 @@
       "bucket": "retail_assist",
       "units": 3,
       "revenue": 60750
-    },
-    {
-      "date": "2026-08-25",
-      "title": "Mulmul Perfume",
-      "category": "Perfume",
-      "bucket": "stylist",
-      "units": 3,
-      "revenue": 0
     },
     {
       "date": "2026-08-24",
@@ -3331,14 +3332,6 @@
       "bucket": "stylist",
       "units": 1,
       "revenue": 26900
-    },
-    {
-      "date": "2026-08-24",
-      "title": "Zavi Pima Satin Off White Printed Co-ord set",
-      "category": "Co-ord Set",
-      "bucket": "stylist",
-      "units": 1,
-      "revenue": 11950
     },
     {
       "date": "2026-08-24",
@@ -5011,6 +5004,30 @@
       "bucket": "online_to_draft",
       "units": 1,
       "revenue": 17900
+    },
+    {
+      "date": "2026-08-25",
+      "title": "Mulmul Organza Zuri Red Dupatta",
+      "category": "Dupatta",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 4950
+    },
+    {
+      "date": "2026-08-25",
+      "title": "Mulmul Potli Bag (Colour may vary)",
+      "category": "Potli Bag",
+      "bucket": "other_to_draft",
+      "units": 1,
+      "revenue": 0
+    },
+    {
+      "date": "2026-08-25",
+      "title": "Anaya Denim Co-Ord Set",
+      "category": "Kurta Sets",
+      "bucket": "other_to_draft",
+      "units": 1,
+      "revenue": 14450
     }
   ],
   "bucketDaily": [
@@ -5026,10 +5043,10 @@
     {
       "date": "2026-08-24",
       "bucket": "stylist",
-      "revenue": 774853,
-      "orders": 50,
+      "revenue": 764671,
+      "orders": 49,
       "newCustomers": 9,
-      "returningCustomers": 41,
+      "returningCustomers": 40,
       "waived": 0
     },
     {
@@ -5107,10 +5124,10 @@
     {
       "date": "2026-08-25",
       "bucket": "stylist",
-      "revenue": 659895,
-      "orders": 35,
+      "revenue": 660503,
+      "orders": 36,
       "newCustomers": 11,
-      "returningCustomers": 24,
+      "returningCustomers": 25,
       "waived": 0
     },
     {
@@ -5148,6 +5165,15 @@
       "newCustomers": 0,
       "returningCustomers": 2,
       "waived": 0
+    },
+    {
+      "date": "2026-08-25",
+      "bucket": "other_to_draft",
+      "revenue": 12682,
+      "orders": 1,
+      "newCustomers": 0,
+      "returningCustomers": 1,
+      "waived": 0
     }
   ],
   "stylistDaily": [
@@ -5160,8 +5186,8 @@
     {
       "date": "2026-08-24",
       "stylist": "Rashika",
-      "revenue": 162822,
-      "orders": 8
+      "revenue": 152640,
+      "orders": 7
     },
     {
       "date": "2026-08-24",
@@ -5299,6 +5325,12 @@
       "date": "2026-08-24",
       "stylist": "nidhi Singh",
       "revenue": 4450,
+      "orders": 1
+    },
+    {
+      "date": "2026-08-25",
+      "stylist": "Shivani / kashish",
+      "revenue": 608,
       "orders": 1
     }
   ],
