@@ -41,6 +41,7 @@ jobs:
           # with repo access, and secrets are masked, literals are not.
           SUPERMETRICS_API_KEY: ${{ secrets.SUPERMETRICS_API_KEY }}
           DAYS: ${{ inputs.days || '30' }}
+          INCLUDE_TODAY: "1"
         run: node scripts/pull-google.mjs
 
       - name: Commit if changed
