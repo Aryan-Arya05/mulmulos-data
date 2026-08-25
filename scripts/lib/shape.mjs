@@ -9,6 +9,48 @@
    18 Aug 2026 pull — a 55% understatement.
    ============================================================ */
 
+/* ── Fake orders ──────────────────────────────────────────────────
+   Tagged by the COD-fraud rules. Matching is case-insensitive and by
+   substring, because staff and apps write these inconsistently —
+   "Fake", "fake_order", "BLOCK_COD_METHOD" all count. */
+const FAKE_TAGS = [/fake/i, /block_cod_method/i];
+
+export const fakeTagsOn = (order) =>
+  (order?.tags || []).filter((t) => FAKE_TAGS.some((re) => re.test(String(t))));
+
+export const isFake = (order) => fakeTagsOn(order).length > 0;
+
+/* UTMs sit behind protected customer data. Absent scope, the field comes
+   back null and these read as "unknown" rather than silently empty. */
+export function utmOf(order) {
+  const u = order?.customerJourneySummary?.lastVisit?.utmParameters;
+  return { campaign: u?.campaign || null, content: u?.content || null,
+           source: u?.source || null, medium: u?.medium || null };
+}
+
+/* ── Revenue components ───────────────────────────────────────────
+   Kept apart on purpose. Under GST-inclusive pricing a line item's
+   original total already contains tax, so adding tax on top of it
+   double-counts; keeping the pieces separate makes any mismatch with
+   Shopify's own report visible instead of buried in one number. */
+export function revenueParts(order) {
+  const num = (v) => Number(v || 0);
+  const lines = order?.lineItems?.nodes || [];
+  const grossPreDiscount = lines.reduce(
+    (a, li) => a + num(li?.originalTotalSet?.shopMoney?.amount), 0);
+  const netAfterDiscount = lines.reduce(
+    (a, li) => a + num(li?.discountedTotalSet?.shopMoney?.amount), 0);
+  return {
+    grossPreDiscount,
+    netAfterDiscount,
+    discounts: grossPreDiscount - netAfterDiscount,
+    subtotal: num(order?.currentSubtotalPriceSet?.shopMoney?.amount),
+    tax: num(order?.totalTaxSet?.shopMoney?.amount),
+    shipping: num(order?.totalShippingPriceSet?.shopMoney?.amount),
+    total: num(order?.currentTotalPriceSet?.shopMoney?.amount),
+  };
+}
+
 export const isOmni = (name) => /omni/i.test(name || "");
 
 /* Campaign type, inferred from the naming convention rather than a
@@ -303,7 +345,57 @@ export function classify(order, index) {
   return { bucket: "other", detail: order?.app?.name || null };
 }
 
+
+/**
+ * The mirror of buildRebookIndex: that one lets a draft find the order
+ * it replaced; this one lets a cancelled order find the draft that
+ * replaced it. Needed because a cancel-and-rebook is not lost revenue —
+ * the sale still happened — so it must not count as a reversal.
+ */
+export function buildReplacementIndex(orders = [], windowDays = 3) {
+  const byCustomer = new Map();
+  for (const o of orders) {
+    if (!isDraftApp(o) || o?.cancelledAt) continue;
+    const id = o?.customer?.id;
+    if (!id) continue;
+    if (!byCustomer.has(id)) byCustomer.set(id, []);
+    byCustomer.get(id).push(o);
+  }
+  return { byCustomer, windowMs: windowDays * 86400000 };
+}
+
+/** Was this cancelled order re-created as a draft shortly after? */
+export function replacedByDraft(order, idx) {
+  const id = order?.customer?.id;
+  if (!id || !idx?.byCustomer?.has(id)) return null;
+  const t = new Date(order.createdAt).getTime();
+  for (const draft of idx.byCustomer.get(id)) {
+    const gap = new Date(draft.createdAt).getTime() - t;
+    if (gap <= 0 || gap > idx.windowMs) continue;
+    return draft.name;
+  }
+  return null;
+}
+
+function blankRevenue() {
+  return {
+    orders: 0, grossSales: 0, discounts: 0, tax: 0, shipping: 0, netTotal: 0,
+    reversals: 0, reversalCount: 0,
+    rebookedNotReversed: 0, rebookedCount: 0,
+    cancelledOtherDay: 0, cancelledOtherDayCount: 0,
+  };
+}
+
 export function summariseOrders(orders = [], index = null) {
+  /* Built here rather than passed in, so callers cannot forget it and
+     silently turn every rebook into a reversal. */
+  const replacementIndex = buildReplacementIndex(orders, 3);
+  const fakeOrders = [];
+  /* Actual revenue, online and app kept apart because they are
+     separate P&Ls in practice. */
+  const actualRevenue = {
+    online: blankRevenue(), app: blankRevenue(),
+  };
   const buckets = {};
   const stylists = new Map();
   const stores = new Map();
@@ -405,6 +497,70 @@ export function summariseOrders(orders = [], index = null) {
   const total = Object.values(buckets).reduce((a, b) => a + b.revenue, 0);
   const digital = (buckets.online?.revenue || 0) + (buckets.app?.revenue || 0);
 
+  /* Both reports are about orders the revenue loop deliberately skips —
+     cancelled ones — so they run in their own pass. Classifying here
+     rather than reusing the loop keeps the two concerns apart. */
+  for (const o of orders) {
+    const { bucket } = classify(o, index);
+    const parts = revenueParts(o);
+    const day = String(o.createdAt || "").slice(0, 10);
+    const cancelDay = o.cancelledAt ? String(o.cancelledAt).slice(0, 10) : null;
+
+    if (isFake(o)) {
+      const utm = utmOf(o);
+      fakeOrders.push({
+        name: o.name,
+        bucket,
+        orderedAt: day,
+        cancelledAt: cancelDay,
+        /* Full order value: on a cancelled COD order no money ever moved,
+           so the reversal is the whole thing, not a refund. */
+        reversal: o.cancelledAt ? parts.total : 0,
+        value: parts.total,
+        utmCampaign: utm.campaign,
+        utmContent: utm.content,
+        tags: fakeTagsOn(o),
+      });
+    }
+
+    if (bucket === "online" || bucket === "app") {
+      const r = actualRevenue[bucket];
+      if (!o.cancelledAt) {
+        r.orders += 1;
+        r.grossSales += parts.grossPreDiscount;
+        r.discounts += parts.discounts;
+        r.tax += parts.tax;
+        r.shipping += parts.shipping;
+        r.netTotal += parts.total;
+      } else if (cancelDay === day) {
+        /* Cancelled the same day it was placed. A cancel-and-rebook is
+           not lost revenue — the sale still happened as a draft — so
+           only genuine cancellations count as reversals. */
+        if (replacedByDraft(o, replacementIndex)) {
+          r.rebookedNotReversed += parts.total;
+          r.rebookedCount += 1;
+        } else {
+          r.reversals += parts.total;
+          r.reversalCount += 1;
+        }
+      } else {
+        /* Placed one day, cancelled another. Outside the same-day rule,
+           so surfaced rather than netted off. */
+        r.cancelledOtherDay += parts.total;
+        r.cancelledOtherDayCount += 1;
+      }
+    }
+  }
+
+  /* The formula as specified: gross plus taxes, less same-day reversals. grossPlusTax is kept alongside so a mismatch against
+     Shopify's own report can be traced to a component rather than
+     guessed at. */
+  for (const k of Object.keys(actualRevenue)) {
+    const r = actualRevenue[k];
+    r.grossPlusTax = r.grossSales + r.tax;
+    r.actual = r.grossPlusTax - r.reversals;
+  }
+
   const top = [...products.values()].map((p) => {
     const d = (p.byBucket.online || 0) + (p.byBucket.app || 0);
     return { ...p, digitalUnits: d, digitalShare: p.units ? d / p.units : null };
@@ -434,6 +590,8 @@ export function summariseOrders(orders = [], index = null) {
       .map((sv) => ({ ...sv, variants: [...sv.variants], merged: sv.variants.size > 1 }))
       .sort((a, b) => b.revenue - a.revenue),
     products: top,
+    fakeOrders,
+    actualRevenue,
     /* date x product x bucket — the filterable grain */
     productDaily: [...grain.values()].sort((a, b) => b.units - a.units),
     bucketDaily: [...bucketGrain.values()].sort((a, b) => a.date.localeCompare(b.date)),
