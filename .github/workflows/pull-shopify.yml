@@ -39,6 +39,7 @@ jobs:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP: shopmulmul.myshopify.com
           DAYS: ${{ inputs.days || '30' }}
+          INCLUDE_TODAY: "1"
         run: node scripts/pull-shopify.mjs
 
       - name: Commit if changed
