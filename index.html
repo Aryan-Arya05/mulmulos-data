@@ -729,9 +729,27 @@ actual(){
   const ar = s.actualRevenue;
   if(!ar) return `<div class="card"><div class="note err">This shopify.json predates the revenue report. Re-run <b>Pull Shopify</b>.</div></div>`;
 
+  const grain = s.revenueDaily||[];
+  const w = grain.length ? windowFrom(grain.map(g=>g.date)) : null;
+
+  /* Recompute inside the window rather than showing the whole pull. */
+  const scoped = {};
+  if(w){
+    for(const k of ["online","app"]){
+      const rows = grain.filter(g=>g.bucket===k && g.date>=w.from && g.date<=w.to);
+      const acc = {orders:0,grossSales:0,discounts:0,tax:0,shipping:0,netTotal:0,
+        reversals:0,reversalCount:0,rebookedNotReversed:0,rebookedCount:0,
+        cancelledOtherDay:0,cancelledOtherDayCount:0};
+      for(const g of rows) for(const f of Object.keys(acc)) acc[f] += Number(g[f])||0;
+      acc.grossPlusTax = acc.grossSales + acc.tax;
+      acc.actual = acc.grossPlusTax - acc.reversals;
+      scoped[k] = acc;
+    }
+  }
+
   const row = (k,label) => {
-    const r = ar[k]||{};
-    return `<div class="card"><h3>${label}<em>${esc(s.range||"")}</em></h3>
+    const r = (w ? scoped[k] : ar[k]) || {};
+    return `<div class="card"><h3>${label}<em>${w?`${esc(w.from)} → ${esc(w.to)}`:esc(s.range||"")}</em></h3>
       <div class="grid">
         ${kpi("Actual revenue", lakh(r.actual), "gross + tax − reversals", "var(--ok)")}
         ${kpi("Gross sales", lakh(r.grossSales), "before discounts")}
@@ -754,7 +772,9 @@ actual(){
     </div>`;
   };
 
-  return `<div class="card" style="margin-top:0"><div class="note">
+  return `${coverageWarning(s, w)}
+  ${w?windowBar(w):`<div class="card" style="margin-top:0"><div class="note">This shopify.json predates daily revenue rows. Re-run <b>Pull Shopify</b> for date filtering.</div></div>`}
+  <div class="card"><div class="note">
     <b>Actual = gross sales + taxes − same-day reversals.</b> A reversal is an order placed and cancelled on the same day that was <b>not</b> re-created as a draft.
     Under GST-inclusive pricing Shopify reports gross excluding tax and lists tax separately, which is why they add rather than double-count.
   </div></div>
@@ -767,7 +787,11 @@ fake(){
   const rows = s.fakeOrders;
   if(!rows) return `<div class="card"><div class="note err">This shopify.json predates the fake-order report. Re-run <b>Pull Shopify</b>.</div></div>`;
 
-  const scoped = rows.filter(r=>r.bucket==="online"||r.bucket==="app");
+  const inScope = rows.filter(r=>r.bucket==="online"||r.bucket==="app");
+  const w = inScope.length ? windowFrom(inScope.map(r=>r.orderedAt)) : null;
+  /* Filtered on the date the order was PLACED — that is what ties a
+     fake order back to the campaign that bought it. */
+  const scoped = w ? inScope.filter(r=>r.orderedAt>=w.from && r.orderedAt<=w.to) : inScope;
   const total = scoped.reduce((a,r)=>a+r.reversal,0);
   const noUtm = scoped.filter(r=>!r.utmCampaign).length;
 
@@ -781,7 +805,8 @@ fake(){
   }
   const camps = [...byCampaign.values()].sort((a,b)=>b.count-a.count);
 
-  return `<div class="grid">
+  return `${w?windowBar(w,"filtered on order date"):""}
+  <div class="grid">
     ${kpi("Flagged orders", num(scoped.length), "online + app", scoped.length?"var(--err)":null)}
     ${kpi("Value reversed", lakh(total), "cancelled only")}
     ${kpi("Online", num(scoped.filter(r=>r.bucket==="online").length), "")}
