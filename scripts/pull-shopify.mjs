@@ -164,6 +164,8 @@ async function main() {
     stores: s.stores,
     nonDigital: s.nonDigital,
     unclassified: s.unclassified,
+    fakeOrders: s.fakeOrders,
+    actualRevenue: s.actualRevenue,
     products: s.products.slice(0, 200),
     categories: s.categories,
     /* Capped so the committed file stays small; covers the busiest
@@ -176,6 +178,30 @@ async function main() {
 
   await mkdir("data", { recursive: true });
   await writeFile("data/shopify.json", JSON.stringify(payload, null, 2));
+  /* Both reports printed in the log too, so a failed pull is obvious
+     without opening the dashboard. */
+  const fk = s.fakeOrders;
+  console.log(`\n  fake / blocked-COD: ${fk.length} orders, ${inr(fk.reduce((a, f) => a + f.reversal, 0))} reversed`);
+  if (fk.length) {
+    const noUtm = fk.filter((f) => !f.utmCampaign).length;
+    if (noUtm) console.log(`    ⚠ ${noUtm} have no UTM — needs the protected customer data scope`);
+    const byCampaign = new Map();
+    for (const f of fk) {
+      const k = f.utmCampaign || "(none)";
+      byCampaign.set(k, (byCampaign.get(k) || 0) + 1);
+    }
+    for (const [k, v] of [...byCampaign].sort((a, b) => b[1] - a[1]).slice(0, 5)) {
+      console.log(`    ${String(k).slice(0, 44).padEnd(46)} ${v}`);
+    }
+  }
+
+  for (const k of ["online", "app"]) {
+    const r = s.actualRevenue[k];
+    console.log(`\n  ${k}: gross ${inr(r.grossSales)} + tax ${inr(r.tax)} − reversals ${inr(r.reversals)} = ${inr(r.actual)}`);
+    if (r.rebookedCount) console.log(`    ${r.rebookedCount} same-day cancels were rebooked as drafts — not counted as reversals`);
+    if (r.cancelledOtherDayCount) console.log(`    ${r.cancelledOtherDayCount} cancelled on a different day (${inr(r.cancelledOtherDay)}) — outside the same-day rule`);
+  }
+
   console.log(`\nWrote data/shopify.json · ${s.categories.length} categories · ${Math.min(s.productDaily.length, 4000)} product-day rows · ${s.bucketDaily.length} bucket-days`);
 
   await appendFile("data/shopify-history.jsonl", JSON.stringify({
