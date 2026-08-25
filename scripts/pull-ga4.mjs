@@ -6,6 +6,7 @@
            node scripts/pull-ga4.mjs
    ============================================================ */
 
+import { mergeInto } from "./lib/merge.mjs";
 import { writeFile, appendFile, mkdir } from "node:fs/promises";
 import { runReport, toRows } from "./lib/ga4.mjs";
 import { summariseGa4, envelope } from "./lib/shape.mjs";
@@ -97,7 +98,12 @@ async function main() {
   };
 
   await mkdir("data", { recursive: true });
-  await writeFile(OUT, JSON.stringify(payload, null, 2));
+  /* GA4 takes relative dates ("28daysAgo"), so bound the merge with the
+     dates that actually came back rather than the request. */
+  const days = (s.daily || []).map((d) => d.date).filter(Boolean).sort();
+  const merged = await mergeInto(OUT, payload, { daily: (r) => r.date },
+    { from: days[0], to: days[days.length - 1] });
+  await writeFile(OUT, JSON.stringify(merged, null, 2));
   console.log(`\nWrote ${OUT} (${s.daily.length} days, ${s.streams.length} streams)`);
 
   const lines = s.daily.map((d) => JSON.stringify({
