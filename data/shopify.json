@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-24 → 2026-08-25 IST",
-  "fetchedAt": "2026-08-25T11:17:54.878Z",
-  "rowCount": 237,
+  "fetchedAt": "2026-08-25T11:51:46.190Z",
+  "rowCount": 241,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 4332881,
-    "orders": 224,
-    "digitalRevenue": 1106257,
-    "digitalShare": 0.2553167280615369,
-    "newCustomers": 118,
-    "returningCustomers": 106,
-    "newCustomerShare": 0.5267857142857143,
+    "revenue": 4407581,
+    "orders": 228,
+    "digitalRevenue": 1129157,
+    "digitalShare": 0.25618519546209134,
+    "newCustomers": 121,
+    "returningCustomers": 107,
+    "newCustomerShare": 0.5307017543859649,
     "rebookOrders": 7,
     "rebookValue": 114500,
-    "revenueExcludingRebooks": 4218381,
+    "revenueExcludingRebooks": 4293081,
     "giftGrossValue": 138240,
     "giftCashReceived": 97650,
     "giftValueWaived": 40590
@@ -34,58 +34,58 @@
   "buckets": [
     {
       "bucket": "retail_assist",
-      "revenue": 1480800,
-      "orders": 65,
-      "share": 0.3417587512788835,
-      "aov": 22781.53846153846
+      "revenue": 1508700,
+      "orders": 66,
+      "share": 0.342296602149796,
+      "aov": 22859.090909090908
     },
     {
       "bucket": "stylist",
-      "revenue": 1332919,
-      "orders": 79,
-      "share": 0.30762880402208137,
-      "aov": 16872.392405063292
+      "revenue": 1356819,
+      "orders": 80,
+      "share": 0.30783756441458476,
+      "aov": 16960.2375
     },
     {
       "bucket": "online",
       "revenue": 896857,
       "orders": 46,
-      "share": 0.20698860642607078,
+      "share": 0.2034805486274671,
       "aov": 19496.891304347828
     },
     {
       "bucket": "app",
-      "revenue": 209400,
-      "orders": 11,
-      "share": 0.048328121635466105,
-      "aov": 19036.363636363636
+      "revenue": 232300,
+      "orders": 13,
+      "share": 0.05270464683462425,
+      "aov": 17869.23076923077
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 200755,
       "orders": 11,
-      "share": 0.04633291336641832,
+      "share": 0.04554765981612136,
       "aov": 18250.454545454544
     },
     {
       "bucket": "gift",
       "revenue": 97650,
       "orders": 5,
-      "share": 0.022536967897341283,
+      "share": 0.022155009743439768,
       "aov": 19530
     },
     {
       "bucket": "other_to_draft",
       "revenue": 69650,
       "orders": 4,
-      "share": 0.016074754880182493,
+      "share": 0.015802318777578903,
       "aov": 17412.5
     },
     {
       "bucket": "online_to_draft",
       "revenue": 44850,
       "orders": 3,
-      "share": 0.010351080493556136,
+      "share": 0.01017564963638785,
       "aov": 14950
     }
   ],
@@ -142,8 +142,8 @@
     },
     {
       "stylist": "Muskaan",
-      "revenue": 20262,
-      "orders": 1
+      "revenue": 44162,
+      "orders": 2
     },
     {
       "stylist": "Shivani",
@@ -199,21 +199,21 @@
       "merged": false
     },
     {
-      "store": "JUHU",
-      "revenue": 144500,
-      "orders": 2,
+      "store": "JIO",
+      "revenue": 144900,
+      "orders": 6,
       "variants": [
-        "JUHU"
+        "JIO"
       ],
       "matched": "exact",
       "merged": false
     },
     {
-      "store": "JIO",
-      "revenue": 117000,
-      "orders": 5,
+      "store": "JUHU",
+      "revenue": 144500,
+      "orders": 2,
       "variants": [
-        "JIO"
+        "JUHU"
       ],
       "matched": "exact",
       "merged": false
@@ -382,18 +382,13 @@
   "nonDigital": [
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
-      "units": 60,
+      "units": 61,
       "digitalShare": 0
     },
     {
       "title": "Mulmul Perfume",
-      "units": 7,
+      "units": 8,
       "digitalShare": 0
-    },
-    {
-      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
-      "units": 7,
-      "digitalShare": 0.29
     },
     {
       "title": "Alouette Organza Fuchsia Co-Ord Set",
@@ -472,10 +467,10 @@
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
       "category": "Potli Bag",
-      "units": 60,
+      "units": 61,
       "revenue": 0,
       "byBucket": {
-        "stylist": 56,
+        "stylist": 57,
         "other_to_draft": 1,
         "draft_unclassified": 3
       },
@@ -485,10 +480,10 @@
     {
       "title": "Mulmul Perfume",
       "category": "Perfume",
-      "units": 7,
+      "units": 8,
       "revenue": 500,
       "byBucket": {
-        "stylist": 6,
+        "stylist": 7,
         "online_to_draft": 1
       },
       "digitalUnits": 0,
@@ -497,16 +492,17 @@
     {
       "title": "Veya Cupro Satin Lime & Pink Kurta Set",
       "category": "Kurta Sets",
-      "units": 7,
-      "revenue": 143400,
+      "units": 8,
+      "revenue": 160350,
       "byBucket": {
         "retail_assist": 3,
         "online": 2,
         "stylist": 1,
-        "draft_unclassified": 1
+        "draft_unclassified": 1,
+        "app": 1
       },
-      "digitalUnits": 2,
-      "digitalShare": 0.2857142857142857
+      "digitalUnits": 3,
+      "digitalShare": 0.375
     },
     {
       "title": "Mivya Cupro Satin Off-white Kurta with Balloon Pants",
@@ -2637,6 +2633,39 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Moonflower Off White Vegan Juttie",
+      "category": "Juttis",
+      "units": 1,
+      "revenue": 5950,
+      "byBucket": {
+        "app": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Asmi Organza Off White Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 23900,
+      "byBucket": {
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
+      "title": "Dali Banarasi Blue Kurta with Mustard Garara",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 27900,
+      "byBucket": {
+        "retail_assist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
     }
   ],
   "categories": [
@@ -2676,7 +2705,7 @@
       "title": "Mulmul Potli Bag (Colour may vary)",
       "category": "Potli Bag",
       "bucket": "stylist",
-      "units": 23,
+      "units": 24,
       "revenue": 0
     },
     {
@@ -4742,6 +4771,46 @@
       "bucket": "stylist",
       "units": 1,
       "revenue": 24900
+    },
+    {
+      "date": "2026-08-25",
+      "title": "Moonflower Off White Vegan Juttie",
+      "category": "Juttis",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 5950
+    },
+    {
+      "date": "2026-08-25",
+      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 16950
+    },
+    {
+      "date": "2026-08-25",
+      "title": "Asmi Organza Off White Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 23900
+    },
+    {
+      "date": "2026-08-25",
+      "title": "Mulmul Perfume",
+      "category": "Perfume",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 0
+    },
+    {
+      "date": "2026-08-25",
+      "title": "Dali Banarasi Blue Kurta with Mustard Garara",
+      "category": "Kurta Sets",
+      "bucket": "retail_assist",
+      "units": 1,
+      "revenue": 27900
     }
   ],
   "bucketDaily": [
@@ -4820,10 +4889,10 @@
     {
       "date": "2026-08-25",
       "bucket": "app",
-      "revenue": 65650,
-      "orders": 4,
-      "newCustomers": 2,
-      "returningCustomers": 2,
+      "revenue": 88550,
+      "orders": 6,
+      "newCustomers": 3,
+      "returningCustomers": 3,
       "waived": 0
     },
     {
@@ -4838,9 +4907,9 @@
     {
       "date": "2026-08-25",
       "bucket": "stylist",
-      "revenue": 558066,
-      "orders": 29,
-      "newCustomers": 9,
+      "revenue": 581966,
+      "orders": 30,
+      "newCustomers": 10,
       "returningCustomers": 20,
       "waived": 0
     },
@@ -4856,9 +4925,9 @@
     {
       "date": "2026-08-25",
       "bucket": "retail_assist",
-      "revenue": 103950,
-      "orders": 6,
-      "newCustomers": 6,
+      "revenue": 131850,
+      "orders": 7,
+      "newCustomers": 7,
       "returningCustomers": 0,
       "waived": 0
     },
@@ -4965,6 +5034,12 @@
       "stylist": "Kritika",
       "revenue": 34800,
       "orders": 2
+    },
+    {
+      "date": "2026-08-25",
+      "stylist": "Muskaan",
+      "revenue": 23900,
+      "orders": 1
     },
     {
       "date": "2026-08-24",
@@ -5075,6 +5150,12 @@
       "store": "HYDERABAD",
       "revenue": 33300,
       "orders": 4
+    },
+    {
+      "date": "2026-08-25",
+      "store": "JIO",
+      "revenue": 27900,
+      "orders": 1
     },
     {
       "date": "2026-08-24",
