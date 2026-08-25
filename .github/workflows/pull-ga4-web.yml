@@ -39,6 +39,7 @@ jobs:
           GA4_PROPERTY_ID: "353202736"   # Shop Mul Mul - GA4 — the web property
           GA4_LABEL: "web"
           DAYS: ${{ inputs.days || '90' }}
+          INCLUDE_TODAY: "1"
         run: node scripts/pull-ga4.mjs
 
       - name: Commit if changed
