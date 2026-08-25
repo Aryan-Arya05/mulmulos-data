@@ -42,6 +42,7 @@ jobs:
           # editing code.
           META_API_VERSION: ${{ vars.META_API_VERSION || 'v23.0' }}
           DAYS: ${{ inputs.days || '30' }}
+          INCLUDE_TODAY: "1"
         run: node scripts/pull-meta.mjs
 
       - name: Commit if changed
