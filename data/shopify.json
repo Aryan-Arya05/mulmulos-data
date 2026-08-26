@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-25 → 2026-08-26 IST",
-  "fetchedAt": "2026-08-26T00:40:28.933Z",
-  "rowCount": 103,
+  "fetchedAt": "2026-08-26T02:19:28.291Z",
+  "rowCount": 104,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 1730590,
-    "orders": 96,
-    "digitalRevenue": 694550,
-    "digitalShare": 0.40133711624359325,
-    "newCustomers": 43,
+    "revenue": 1747540,
+    "orders": 97,
+    "digitalRevenue": 711500,
+    "digitalShare": 0.40714375636609174,
+    "newCustomers": 44,
     "returningCustomers": 53,
-    "newCustomerShare": 0.4479166666666667,
+    "newCustomerShare": 0.4536082474226804,
     "rebookOrders": 3,
     "rebookValue": 52482,
-    "revenueExcludingRebooks": 1678108,
+    "revenueExcludingRebooks": 1695058,
     "giftGrossValue": 24800,
     "giftCashReceived": 16900,
     "giftValueWaived": 7900
@@ -36,56 +36,56 @@
       "bucket": "stylist",
       "revenue": 681453,
       "orders": 38,
-      "share": 0.39376917698588343,
+      "share": 0.38994987239204826,
       "aov": 17932.973684210527
     },
     {
       "bucket": "online",
-      "revenue": 440450,
-      "orders": 23,
-      "share": 0.2545085779994106,
-      "aov": 19150
+      "revenue": 457400,
+      "orders": 24,
+      "share": 0.2617393593279696,
+      "aov": 19058.333333333332
     },
     {
       "bucket": "app",
       "revenue": 254100,
       "orders": 15,
-      "share": 0.14682853824418263,
+      "share": 0.14540439703812216,
       "aov": 16940
     },
     {
       "bucket": "retail_assist",
       "revenue": 181100,
       "orders": 9,
-      "share": 0.10464639227084405,
+      "share": 0.1036313904116644,
       "aov": 20122.222222222223
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 104105,
       "orders": 6,
-      "share": 0.06015578502129332,
+      "share": 0.05957231308010117,
       "aov": 17350.833333333332
     },
     {
       "bucket": "online_to_draft",
       "revenue": 39800,
       "orders": 2,
-      "share": 0.02299793711971062,
+      "share": 0.02277487210593177,
       "aov": 19900
     },
     {
       "bucket": "gift",
       "revenue": 16900,
       "orders": 2,
-      "share": 0.009765455711635916,
+      "share": 0.009670737150508715,
       "aov": 8450
     },
     {
       "bucket": "other_to_draft",
       "revenue": 12682,
       "orders": 1,
-      "share": 0.007328136647039449,
+      "share": 0.0072570584936539366,
       "aov": 12682
     }
   ],
@@ -6335,20 +6335,20 @@
   ],
   "actualRevenue": {
     "online": {
-      "orders": 23,
-      "grossSales": 440950,
+      "orders": 24,
+      "grossSales": 457900,
       "discounts": 0,
-      "tax": 68020.72000000002,
+      "tax": 70704.24000000002,
       "shipping": 0,
-      "netTotal": 440450,
+      "netTotal": 457400,
       "reversals": 0,
       "reversalCount": 3,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 508970.72000000003,
-      "actual": 508970.72000000003
+      "grossPlusTax": 528604.24,
+      "actual": 528604.24
     },
     "app": {
       "orders": 15,
@@ -10207,6 +10207,22 @@
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0
+    },
+    {
+      "date": "2026-08-26",
+      "bucket": "online",
+      "orders": 1,
+      "grossSales": 16950,
+      "discounts": 0,
+      "tax": 2683.52,
+      "shipping": 0,
+      "netTotal": 16950,
+      "reversals": 0,
+      "reversalCount": 0,
+      "rebookedNotReversed": 0,
+      "rebookedCount": 0,
+      "cancelledOtherDay": 0,
+      "cancelledOtherDayCount": 0
     }
   ],
   "products": [
@@ -10226,16 +10242,16 @@
     {
       "title": "Veya Cupro Satin Lime & Pink Kurta Set",
       "category": "Kurta Sets",
-      "units": 6,
-      "revenue": 126450,
+      "units": 7,
+      "revenue": 143400,
       "byBucket": {
         "stylist": 1,
-        "online": 1,
+        "online": 2,
         "draft_unclassified": 1,
         "app": 3
       },
-      "digitalUnits": 4,
-      "digitalShare": 0.6666666666666666
+      "digitalUnits": 5,
+      "digitalShare": 0.7142857142857143
     },
     {
       "title": "Mulmul Perfume",
@@ -45321,6 +45337,14 @@
       "bucket": "app",
       "units": 1,
       "revenue": 16900
+    },
+    {
+      "date": "2026-08-26",
+      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 16950
     }
   ],
   "bucketDaily": [
@@ -52792,6 +52816,15 @@
       "orders": 1,
       "newCustomers": 0,
       "returningCustomers": 1,
+      "waived": 0
+    },
+    {
+      "date": "2026-08-26",
+      "bucket": "online",
+      "revenue": 16950,
+      "orders": 1,
+      "newCustomers": 1,
+      "returningCustomers": 0,
       "waived": 0
     }
   ],
@@ -65861,5 +65894,5 @@
       "orders": 1
     }
   ],
-  "mergedFrom": "2026-08-24 → 2026-08-25 IST"
+  "mergedFrom": "2026-08-25 → 2026-08-26 IST"
 }
