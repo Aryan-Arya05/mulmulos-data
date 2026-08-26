@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-25 → 2026-08-26 IST",
-  "fetchedAt": "2026-08-26T04:30:04.804Z",
-  "rowCount": 104,
+  "fetchedAt": "2026-08-26T05:06:20.664Z",
+  "rowCount": 105,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 1747540,
-    "orders": 97,
-    "digitalRevenue": 711500,
-    "digitalShare": 0.40714375636609174,
-    "newCustomers": 44,
+    "revenue": 1767240,
+    "orders": 98,
+    "digitalRevenue": 731200,
+    "digitalShare": 0.4137525180507458,
+    "newCustomers": 45,
     "returningCustomers": 53,
-    "newCustomerShare": 0.4536082474226804,
+    "newCustomerShare": 0.45918367346938777,
     "rebookOrders": 3,
     "rebookValue": 52482,
-    "revenueExcludingRebooks": 1695058,
+    "revenueExcludingRebooks": 1714758,
     "giftGrossValue": 24800,
     "giftCashReceived": 16900,
     "giftValueWaived": 7900
@@ -36,56 +36,56 @@
       "bucket": "stylist",
       "revenue": 681453,
       "orders": 38,
-      "share": 0.38994987239204826,
+      "share": 0.38560297412915057,
       "aov": 17932.973684210527
     },
     {
       "bucket": "online",
       "revenue": 457400,
       "orders": 24,
-      "share": 0.2617393593279696,
+      "share": 0.25882166542178764,
       "aov": 19058.333333333332
     },
     {
       "bucket": "app",
-      "revenue": 254100,
-      "orders": 15,
-      "share": 0.14540439703812216,
-      "aov": 16940
+      "revenue": 273800,
+      "orders": 16,
+      "share": 0.15493085262895814,
+      "aov": 17112.5
     },
     {
       "bucket": "retail_assist",
       "revenue": 181100,
       "orders": 9,
-      "share": 0.1036313904116644,
+      "share": 0.10247617754238247,
       "aov": 20122.222222222223
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 104105,
       "orders": 6,
-      "share": 0.05957231308010117,
+      "share": 0.058908241099115,
       "aov": 17350.833333333332
     },
     {
       "bucket": "online_to_draft",
       "revenue": 39800,
       "orders": 2,
-      "share": 0.02277487210593177,
+      "share": 0.022520993187116634,
       "aov": 19900
     },
     {
       "bucket": "gift",
       "revenue": 16900,
       "orders": 2,
-      "share": 0.009670737150508715,
+      "share": 0.009562934293021887,
       "aov": 8450
     },
     {
       "bucket": "other_to_draft",
       "revenue": 12682,
       "orders": 1,
-      "share": 0.0072570584936539366,
+      "share": 0.007176161698467667,
       "aov": 12682
     }
   ],
@@ -6351,20 +6351,20 @@
       "actual": 528604.24
     },
     "app": {
-      "orders": 15,
-      "grossSales": 254600,
+      "orders": 16,
+      "grossSales": 274800,
       "discounts": 0,
-      "tax": 39166.340000000004,
+      "tax": 42171.420000000006,
       "shipping": 0,
-      "netTotal": 254100,
+      "netTotal": 273800,
       "reversals": 0,
       "reversalCount": 3,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 293766.34,
-      "actual": 293766.34
+      "grossPlusTax": 316971.42,
+      "actual": 316971.42
     }
   },
   "revenueDaily": [
@@ -10223,6 +10223,22 @@
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0
+    },
+    {
+      "date": "2026-08-26",
+      "bucket": "app",
+      "orders": 1,
+      "grossSales": 20200,
+      "discounts": 0,
+      "tax": 3005.08,
+      "shipping": 0,
+      "netTotal": 19700,
+      "reversals": 0,
+      "reversalCount": 0,
+      "rebookedNotReversed": 0,
+      "rebookedCount": 0,
+      "cancelledOtherDay": 0,
+      "cancelledOtherDayCount": 0
     }
   ],
   "products": [
@@ -11214,6 +11230,17 @@
       },
       "digitalUnits": 1,
       "digitalShare": 1
+    },
+    {
+      "title": "Chitra Cupro Satin Blue Kaftan Set",
+      "category": "Kaftan Sets",
+      "units": 1,
+      "revenue": 20200,
+      "byBucket": {
+        "app": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
     }
   ],
   "categories": [
@@ -11223,6 +11250,7 @@
     "Gift Box",
     "Heels",
     "Juttis",
+    "Kaftan Sets",
     "Kids",
     "Kurta",
     "Kurta Set",
@@ -45345,6 +45373,14 @@
       "bucket": "online",
       "units": 1,
       "revenue": 16950
+    },
+    {
+      "date": "2026-08-26",
+      "title": "Chitra Cupro Satin Blue Kaftan Set",
+      "category": "Kaftan Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 20200
     }
   ],
   "bucketDaily": [
@@ -52822,6 +52858,15 @@
       "date": "2026-08-26",
       "bucket": "online",
       "revenue": 16950,
+      "orders": 1,
+      "newCustomers": 1,
+      "returningCustomers": 0,
+      "waived": 0
+    },
+    {
+      "date": "2026-08-26",
+      "bucket": "app",
+      "revenue": 19700,
       "orders": 1,
       "newCustomers": 1,
       "returningCustomers": 0,
