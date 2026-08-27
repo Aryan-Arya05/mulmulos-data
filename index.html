@@ -751,10 +751,10 @@ actual(){
     const r = (w ? scoped[k] : ar[k]) || {};
     return `<div class="card"><h3>${label}<em>${w?`${esc(w.from)} → ${esc(w.to)}`:esc(s.range||"")}</em></h3>
       <div class="grid">
-        ${kpi("Actual revenue", lakh(r.actual), "gross + tax − reversals", "var(--ok)")}
-        ${kpi("Gross sales", lakh(r.grossSales), "before discounts")}
-        ${kpi("Taxes", lakh(r.tax), "as Shopify records them")}
-        ${kpi("Reversals", lakh(r.reversals), `${num(r.reversalCount)} same-day cancels`, r.reversals?"var(--err)":null)}
+        ${kpi("Actual revenue", inr(r.actual), "gross + tax − reversals", "var(--ok)")}
+        ${kpi("Gross sales", inr(r.grossSales), "before discounts")}
+        ${kpi("Taxes", inr(r.tax), "as Shopify records them")}
+        ${kpi("Reversals", inr(r.reversals), `${num(r.reversalCount)} same-day cancels`, r.reversals?"var(--err)":null)}
         ${kpi("Orders", num(r.orders), "excluding cancelled")}
       </div>
       ${table(["Component","Amount"],[
@@ -766,6 +766,24 @@ actual(){
         ["Same-day reversals", "−"+inr(r.reversals)],
         ["<b>Actual revenue</b>", `<b style="color:var(--ok)">${inr(r.actual)}</b>`],
       ])}
+      ${(()=>{
+        const days = grain.filter(x=>x.bucket===k && (!w || (x.date>=w.from && x.date<=w.to)))
+          .sort((a,b)=>b.date.localeCompare(a.date));
+        if(!days.length) return "";
+        /* One row per date per bucket is the invariant. More than one
+           means a pull merged badly and the total is inflated — worth
+           saying out loud rather than leaving it to be noticed. */
+        const seen = new Map();
+        for(const d of days) seen.set(d.date, (seen.get(d.date)||0)+1);
+        const dupes = [...seen].filter(([,c])=>c>1);
+        return `${dupes.length?`<div class="note err"><b>Duplicate rows.</b> ${dupes.map(([d,c])=>`${esc(d)} appears ${c} times`).join(", ")} — the total above is inflated. Re-run <b>Backfill · Shopify</b>, which replaces the whole window.</div>`:""}
+        <details><summary style="cursor:pointer;font-size:12px;color:var(--muted);margin-top:10px">Day by day (${days.length} rows)</summary>
+        ${table(["Date","Gross","Tax","Reversals","Actual","Orders"], days.map(d=>[
+          esc(d.date), inr(d.grossSales), inr(d.tax),
+          d.reversals?`<span style="color:var(--err)">${inr(d.reversals)}</span>`:"—",
+          `<b>${inr(d.grossSales + d.tax - d.reversals)}</b>`, num(d.orders)]))}
+        </details>`;
+      })()}
       ${r.rebookedCount?`<div class="note">${num(r.rebookedCount)} same-day cancellations worth ${inr(r.rebookedNotReversed)} were re-created as drafts. Those are <b>not</b> reversals — the sale still happened, so subtracting them would count the loss twice.</div>`:""}
       ${r.cancelledOtherDayCount?`<div class="note">${num(r.cancelledOtherDayCount)} orders worth ${inr(r.cancelledOtherDay)} were placed on one day and cancelled on another. Outside the same-day rule, so shown here rather than netted off.</div>`:""}
       <div class="note">Shopify's own net sales figure subtracts discounts and returns differently. If this does not match, the component table above shows which line diverges.</div>
