@@ -426,6 +426,10 @@ export function summariseOrders(orders = [], index = null) {
   /* date x bucket, so the dashboard can show actual revenue for any
      window rather than only the whole pull. */
   const revenueGrain = new Map();
+  /* Every order behind the revenue figure, so a disagreement with
+     Shopify can be diffed order by order instead of inferred from
+     totals. That inference has been wrong more than once. */
+  const revenueOrders = [];
   const buckets = {};
   const stylists = new Map();
   const stores = new Map();
@@ -558,6 +562,15 @@ export function summariseOrders(orders = [], index = null) {
       /* Reversals belong to the day the order was PLACED, matching the
          same-day rule — a cancellation only counts against the revenue
          it was originally booked into. */
+      revenueOrders.push({
+        name: o.name, date: day, bucket,
+        gross: parts.grossSales, tax: parts.tax, total: parts.total,
+        cancelledAt: cancelDay,
+        state: !o.cancelledAt ? "counted"
+             : cancelDay === day ? (replacedByDraft(o, replacementIndex) ? "rebooked" : "reversed")
+             : "cancelled another day",
+      });
+
       const gk = `${day}|${bucket}`;
       const g = revenueGrain.get(gk) || { date: day, bucket, ...blankRevenue() };
       revenueGrain.set(gk, g);
@@ -650,6 +663,7 @@ export function summariseOrders(orders = [], index = null) {
     products: top,
     fakeOrders,
     actualRevenue,
+    revenueOrders,
     revenueDaily: [...revenueGrain.values()].sort((a, b) => a.date.localeCompare(b.date)),
     /* date x product x bucket — the filterable grain */
     productDaily: [...grain.values()].sort((a, b) => b.units - a.units),
