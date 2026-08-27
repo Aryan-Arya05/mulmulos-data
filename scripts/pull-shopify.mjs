@@ -8,7 +8,7 @@
 import { writeFile, appendFile, mkdir } from "node:fs/promises";
 import { mergeInto } from "./lib/merge.mjs";
 import { fetchOrders, attachEvents, fetchShop } from "./lib/shopify.mjs";
-import { summariseOrders, buildRebookIndex, isDraftApp, retailStoreOf, giftSignal, envelope } from "./lib/shape.mjs";
+import { istDay, summariseOrders, buildRebookIndex, isDraftApp, retailStoreOf, giftSignal, envelope } from "./lib/shape.mjs";
 
 const DAYS = Number(process.env.DAYS || 7);
 const REBOOK_WINDOW = Number(process.env.REBOOK_DAYS || 3);
@@ -102,7 +102,9 @@ async function main() {
   const index = buildRebookIndex(orders, REBOOK_WINDOW);
 
   /* Report only on the requested window; the lookback was context. */
-  const inWindow = orders.filter((o) => o.createdAt.slice(0, 10) >= report.startDate);
+  /* istDay, not a UTC slice: an order at 2am IST carries the previous
+     UTC date and would be dropped from its own window. */
+  const inWindow = orders.filter((o) => istDay(o.createdAt) >= report.startDate);
   const s = summariseOrders(inWindow, index);
 
   console.log("");
