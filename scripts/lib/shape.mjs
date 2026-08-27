@@ -40,16 +40,43 @@ export function revenueParts(order) {
     (a, li) => a + num(li?.originalTotalSet?.shopMoney?.amount), 0);
   const netAfterDiscount = lines.reduce(
     (a, li) => a + num(li?.discountedTotalSet?.shopMoney?.amount), 0);
+  const subtotal = num(order?.currentSubtotalPriceSet?.shopMoney?.amount);
+  const discountTotal = num(order?.totalDiscountsSet?.shopMoney?.amount);
+
+  /* Shopify defines Gross sales as pre-discount and EXCLUDING tax.
+     Line-item originalTotalSet is not that: under GST-inclusive pricing
+     it already contains the tax, so summing it and then adding tax
+     double-counts. Subtotal is post-discount and pre-tax, so adding the
+     discounts back reproduces Shopify's own figure exactly and works
+     whether prices are tax-inclusive or not. */
+  const grossSales = subtotal + discountTotal;
+
   return {
-    grossPreDiscount,
+    grossSales,
+    grossPreDiscount,          // line-item basis, kept for reconciliation
     netAfterDiscount,
-    discounts: grossPreDiscount - netAfterDiscount,
-    subtotal: num(order?.currentSubtotalPriceSet?.shopMoney?.amount),
+    discounts: discountTotal,
+    subtotal,
     tax: num(order?.totalTaxSet?.shopMoney?.amount),
     shipping: num(order?.totalShippingPriceSet?.shopMoney?.amount),
     total: num(order?.currentTotalPriceSet?.shopMoney?.amount),
   };
 }
+
+/**
+ * Calendar day in IST, not UTC.
+ *
+ * Shopify returns createdAt as a UTC instant. Slicing the first ten
+ * characters gives the UTC date, which is 5h30 behind store time — so an
+ * order placed at 3am IST lands on the previous day and every daily
+ * figure quietly disagrees with Shopify's own reports.
+ */
+export const istDay = (ts) => {
+  if (!ts) return "";
+  const d = new Date(ts);
+  if (Number.isNaN(d.getTime())) return String(ts).slice(0, 10);
+  return new Date(d.getTime() + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
+};
 
 export const isOmni = (name) => /omni/i.test(name || "");
 
@@ -453,7 +480,7 @@ export function summariseOrders(orders = [], index = null) {
     const n = o?.customer?.numberOfOrders;
     if (n != null) (Number(n) <= 1 ? newCustomers++ : returningCustomers++);
 
-    const day = String(o.createdAt || "").slice(0, 10);
+    const day = istDay(o.createdAt);
 
     /* date x bucket */
     const bk = `${day}|${bucket}`;
@@ -506,8 +533,8 @@ export function summariseOrders(orders = [], index = null) {
   for (const o of orders) {
     const { bucket } = classify(o, index);
     const parts = revenueParts(o);
-    const day = String(o.createdAt || "").slice(0, 10);
-    const cancelDay = o.cancelledAt ? String(o.cancelledAt).slice(0, 10) : null;
+    const day = istDay(o.createdAt);
+    const cancelDay = o.cancelledAt ? istDay(o.cancelledAt) : null;
 
     if (isFake(o)) {
       const utm = utmOf(o);
@@ -536,28 +563,40 @@ export function summariseOrders(orders = [], index = null) {
       revenueGrain.set(gk, g);
 
       if (!o.cancelledAt) {
-        g.orders += 1; g.grossSales += parts.grossPreDiscount;
+        g.orders += 1; g.grossSales += parts.grossSales;
         g.discounts += parts.discounts; g.tax += parts.tax;
         g.shipping += parts.shipping; g.netTotal += parts.total;
         r.orders += 1;
-        r.grossSales += parts.grossPreDiscount;
+        r.grossSales += parts.grossSales;
         r.discounts += parts.discounts;
         r.tax += parts.tax;
         r.shipping += parts.shipping;
         r.netTotal += parts.total;
       } else if (cancelDay === day) {
-        /* Cancelled the same day it was placed. A cancel-and-rebook is
-           not lost revenue — the sale still happened as a draft — so
-           only genuine cancellations count as reversals. */
+        /* Booked, then reversed — the way Shopify's own report presents
+           it. Adding the gross and subtracting it again nets to zero, so
+           the total is right AND the components are readable. Subtracting
+           without adding, which is what this used to do, penalised the
+           order twice and pulled the whole figure down. */
+        const booked = parts.grossSales + parts.tax;
+        r.grossSales += parts.grossSales;
+        r.tax += parts.tax;
+        g.grossSales += parts.grossSales;
+        g.tax += parts.tax;
+
         if (replacedByDraft(o, replacementIndex)) {
-          r.rebookedNotReversed += parts.total;
+          /* A rebook is not lost revenue, so it is reversed here and
+             the replacement draft is counted in its own bucket. */
+          r.rebookedNotReversed += booked;
           r.rebookedCount += 1;
-          g.rebookedNotReversed += parts.total;
+          r.reversals += booked;
+          g.rebookedNotReversed += booked;
           g.rebookedCount += 1;
+          g.reversals += booked;
         } else {
-          r.reversals += parts.total;
+          r.reversals += booked;
           r.reversalCount += 1;
-          g.reversals += parts.total;
+          g.reversals += booked;
           g.reversalCount += 1;
         }
       } else {
