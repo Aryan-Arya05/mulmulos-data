@@ -170,6 +170,8 @@ async function main() {
     fakeOrders: s.fakeOrders,
     actualRevenue: s.actualRevenue,
     revenueDaily: s.revenueDaily,
+    /* Capped: enough to audit a few weeks, not the whole history. */
+    revenueOrders: s.revenueOrders.slice(-3000),
     products: s.products.slice(0, 200),
     categories: s.categories,
     /* Capped so the committed file stays small; covers the busiest
@@ -193,6 +195,7 @@ async function main() {
     stylistDaily: (r) => `${r.date}|${r.stylist}`,
     storeDaily: (r) => `${r.date}|${r.store}`,
     revenueDaily: (r) => `${r.date}|${r.bucket}`,
+    revenueOrders: (r) => r.name,
     fakeOrders: (r) => r.name,
   }, { from: report.startDate, to: report.endDate });
 
