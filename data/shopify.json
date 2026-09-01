@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-08-31 → 2026-09-01 IST",
-  "fetchedAt": "2026-08-31T21:41:46.860Z",
-  "rowCount": 196,
+  "fetchedAt": "2026-09-01T02:34:33.509Z",
+  "rowCount": 198,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 3884896.5,
-    "orders": 194,
-    "digitalRevenue": 1397660,
-    "digitalShare": 0.3597676283010371,
-    "newCustomers": 111,
+    "revenue": 3929216.5,
+    "orders": 196,
+    "digitalRevenue": 1441980,
+    "digitalShare": 0.36698919491964876,
+    "newCustomers": 113,
     "returningCustomers": 83,
-    "newCustomerShare": 0.5721649484536082,
+    "newCustomerShare": 0.576530612244898,
     "rebookOrders": 6,
     "rebookValue": 94760,
-    "revenueExcludingRebooks": 3790136.5,
+    "revenueExcludingRebooks": 3834456.5,
     "giftGrossValue": 84100,
     "giftCashReceived": 66300,
     "giftValueWaived": 17800
@@ -36,56 +36,56 @@
       "bucket": "retail_assist",
       "revenue": 1765602,
       "orders": 75,
-      "share": 0.4544785169952404,
+      "share": 0.44935218000840627,
       "aov": 23541.36
     },
     {
       "bucket": "app",
-      "revenue": 713870,
-      "orders": 41,
-      "share": 0.18375521715958198,
-      "aov": 17411.463414634145
+      "revenue": 735690,
+      "orders": 42,
+      "share": 0.1872358013359661,
+      "aov": 17516.428571428572
     },
     {
       "bucket": "online",
-      "revenue": 683790,
-      "orders": 37,
-      "share": 0.17601241114145513,
-      "aov": 18480.81081081081
+      "revenue": 706290,
+      "orders": 38,
+      "share": 0.17975339358368264,
+      "aov": 18586.57894736842
     },
     {
       "bucket": "stylist",
       "revenue": 378616,
       "orders": 26,
-      "share": 0.0974584522393325,
+      "share": 0.09635915964416825,
       "aov": 14562.153846153846
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 181958.5,
       "orders": 6,
-      "share": 0.04683741252823595,
+      "share": 0.04630910513584578,
       "aov": 30326.416666666668
     },
     {
       "bucket": "gift",
       "revenue": 66300,
       "orders": 3,
-      "share": 0.017066091722134684,
+      "share": 0.016873592992394285,
       "aov": 22100
     },
     {
       "bucket": "app_to_draft",
       "revenue": 50010,
       "orders": 3,
-      "share": 0.012872929819365844,
+      "share": 0.012727728288833156,
       "aov": 16670
     },
     {
       "bucket": "online_to_draft",
       "revenue": 44750,
       "orders": 3,
-      "share": 0.0115189683946535,
+      "share": 0.011389039010703534,
       "aov": 14916.666666666666
     }
   ],
@@ -6577,36 +6577,36 @@
   ],
   "actualRevenue": {
     "online": {
-      "orders": 37,
-      "grossSales": 684640,
+      "orders": 38,
+      "grossSales": 707140,
       "discounts": 1000,
-      "tax": 105051.92,
+      "tax": 108484.12,
       "shipping": 150,
-      "netTotal": 683790,
+      "netTotal": 706290,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 789691.92,
-      "actual": 789691.92
+      "grossPlusTax": 815624.12,
+      "actual": 815624.12
     },
     "app": {
-      "orders": 41,
-      "grossSales": 717370,
-      "discounts": 3500,
-      "tax": 113829.49999999997,
+      "orders": 42,
+      "grossSales": 739690,
+      "discounts": 4000,
+      "tax": 117284.03999999996,
       "shipping": 0,
-      "netTotal": 713870,
+      "netTotal": 735690,
       "reversals": 4269.12,
       "reversalCount": 1,
       "rebookedNotReversed": 2381.95,
       "rebookedCount": 1,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 831199.5,
-      "actual": 826930.38
+      "grossPlusTax": 856974.0399999999,
+      "actual": 852704.9199999999
     }
   },
   "revenueDaily": [
@@ -10645,12 +10645,28 @@
     {
       "date": "2026-09-01",
       "bucket": "online",
-      "orders": 1,
-      "grossSales": 20950,
+      "orders": 2,
+      "grossSales": 43450,
       "discounts": 0,
-      "tax": 3195.76,
+      "tax": 6627.96,
       "shipping": 0,
-      "netTotal": 20950,
+      "netTotal": 43450,
+      "reversals": 0,
+      "reversalCount": 0,
+      "rebookedNotReversed": 0,
+      "rebookedCount": 0,
+      "cancelledOtherDay": 0,
+      "cancelledOtherDayCount": 0
+    },
+    {
+      "date": "2026-09-01",
+      "bucket": "app",
+      "orders": 1,
+      "grossSales": 22320,
+      "discounts": 500,
+      "tax": 3454.54,
+      "shipping": 0,
+      "netTotal": 21820,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
@@ -27339,6 +27355,26 @@
       "total": 20950,
       "cancelledAt": null,
       "state": "counted"
+    },
+    {
+      "name": "#ML238453",
+      "date": "2026-09-01",
+      "bucket": "online",
+      "gross": 22500,
+      "tax": 3432.2,
+      "total": 22500,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML238454",
+      "date": "2026-09-01",
+      "bucket": "app",
+      "gross": 22320,
+      "tax": 3454.54,
+      "total": 21820,
+      "cancelledAt": null,
+      "state": "counted"
     }
   ],
   "products": [
@@ -27500,6 +27536,18 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Dali Banarasi Blue Kurta with Mustard Garara",
+      "category": "Kurta Sets",
+      "units": 3,
+      "revenue": 72540,
+      "byBucket": {
+        "retail_assist": 1,
+        "app": 2
+      },
+      "digitalUnits": 2,
+      "digitalShare": 0.6666666666666666
     },
     {
       "title": "Rila Organza Pink Kurta with Wide Pants",
@@ -27733,18 +27781,6 @@
       "digitalShare": 0
     },
     {
-      "title": "Dali Banarasi Blue Kurta with Mustard Garara",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 50220,
-      "byBucket": {
-        "retail_assist": 1,
-        "app": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 0.5
-    },
-    {
       "title": "Zani Cupro Satin Lime Kurta with Draped Pants",
       "category": "Kurta Sets",
       "units": 2,
@@ -27896,6 +27932,17 @@
       },
       "digitalUnits": 1,
       "digitalShare": 0.5
+    },
+    {
+      "title": "Mevi Organza Pink Long Kurta Set",
+      "category": "Kurta Sets",
+      "units": 2,
+      "revenue": 45000,
+      "byBucket": {
+        "online": 2
+      },
+      "digitalUnits": 2,
+      "digitalShare": 1
     },
     {
       "title": "Laagi Pima Satin Purple Kurta Set",
@@ -29563,17 +29610,6 @@
       "category": "Kurta Sets",
       "units": 1,
       "revenue": 9730,
-      "byBucket": {
-        "app_to_draft": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
-      "title": "Arasi Supima Cotton White Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 10430,
       "byBucket": {
         "app_to_draft": 1
       },
@@ -114213,6 +114249,22 @@
       "bucket": "online",
       "units": 1,
       "revenue": 20950
+    },
+    {
+      "date": "2026-09-01",
+      "title": "Mevi Organza Pink Long Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 22500
+    },
+    {
+      "date": "2026-09-01",
+      "title": "Dali Banarasi Blue Kurta with Mustard Garara",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 22320
     }
   ],
   "bucketDaily": [
@@ -122058,7 +122110,16 @@
     {
       "date": "2026-09-01",
       "bucket": "online",
-      "revenue": 20950,
+      "revenue": 43450,
+      "orders": 2,
+      "newCustomers": 2,
+      "returningCustomers": 0,
+      "waived": 0
+    },
+    {
+      "date": "2026-09-01",
+      "bucket": "app",
+      "revenue": 21820,
       "orders": 1,
       "newCustomers": 1,
       "returningCustomers": 0,
@@ -135821,5 +135882,5 @@
       "orders": 1
     }
   ],
-  "mergedFrom": "2026-08-30 → 2026-08-31 IST"
+  "mergedFrom": "2026-08-31 → 2026-09-01 IST"
 }
