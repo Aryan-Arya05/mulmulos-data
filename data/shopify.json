@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-09-02 → 2026-09-03 IST",
-  "fetchedAt": "2026-09-02T19:05:20.770Z",
-  "rowCount": 150,
+  "fetchedAt": "2026-09-03T02:01:30.928Z",
+  "rowCount": 152,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 2896575.5,
-    "orders": 147,
-    "digitalRevenue": 804335,
-    "digitalShare": 0.27768480400390044,
+    "revenue": 2935875.5,
+    "orders": 149,
+    "digitalRevenue": 843635,
+    "digitalShare": 0.28735380638586344,
     "newCustomers": 61,
-    "returningCustomers": 86,
-    "newCustomerShare": 0.41496598639455784,
+    "returningCustomers": 88,
+    "newCustomerShare": 0.40939597315436244,
     "rebookOrders": 3,
     "rebookValue": 165645,
-    "revenueExcludingRebooks": 2730930.5,
+    "revenueExcludingRebooks": 2770230.5,
     "giftGrossValue": 80050,
     "giftCashReceived": 63120,
     "giftValueWaived": 16930
@@ -36,49 +36,49 @@
       "bucket": "stylist",
       "revenue": 1192356,
       "orders": 57,
-      "share": 0.41164333538000303,
+      "share": 0.40613302573627524,
       "aov": 20918.526315789473
     },
     {
       "bucket": "retail_assist",
       "revenue": 596945.5,
       "orders": 29,
-      "share": 0.2060866357531506,
+      "share": 0.20332793403534993,
       "aov": 20584.327586206895
     },
     {
       "bucket": "app",
       "revenue": 542890,
       "orders": 35,
-      "share": 0.18742477107881358,
+      "share": 0.18491587943698568,
       "aov": 15511.142857142857
     },
     {
       "bucket": "online",
-      "revenue": 261445,
-      "orders": 15,
-      "share": 0.09026003292508689,
-      "aov": 17429.666666666668
+      "revenue": 300745,
+      "orders": 17,
+      "share": 0.10243792694887777,
+      "aov": 17690.882352941175
     },
     {
       "bucket": "other_to_draft",
       "revenue": 165645,
       "orders": 3,
-      "share": 0.05718649487990215,
+      "share": 0.0564209892415397,
       "aov": 55215
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 74174,
       "orders": 5,
-      "share": 0.0256074802814565,
+      "share": 0.025264695318313057,
       "aov": 14834.8
     },
     {
       "bucket": "gift",
       "revenue": 63120,
       "orders": 3,
-      "share": 0.02179124970158727,
+      "share": 0.021499549282658615,
       "aov": 21040
     }
   ],
@@ -6669,20 +6669,20 @@
   ],
   "actualRevenue": {
     "online": {
-      "orders": 15,
-      "grossSales": 261295,
+      "orders": 17,
+      "grossSales": 300595,
       "discounts": 0,
-      "tax": 39996.64,
+      "tax": 45991.56,
       "shipping": 150,
-      "netTotal": 261445,
+      "netTotal": 300745,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 301291.64,
-      "actual": 301291.64
+      "grossPlusTax": 346586.56,
+      "actual": 346586.56
     },
     "app": {
       "orders": 35,
@@ -10793,6 +10793,22 @@
       "netTotal": 542890,
       "reversals": 6662.1,
       "reversalCount": 2,
+      "rebookedNotReversed": 0,
+      "rebookedCount": 0,
+      "cancelledOtherDay": 0,
+      "cancelledOtherDayCount": 0
+    },
+    {
+      "date": "2026-09-03",
+      "bucket": "online",
+      "orders": 2,
+      "grossSales": 39300,
+      "discounts": 0,
+      "tax": 5994.92,
+      "shipping": 0,
+      "netTotal": 39300,
+      "reversals": 0,
+      "reversalCount": 0,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
@@ -28649,6 +28665,26 @@
       "total": 12950,
       "cancelledAt": null,
       "state": "counted"
+    },
+    {
+      "name": "#ML238773",
+      "date": "2026-09-03",
+      "bucket": "online",
+      "gross": 17400,
+      "tax": 2654.24,
+      "total": 17400,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML238774",
+      "date": "2026-09-03",
+      "bucket": "online",
+      "gross": 21900,
+      "tax": 3340.68,
+      "total": 21900,
+      "cancelledAt": null,
+      "state": "counted"
     }
   ],
   "products": [
@@ -28971,6 +29007,17 @@
       "byBucket": {
         "app": 1,
         "online": 1
+      },
+      "digitalUnits": 2,
+      "digitalShare": 1
+    },
+    {
+      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
+      "category": "Kurta Sets",
+      "units": 2,
+      "revenue": 38850,
+      "byBucket": {
+        "online": 2
       },
       "digitalUnits": 2,
       "digitalShare": 1
@@ -30231,17 +30278,6 @@
       "digitalShare": 1
     },
     {
-      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 16950,
-      "byBucket": {
-        "online": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 1
-    },
-    {
       "title": "Zaniya Supima Cotton White Shirt",
       "category": "Shirt",
       "units": 1,
@@ -30405,6 +30441,17 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Ceya Lawn Printed Off White Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 17400,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
     }
   ],
   "categories": [
@@ -117786,6 +117833,22 @@
       "bucket": "draft_unclassified",
       "units": 1,
       "revenue": 0
+    },
+    {
+      "date": "2026-09-03",
+      "title": "Ceya Lawn Printed Off White Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 17400
+    },
+    {
+      "date": "2026-09-03",
+      "title": "Veya Cupro Satin Lime & Pink Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 21900
     }
   ],
   "bucketDaily": [
@@ -125753,6 +125816,15 @@
       "newCustomers": 2,
       "returningCustomers": 1,
       "waived": 16930
+    },
+    {
+      "date": "2026-09-03",
+      "bucket": "online",
+      "revenue": 39300,
+      "orders": 2,
+      "newCustomers": 0,
+      "returningCustomers": 2,
+      "waived": 0
     }
   ],
   "stylistDaily": [
@@ -139835,5 +139907,5 @@
       "orders": 1
     }
   ],
-  "mergedFrom": "2026-09-01 → 2026-09-02 IST"
+  "mergedFrom": "2026-09-02 → 2026-09-03 IST"
 }
