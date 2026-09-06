@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-09-05 → 2026-09-06 IST",
-  "fetchedAt": "2026-09-06T01:52:26.889Z",
-  "rowCount": 278,
+  "fetchedAt": "2026-09-06T06:39:01.808Z",
+  "rowCount": 317,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 4474555.5,
-    "orders": 268,
-    "digitalRevenue": 2685230,
-    "digitalShare": 0.6001110054395348,
-    "newCustomers": 99,
-    "returningCustomers": 169,
-    "newCustomerShare": 0.3694029850746269,
-    "rebookOrders": 16,
-    "rebookValue": 240060,
-    "revenueExcludingRebooks": 4234495.5,
+    "revenue": 5033105.5,
+    "orders": 304,
+    "digitalRevenue": 3033850,
+    "digitalShare": 0.6027789403579957,
+    "newCustomers": 116,
+    "returningCustomers": 188,
+    "newCustomerShare": 0.3815789473684211,
+    "rebookOrders": 18,
+    "rebookValue": 267140,
+    "revenueExcludingRebooks": 4765965.5,
     "giftGrossValue": 99695,
     "giftCashReceived": 29908.5,
     "giftValueWaived": 69786.5
@@ -34,73 +34,73 @@
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 1749720,
-      "orders": 110,
-      "share": 0.39103772430579975,
-      "aov": 15906.545454545454
+      "revenue": 1999290,
+      "orders": 127,
+      "share": 0.39722791425691356,
+      "aov": 15742.44094488189
     },
     {
       "bucket": "app",
-      "revenue": 935510,
-      "orders": 59,
-      "share": 0.20907328113373497,
-      "aov": 15856.101694915254
+      "revenue": 1034560,
+      "orders": 66,
+      "share": 0.2055510261010821,
+      "aov": 15675.151515151516
     },
     {
       "bucket": "stylist",
-      "revenue": 872582,
-      "orders": 48,
-      "share": 0.19500976130478212,
-      "aov": 18178.791666666668
+      "revenue": 961327,
+      "orders": 54,
+      "share": 0.19100076483594472,
+      "aov": 17802.35185185185
     },
     {
       "bucket": "retail_assist",
-      "revenue": 643660,
-      "orders": 31,
-      "share": 0.14384892532900753,
-      "aov": 20763.225806451614
+      "revenue": 737765,
+      "orders": 35,
+      "share": 0.1465824628551895,
+      "aov": 21079
     },
     {
       "bucket": "other_to_draft",
-      "revenue": 151930,
-      "orders": 9,
-      "share": 0.033954210647292225,
-      "aov": 16881.11111111111
+      "revenue": 179010,
+      "orders": 11,
+      "share": 0.03556651057681982,
+      "aov": 16273.636363636364
     },
     {
       "bucket": "online_to_draft",
       "revenue": 46360,
       "orders": 3,
-      "share": 0.010360805671088446,
+      "share": 0.009211012962076793,
       "aov": 15453.333333333334
     },
     {
       "bucket": "app_to_draft",
       "revenue": 41770,
       "orders": 4,
-      "share": 0.009335005454731761,
+      "share": 0.008299051152414747,
       "aov": 10442.5
     },
     {
       "bucket": "gift",
       "revenue": 29908.5,
       "orders": 3,
-      "share": 0.006684127618933322,
+      "share": 0.005942355072827303,
       "aov": 9969.5
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 3115,
       "orders": 1,
-      "share": 0.0006961585346298644,
+      "share": 0.0006189021867314325,
       "aov": 3115
     }
   ],
   "stylists": [
     {
       "stylist": "Kashish",
-      "revenue": 130854,
-      "orders": 5
+      "revenue": 148764,
+      "orders": 6
     },
     {
       "stylist": "Sagrika",
@@ -114,8 +114,8 @@
     },
     {
       "stylist": "Rashika",
-      "revenue": 91315,
-      "orders": 5
+      "revenue": 109125,
+      "orders": 6
     },
     {
       "stylist": "NIDHI",
@@ -124,8 +124,13 @@
     },
     {
       "stylist": "Muskaan",
-      "revenue": 67370,
-      "orders": 2
+      "revenue": 80445,
+      "orders": 3
+    },
+    {
+      "stylist": "Nidhi Singh",
+      "revenue": 66785,
+      "orders": 5
     },
     {
       "stylist": "Muskan",
@@ -133,8 +138,8 @@
       "orders": 3
     },
     {
-      "stylist": "Nidhi Singh",
-      "revenue": 42945,
+      "stylist": "Priya",
+      "revenue": 42580,
       "orders": 3
     },
     {
@@ -146,11 +151,6 @@
       "stylist": "Pooja",
       "revenue": 38610,
       "orders": 3
-    },
-    {
-      "stylist": "Priya",
-      "revenue": 26470,
-      "orders": 2
     },
     {
       "stylist": "Kritika",
@@ -202,6 +202,16 @@
         "KEMPS"
       ],
       "matched": "contains",
+      "merged": false
+    },
+    {
+      "store": "CHHATTARPUR",
+      "revenue": 94105,
+      "orders": 4,
+      "variants": [
+        "CHHATARPUR STUDIO"
+      ],
+      "matched": "fuzzy(1)",
       "merged": false
     },
     {
@@ -278,12 +288,12 @@
   "nonDigital": [
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
-      "units": 42,
+      "units": 49,
       "digitalShare": 0
     },
     {
       "title": "Mulmul Perfume",
-      "units": 7,
+      "units": 8,
       "digitalShare": 0
     }
   ],
@@ -6722,36 +6732,36 @@
   ],
   "actualRevenue": {
     "online": {
-      "orders": 110,
-      "grossSales": 1749570,
+      "orders": 127,
+      "grossSales": 1999140,
       "discounts": 0,
-      "tax": 272591.76000000007,
+      "tax": 313741.74000000017,
       "shipping": 150,
-      "netTotal": 1749720,
-      "reversals": 4002.71,
-      "reversalCount": 1,
+      "netTotal": 1999290,
+      "reversals": 6872.030000000001,
+      "reversalCount": 2,
       "rebookedNotReversed": 2068.47,
       "rebookedCount": 1,
       "cancelledOtherDay": 0,
-      "cancelledOtherDayCount": 0,
-      "grossPlusTax": 2022161.76,
-      "actual": 2018159.05
+      "cancelledOtherDayCount": 2,
+      "grossPlusTax": 2312881.74,
+      "actual": 2306009.7100000004
     },
     "app": {
-      "orders": 59,
-      "grossSales": 935510,
+      "orders": 66,
+      "grossSales": 1034560,
       "discounts": 0,
-      "tax": 149608.41000000006,
+      "tax": 164768.1100000001,
       "shipping": 0,
-      "netTotal": 935510,
+      "netTotal": 1034560,
       "reversals": 5581.13,
       "reversalCount": 1,
       "rebookedNotReversed": 2267.15,
       "rebookedCount": 1,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 1085118.4100000001,
-      "actual": 1079537.2800000003
+      "grossPlusTax": 1199328.11,
+      "actual": 1193746.9800000002
     }
   },
   "revenueDaily": [
@@ -10918,18 +10928,18 @@
     {
       "date": "2026-09-05",
       "bucket": "online",
-      "orders": 101,
-      "grossSales": 1621610,
+      "orders": 99,
+      "grossSales": 1590290,
       "discounts": 0,
-      "tax": 253072.41000000003,
+      "tax": 248294.79000000004,
       "shipping": 150,
-      "netTotal": 1621760,
+      "netTotal": 1590440,
       "reversals": 4002.71,
       "reversalCount": 1,
       "rebookedNotReversed": 2068.47,
       "rebookedCount": 1,
       "cancelledOtherDay": 0,
-      "cancelledOtherDayCount": 0
+      "cancelledOtherDayCount": 2
     },
     {
       "date": "2026-09-05",
@@ -10950,12 +10960,12 @@
     {
       "date": "2026-09-06",
       "bucket": "app",
-      "orders": 8,
-      "grossSales": 108125,
+      "orders": 15,
+      "grossSales": 207175,
       "discounts": 0,
-      "tax": 16738.18,
+      "tax": 31897.879999999997,
       "shipping": 0,
-      "netTotal": 108125,
+      "netTotal": 207175,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
@@ -10966,14 +10976,14 @@
     {
       "date": "2026-09-06",
       "bucket": "online",
-      "orders": 9,
-      "grossSales": 127960,
+      "orders": 28,
+      "grossSales": 408850,
       "discounts": 0,
-      "tax": 19519.350000000002,
+      "tax": 65446.94999999999,
       "shipping": 0,
-      "netTotal": 127960,
-      "reversals": 0,
-      "reversalCount": 0,
+      "netTotal": 408850,
+      "reversals": 2869.32,
+      "reversalCount": 1,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
@@ -31225,11 +31235,11 @@
       "name": "#ML239195",
       "date": "2026-09-05",
       "bucket": "online",
-      "gross": 13410,
+      "gross": 0,
       "tax": 2045.59,
-      "total": 13410,
-      "cancelledAt": null,
-      "state": "counted"
+      "total": 0,
+      "cancelledAt": "2026-09-06",
+      "state": "cancelled another day"
     },
     {
       "name": "#ML239196",
@@ -31635,11 +31645,11 @@
       "name": "#ML239272",
       "date": "2026-09-05",
       "bucket": "online",
-      "gross": 17910,
+      "gross": 0,
       "tax": 2732.03,
-      "total": 17910,
-      "cancelledAt": null,
-      "state": "counted"
+      "total": 0,
+      "cancelledAt": "2026-09-06",
+      "state": "cancelled another day"
     },
     {
       "name": "#ML239274",
@@ -32670,17 +32680,287 @@
       "total": 9920,
       "cancelledAt": null,
       "state": "counted"
+    },
+    {
+      "name": "#ML239440",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 11610,
+      "tax": 1838.09,
+      "total": 11610,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239441",
+      "date": "2026-09-06",
+      "bucket": "app",
+      "gross": 11960,
+      "tax": 1824.41,
+      "total": 11960,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239442",
+      "date": "2026-09-06",
+      "bucket": "app",
+      "gross": 8720,
+      "tax": 1380.55,
+      "total": 8720,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239443",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 24850,
+      "tax": 3934.25,
+      "total": 24850,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239444",
+      "date": "2026-09-06",
+      "bucket": "app",
+      "gross": 12280,
+      "tax": 1873.22,
+      "total": 12280,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239445",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 16110,
+      "tax": 2457.46,
+      "total": 16110,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239446",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 0,
+      "tax": 2869.32,
+      "total": 0,
+      "cancelledAt": "2026-09-06",
+      "state": "reversed"
+    },
+    {
+      "name": "#ML239447",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 18810,
+      "tax": 2869.32,
+      "total": 18810,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239448",
+      "date": "2026-09-06",
+      "bucket": "app",
+      "gross": 15210,
+      "tax": 2320.17,
+      "total": 15210,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239449",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 19950,
+      "tax": 3043.22,
+      "total": 19950,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239450",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 12720,
+      "tax": 1940.34,
+      "total": 12720,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239451",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 25900,
+      "tax": 3950.85,
+      "total": 25900,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239452",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 18810,
+      "tax": 2869.32,
+      "total": 18810,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239453",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 7360,
+      "tax": 1122.71,
+      "total": 7360,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239454",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 25000,
+      "tax": 3813.56,
+      "total": 25000,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239456",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 10360,
+      "tax": 1580.34,
+      "total": 10360,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239459",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 17685,
+      "tax": 2697.71,
+      "total": 17685,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239461",
+      "date": "2026-09-06",
+      "bucket": "app",
+      "gross": 19920,
+      "tax": 3038.64,
+      "total": 19920,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239462",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 17685,
+      "tax": 2697.71,
+      "total": 17685,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239463",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 14310,
+      "tax": 2182.88,
+      "total": 14310,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239465",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 3555,
+      "tax": 542.29,
+      "total": 3555,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239466",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 5160,
+      "tax": 787.12,
+      "total": 5160,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239467",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 16900,
+      "tax": 2577.97,
+      "total": 16900,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239469",
+      "date": "2026-09-06",
+      "bucket": "app",
+      "gross": 22240,
+      "tax": 3392.54,
+      "total": 22240,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239472",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 5160,
+      "tax": 787.12,
+      "total": 5160,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239473",
+      "date": "2026-09-06",
+      "bucket": "app",
+      "gross": 8720,
+      "tax": 1330.17,
+      "total": 8720,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML239475",
+      "date": "2026-09-06",
+      "bucket": "online",
+      "gross": 8955,
+      "tax": 1366.02,
+      "total": 8955,
+      "cancelledAt": null,
+      "state": "counted"
     }
   ],
   "products": [
     {
       "title": "Mulmul Potli Bag (Colour may vary)",
       "category": "Potli Bag",
-      "units": 42,
+      "units": 49,
       "revenue": 0,
       "byBucket": {
-        "stylist": 35,
-        "other_to_draft": 6,
+        "stylist": 40,
+        "other_to_draft": 8,
         "app_to_draft": 1
       },
       "digitalUnits": 0,
@@ -32689,11 +32969,11 @@
     {
       "title": "Mulmul Perfume",
       "category": "Perfume",
-      "units": 7,
+      "units": 8,
       "revenue": 0,
       "byBucket": {
         "stylist": 5,
-        "other_to_draft": 2
+        "other_to_draft": 3
       },
       "digitalUnits": 0,
       "digitalShare": 0
@@ -32701,15 +32981,15 @@
     {
       "title": "Aaroh Supima Cotton Lime Kurta Set",
       "category": "Kurta Sets",
-      "units": 6,
-      "revenue": 61800,
+      "units": 7,
+      "revenue": 70520,
       "byBucket": {
-        "app": 1,
+        "app": 2,
         "online": 4,
         "other_to_draft": 1
       },
-      "digitalUnits": 5,
-      "digitalShare": 0.8333333333333334
+      "digitalUnits": 6,
+      "digitalShare": 0.8571428571428571
     },
     {
       "title": "Baybreeze Beige Kurta with Arpora Cotton White Pant",
@@ -32750,6 +33030,18 @@
       "digitalShare": 0.75
     },
     {
+      "title": "Survani Bemberg Satin Purple Kurta With Fuschia Salwar",
+      "category": "Kurta Sets",
+      "units": 4,
+      "revenue": 50130,
+      "byBucket": {
+        "online": 2,
+        "app": 2
+      },
+      "digitalUnits": 4,
+      "digitalShare": 1
+    },
+    {
       "title": "Asti Supima Cotton Black Kurta Set",
       "category": "Kurta Sets",
       "units": 4,
@@ -32761,6 +33053,30 @@
       },
       "digitalUnits": 3,
       "digitalShare": 0.75
+    },
+    {
+      "title": "Samvi Denim Long Kurta Set",
+      "category": "Kurta Sets",
+      "units": 4,
+      "revenue": 103600,
+      "byBucket": {
+        "online": 3,
+        "gift": 1
+      },
+      "digitalUnits": 3,
+      "digitalShare": 0.75
+    },
+    {
+      "title": "Sakhi Denim Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "units": 4,
+      "revenue": 61875,
+      "byBucket": {
+        "app": 1,
+        "online": 3
+      },
+      "digitalUnits": 4,
+      "digitalShare": 1
     },
     {
       "title": "Veya Cupro Satin Lime & Pink Kurta Set",
@@ -32798,18 +33114,6 @@
       "digitalShare": 1
     },
     {
-      "title": "Survani Bemberg Satin Purple Kurta With Fuschia Salwar",
-      "category": "Kurta Sets",
-      "units": 3,
-      "revenue": 35820,
-      "byBucket": {
-        "online": 1,
-        "app": 2
-      },
-      "digitalUnits": 3,
-      "digitalShare": 1
-    },
-    {
       "title": "Kalari Lawn Mustard Kurta With Farshi Salwar",
       "category": "Kurta Sets",
       "units": 3,
@@ -32833,25 +33137,12 @@
       "digitalShare": 1
     },
     {
-      "title": "Samvi Denim Long Kurta Set",
-      "category": "Kurta Sets",
+      "title": "Mulmul Supima Cotton Adah Orange Kurta",
+      "category": "Kurta",
       "units": 3,
-      "revenue": 77700,
+      "revenue": 15480,
       "byBucket": {
-        "online": 2,
-        "gift": 1
-      },
-      "digitalUnits": 2,
-      "digitalShare": 0.6666666666666666
-    },
-    {
-      "title": "Sakhi Denim Kurta With Farshi Salwar",
-      "category": "Kurta Sets",
-      "units": 3,
-      "revenue": 43065,
-      "byBucket": {
-        "app": 1,
-        "online": 2
+        "online": 3
       },
       "digitalUnits": 3,
       "digitalShare": 1
@@ -32869,10 +33160,22 @@
       "digitalShare": 0.3333333333333333
     },
     {
-      "title": "Akshi Cupro Satin Printed Orange Kurta Set",
+      "title": "Arpora Supima Cotton Beige Kurta Set",
       "category": "Kurta Sets",
       "units": 3,
-      "revenue": 53730,
+      "revenue": 32480,
+      "byBucket": {
+        "online": 1,
+        "app": 2
+      },
+      "digitalUnits": 3,
+      "digitalShare": 1
+    },
+    {
+      "title": "Saurmi Lawn White & Navy Co-ord Set",
+      "category": "Co-ord Set",
+      "units": 3,
+      "revenue": 27860,
       "byBucket": {
         "online": 2,
         "stylist": 1
@@ -32891,6 +33194,18 @@
       },
       "digitalUnits": 2,
       "digitalShare": 0.6666666666666666
+    },
+    {
+      "title": "Gulkar Tissue Light Green Kurta Set",
+      "category": "Kurta Sets",
+      "units": 3,
+      "revenue": 53055,
+      "byBucket": {
+        "online": 2,
+        "app": 1
+      },
+      "digitalUnits": 3,
+      "digitalShare": 1
     },
     {
       "title": "Alouette Organza Fuchsia Co-Ord Set",
@@ -32930,6 +33245,18 @@
       "digitalShare": 0.5
     },
     {
+      "title": "Kena Cupro Satin Blue Kurta Set",
+      "category": "Kurta Sets",
+      "units": 2,
+      "revenue": 32220,
+      "byBucket": {
+        "retail_assist": 1,
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
       "title": "Mulmul Supima Cotton Avira Orange Kurta",
       "category": "Kurta",
       "units": 2,
@@ -32959,6 +33286,28 @@
       "revenue": 28620,
       "byBucket": {
         "app": 2
+      },
+      "digitalUnits": 2,
+      "digitalShare": 1
+    },
+    {
+      "title": "Fanaa Pima Satin Fuchsia Kurta Set",
+      "category": "Kurta Sets",
+      "units": 2,
+      "revenue": 23880,
+      "byBucket": {
+        "online": 2
+      },
+      "digitalUnits": 2,
+      "digitalShare": 1
+    },
+    {
+      "title": "Aphinya Pima Satin Fuschia Kurta Set",
+      "category": "Kurta Sets",
+      "units": 2,
+      "revenue": 25440,
+      "byBucket": {
+        "online": 2
       },
       "digitalUnits": 2,
       "digitalShare": 1
@@ -33011,17 +33360,6 @@
     },
     {
       "title": "Mulmul Pima Vachi Off White Kurta",
-      "category": "Kurta",
-      "units": 2,
-      "revenue": 10320,
-      "byBucket": {
-        "online": 2
-      },
-      "digitalUnits": 2,
-      "digitalShare": 1
-    },
-    {
-      "title": "Mulmul Supima Cotton Adah Orange Kurta",
       "category": "Kurta",
       "units": 2,
       "revenue": 10320,
@@ -33114,18 +33452,6 @@
       "digitalShare": 0
     },
     {
-      "title": "Arpora Supima Cotton Beige Kurta Set",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 20600,
-      "byBucket": {
-        "online": 1,
-        "app": 1
-      },
-      "digitalUnits": 2,
-      "digitalShare": 1
-    },
-    {
       "title": "Elira Cupro Satin Red Kurta With Farshi Salwar",
       "category": "Kurta Sets",
       "units": 2,
@@ -33154,6 +33480,18 @@
       "category": "Kurta Sets",
       "units": 2,
       "revenue": 30430,
+      "byBucket": {
+        "online": 1,
+        "stylist": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.5
+    },
+    {
+      "title": "Akshi Cupro Satin Printed Orange Kurta Set",
+      "category": "Kurta Sets",
+      "units": 2,
+      "revenue": 35820,
       "byBucket": {
         "online": 1,
         "stylist": 1
@@ -33210,18 +33548,6 @@
       "digitalShare": 0
     },
     {
-      "title": "Saurmi Lawn White & Navy Co-ord Set",
-      "category": "Co-ord Set",
-      "units": 2,
-      "revenue": 18905,
-      "byBucket": {
-        "online": 1,
-        "stylist": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 0.5
-    },
-    {
       "title": "Itriya Organza Off White Kurta Set",
       "category": "Kurta Sets",
       "units": 2,
@@ -33254,18 +33580,6 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
-    },
-    {
-      "title": "Gulkar Tissue Light Green Kurta Set",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 35370,
-      "byBucket": {
-        "online": 1,
-        "app": 1
-      },
-      "digitalUnits": 2,
-      "digitalShare": 1
     },
     {
       "title": "Omira Pima Satin Printed Black Kurta Set",
@@ -33306,6 +33620,18 @@
       "category": "Kurta",
       "units": 2,
       "revenue": 11120,
+      "byBucket": {
+        "app": 1,
+        "online": 1
+      },
+      "digitalUnits": 2,
+      "digitalShare": 1
+    },
+    {
+      "title": "Miso Organza Navy Kurta Set",
+      "category": "Kurta Sets",
+      "units": 2,
+      "revenue": 28665,
       "byBucket": {
         "app": 1,
         "online": 1
@@ -33364,17 +33690,6 @@
       "category": "Kurta Sets",
       "units": 1,
       "revenue": 15900,
-      "byBucket": {
-        "retail_assist": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
-      "title": "Kena Cupro Satin Blue Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 16110,
       "byBucket": {
         "retail_assist": 1
       },
@@ -33503,17 +33818,6 @@
       "digitalShare": 1
     },
     {
-      "title": "Fanaa Pima Satin Fuchsia Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 13520,
-      "byBucket": {
-        "online": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 1
-    },
-    {
       "title": "Kena Cupro Satin Mustard Kurta With Farshi Salwar",
       "category": "Kurta Sets",
       "units": 1,
@@ -33529,17 +33833,6 @@
       "category": "Kids",
       "units": 1,
       "revenue": 3960,
-      "byBucket": {
-        "online": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 1
-    },
-    {
-      "title": "Aphinya Pima Satin Fuschia Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 12720,
       "byBucket": {
         "online": 1
       },
@@ -33575,17 +33868,6 @@
       "revenue": 9065,
       "byBucket": {
         "app": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 1
-    },
-    {
-      "title": "Lumae Supima Cotton Blue Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 13410,
-      "byBucket": {
-        "online": 1
       },
       "digitalUnits": 1,
       "digitalShare": 1
@@ -34779,17 +35061,6 @@
       "digitalShare": 1
     },
     {
-      "title": "Miso Organza Navy Kurta Set",
-      "category": "Kurta Sets",
-      "units": 1,
-      "revenue": 12555,
-      "byBucket": {
-        "app": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 1
-    },
-    {
       "title": "Ghunghroo Banarsi Purple Top Set",
       "category": "Co-ord Set",
       "units": 1,
@@ -34915,6 +35186,17 @@
       "category": "Kurta Sets",
       "units": 1,
       "revenue": 23900,
+      "byBucket": {
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
+    },
+    {
+      "title": "Mulmul Pima Satin Light Blue Vino Dhoti Pant",
+      "category": "Pajama",
+      "units": 1,
+      "revenue": 3555,
       "byBucket": {
         "stylist": 1
       },
@@ -125776,14 +126058,6 @@
     },
     {
       "date": "2026-09-05",
-      "title": "Akshi Cupro Satin Printed Orange Kurta Set",
-      "category": "Kurta Sets",
-      "bucket": "online",
-      "units": 2,
-      "revenue": 35820
-    },
-    {
-      "date": "2026-09-05",
       "title": "Mulmul Perfume",
       "category": "Perfume",
       "bucket": "other_to_draft",
@@ -126077,14 +126351,6 @@
       "bucket": "online",
       "units": 1,
       "revenue": 22900
-    },
-    {
-      "date": "2026-09-05",
-      "title": "Lumae Supima Cotton Blue Kurta Set",
-      "category": "Kurta Sets",
-      "bucket": "online",
-      "units": 1,
-      "revenue": 13410
     },
     {
       "date": "2026-09-05",
@@ -126469,6 +126735,14 @@
       "bucket": "online",
       "units": 1,
       "revenue": 17900
+    },
+    {
+      "date": "2026-09-05",
+      "title": "Akshi Cupro Satin Printed Orange Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 17910
     },
     {
       "date": "2026-09-05",
@@ -128008,11 +128282,43 @@
     },
     {
       "date": "2026-09-06",
+      "title": "Mulmul Potli Bag (Colour may vary)",
+      "category": "Potli Bag",
+      "bucket": "stylist",
+      "units": 5,
+      "revenue": 0
+    },
+    {
+      "date": "2026-09-06",
       "title": "Baybreeze Beige Kurta with Arpora Cotton White Pant",
       "category": "Kurta Sets",
       "bucket": "app",
       "units": 2,
       "revenue": 21000
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Sakhi Denim Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 2,
+      "revenue": 33165
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Arpora Supima Cotton Beige Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 2,
+      "revenue": 23760
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Mulmul Potli Bag (Colour may vary)",
+      "category": "Potli Bag",
+      "bucket": "other_to_draft",
+      "units": 2,
+      "revenue": 0
     },
     {
       "date": "2026-09-06",
@@ -128029,14 +128335,6 @@
       "bucket": "online",
       "units": 1,
       "revenue": 14760
-    },
-    {
-      "date": "2026-09-06",
-      "title": "Sakhi Denim Kurta With Farshi Salwar",
-      "category": "Kurta Sets",
-      "bucket": "online",
-      "units": 1,
-      "revenue": 14355
     },
     {
       "date": "2026-09-06",
@@ -128077,14 +128375,6 @@
       "bucket": "app",
       "units": 1,
       "revenue": 13455
-    },
-    {
-      "date": "2026-09-06",
-      "title": "Arpora Supima Cotton Beige Kurta Set",
-      "category": "Kurta Sets",
-      "bucket": "app",
-      "units": 1,
-      "revenue": 11880
     },
     {
       "date": "2026-09-06",
@@ -128157,6 +128447,342 @@
       "bucket": "online",
       "units": 1,
       "revenue": 9920
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Vae Supima Cotton Off White Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 11610
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Arisha Supima Cotton Fuschia Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 11960
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Aaroh Supima Cotton Lime Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 8720
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Nriti Cupro Satin Printed Off White Co-ord set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 11950
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Odelle Lawn Printed Fuchsia Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 12900
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Elra Supima Cotton Yellow Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 12280
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Miso Organza Navy Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 16110
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Olisha Lawn Blue Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 15210
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Kuhu Cupro Satin Printed Emerald Green Waistcoat withÂ Skirt",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 19950
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Aphinya Pima Satin Fuschia Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 12720
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Samvi Denim Long Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 25900
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Angana Cupro Satin Mustard Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 18810
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Ivy Supima Cotton Green Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 7360
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Nami Banarsi Fuchsia Short Kurta with Wide Pants",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 25000
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Aviya Supima Cotton Pink Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "other_to_draft",
+      "units": 1,
+      "revenue": 12720
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Fanaa Pima Satin Fuchsia Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 10360
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Lyo Supima Cotton Pink Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "other_to_draft",
+      "units": 1,
+      "revenue": 14360
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Mulmul Perfume",
+      "category": "Perfume",
+      "bucket": "other_to_draft",
+      "units": 1,
+      "revenue": 0
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Lirae Lawn Pink Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 15920
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Gulkar Tissue Light Green Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 17685
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Kena Cupro Satin Blue Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 16110
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Mausami Pink Linen Satin Anarkali Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 19920
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Delie Organza Navy Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 6930
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Jivara Bemberg Satin Fuchsia Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 10755
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Survani Bemberg Satin Purple Kurta With Fuschia Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 14310
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Moira Supima Cotton White Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 7920
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Mulmul Organza Aalaya Blue Dupatta",
+      "category": "Dupatta",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 3555
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Mulmul Supima Cotton Adah Orange Kurta",
+      "category": "Kurta",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 5160
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Arlette Cupro Satin Lime Long Kaftan Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 16900
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Zani Cupro Satin Purple Kurta with Draped Pants",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 19400
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Magnus Supima Cotton White Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 10360
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Lola Pima Satin Off White Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 9520
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Mulmul Lawn Printed Miran White Dupatta",
+      "category": "Dupatta",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 3555
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Uvrita Lawn Fuschia Anarkali Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 17910
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Grace Gold Kohlapuri Wedge Heel",
+      "category": "Wedges",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 5160
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Falaknuma Supima Cotton Fuschia Kurta With Aelira White Dhoti Pant",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 8720
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Rila Organza Pink Kurta with Wide Pants",
+      "category": "Kurta Sets",
+      "bucket": "retail_assist",
+      "units": 1,
+      "revenue": 25900
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Saurmi Lawn White & Navy Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 8955
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Ruvya Denim Kurta with Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "retail_assist",
+      "units": 1,
+      "revenue": 16950
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Mulmul Organza Elira Mustard Dupatta",
+      "category": "Dupatta",
+      "bucket": "retail_assist",
+      "units": 1,
+      "revenue": 4455
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Saaj Cupro Satin Black Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "retail_assist",
+      "units": 1,
+      "revenue": 22900
+    },
+    {
+      "date": "2026-09-06",
+      "title": "Shvi Cupro Satin Orange Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "retail_assist",
+      "units": 1,
+      "revenue": 23900
     }
   ],
   "bucketDaily": [
@@ -136281,10 +136907,10 @@
     {
       "date": "2026-09-05",
       "bucket": "online",
-      "revenue": 1621760,
-      "orders": 101,
+      "revenue": 1590440,
+      "orders": 99,
       "newCustomers": 37,
-      "returningCustomers": 64,
+      "returningCustomers": 62,
       "waived": 0
     },
     {
@@ -136353,19 +136979,46 @@
     {
       "date": "2026-09-06",
       "bucket": "app",
-      "revenue": 108125,
-      "orders": 8,
-      "newCustomers": 0,
-      "returningCustomers": 8,
+      "revenue": 207175,
+      "orders": 15,
+      "newCustomers": 2,
+      "returningCustomers": 13,
       "waived": 0
     },
     {
       "date": "2026-09-06",
       "bucket": "online",
-      "revenue": 127960,
-      "orders": 9,
-      "newCustomers": 3,
+      "revenue": 408850,
+      "orders": 28,
+      "newCustomers": 14,
+      "returningCustomers": 14,
+      "waived": 0
+    },
+    {
+      "date": "2026-09-06",
+      "bucket": "other_to_draft",
+      "revenue": 27080,
+      "orders": 2,
+      "newCustomers": 0,
+      "returningCustomers": 2,
+      "waived": 0
+    },
+    {
+      "date": "2026-09-06",
+      "bucket": "stylist",
+      "revenue": 88745,
+      "orders": 6,
+      "newCustomers": 0,
       "returningCustomers": 6,
+      "waived": 0
+    },
+    {
+      "date": "2026-09-06",
+      "bucket": "retail_assist",
+      "revenue": 94105,
+      "orders": 4,
+      "newCustomers": 4,
+      "returningCustomers": 0,
       "waived": 0
     }
   ],
@@ -143917,6 +144570,36 @@
       "stylist": "Muskaan Payment ML238272",
       "revenue": 5560,
       "orders": 1
+    },
+    {
+      "date": "2026-09-06",
+      "stylist": "Nidhi Singh",
+      "revenue": 23840,
+      "orders": 2
+    },
+    {
+      "date": "2026-09-06",
+      "stylist": "Kashish",
+      "revenue": 17910,
+      "orders": 1
+    },
+    {
+      "date": "2026-09-06",
+      "stylist": "Rashika",
+      "revenue": 17810,
+      "orders": 1
+    },
+    {
+      "date": "2026-09-06",
+      "stylist": "Priya",
+      "revenue": 16110,
+      "orders": 1
+    },
+    {
+      "date": "2026-09-06",
+      "stylist": "Muskaan",
+      "revenue": 13075,
+      "orders": 1
     }
   ],
   "storeDaily": [
@@ -150897,7 +151580,13 @@
       "store": "MALL OF INDIA",
       "revenue": 3950,
       "orders": 1
+    },
+    {
+      "date": "2026-09-06",
+      "store": "CHHATTARPUR",
+      "revenue": 94105,
+      "orders": 4
     }
   ],
-  "mergedFrom": "2026-09-04 → 2026-09-05 IST"
+  "mergedFrom": "2026-09-05 → 2026-09-06 IST"
 }
