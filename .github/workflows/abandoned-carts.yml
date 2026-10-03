@@ -33,15 +33,19 @@ jobs:
           SHOPIFY_STORE: shopmulmul.myshopify.com
           SHOPIFY_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
         run: python scripts/abandoned_carts_report.py --period ${{ steps.p.outputs.period }} --out reports/abandoned-carts
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: abandoned-carts-${{ steps.p.outputs.period }}
+          path: reports/abandoned-carts/*.xlsx
       - name: Commit report
         run: |
           git config user.name mulmulos-bot
           git config user.email bot@mulmul.local
           git add reports/abandoned-carts
           git commit -m "abandoned carts: ${{ steps.p.outputs.period }} $(date -u +%F)" || exit 0
-          git push
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: abandoned-carts-${{ steps.p.outputs.period }}
-          path: reports/abandoned-carts/*.xlsx
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && exit 0
+            sleep $((i * 5))
+          done
+          echo "push failed after retries" && exit 1
