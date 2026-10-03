@@ -229,6 +229,16 @@ def main():
         y = dt[dt.day == end].iloc[0]
         summary["yesterday"] = {"carts": int(y.total), "abandoned_value": round(y.abv), "actual": round(y.act), "converted_so_far": int(y.conv_n), "value_so_far": round(y.conv_v)}
     with open(os.path.join(a.out, f"abandoned_carts_{tag}_latest.json"), "w") as f: json.dump(summary, f, indent=2, default=str)
+    # append to history.jsonl (one line per tag+period; a re-run replaces the earlier line)
+    hist_path = os.path.join(a.out, "history.jsonl")
+    hist = []
+    if os.path.exists(hist_path):
+        hist = [json.loads(l) for l in open(hist_path) if l.strip()]
+    hist = [h for h in hist if not (h.get("tag") == tag and h.get("period") == summary["period"])]
+    hist.append({**summary, "tag": tag, "run_at": run_ist.strftime("%Y-%m-%d %H:%M")})
+    hist.sort(key=lambda h: (h["tag"], h["period"]))
+    with open(hist_path, "w") as f:
+        for h in hist: f.write(json.dumps(h, default=str) + "\n")
     print(json.dumps(summary, indent=2, default=str))
 
 if __name__ == "__main__":
