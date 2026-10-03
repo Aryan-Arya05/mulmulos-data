@@ -85,6 +85,7 @@ tbody tr:nth-child(odd){background:#111c3155}
       <a data-v="channels">Channels</a>
       <a data-v="actual">Actual revenue</a>
       <a data-v="fake">Fake orders</a>
+      <a data-v="carts">Abandoned carts</a>
       <a data-v="stylists">Stylists</a>
       <a data-v="stores">Stores</a>
       <a data-v="products">Products</a>
@@ -136,7 +137,7 @@ function ago(iso){
   return Math.floor(s/86400)+"d ago";
 }
 
-const state = { shopify:null, google:null, eretail:null, meta:null, ga4app:null, ga4web:null, view:"overview", errors:[],
+const state = { shopify:null, google:null, eretail:null, meta:null, ga4app:null, ga4web:null, carts:null, view:"overview", errors:[],
   range:"ytd", cmp:"prev_year", channel:"all",
   pBucket:"all", pCat:"all", pDays:"all", pSort:"units", gType:"all", win:"all", from:null, to:null };
 
@@ -157,6 +158,40 @@ const kpi = (h,v,s,colour) => `<div class="kpi"><h3>${esc(h)}</h3><div class="v"
 
 /* ---------- views ---------- */
 const views = {
+carts(){
+  const h = state.carts;
+  if(!h) return `<div class="card"><div class="empty"><b>reports/abandoned-carts/history.jsonl has not been published yet.</b><br>Run the “Abandoned carts report” workflow once with the updated script.</div></div>`;
+  const last = tag => h.filter(x=>x.tag===tag).slice(-1)[0];
+  const d = last("daily"), w = last("weekly"), m = last("monthly");
+  const chan = m||w||d;
+  const cv = chan?.channel_value||{};
+  const stylist=(cv.stylist||0)+(cv.other_to_draft||0), online=(cv.online||0)+(cv.online_to_draft||0), app=(cv.app||0)+(cv.app_to_draft||0);
+  const tot = stylist+online+app||1;
+  const row = x => [esc(x.period), num(x.carts), lakh(x.actual_abandonment), rate(x.fake_pct), num(x.to_date_converted_customers), lakh(x.to_date_converted_value),
+    `${rate(x.recovery_pct)} <span class="pill">${rate(x.to_date_recovery_pct)} to date</span>`];
+  return `
+  <div class="grid">
+    ${kpi("Last 7 days", d?lakh(d.actual_abandonment):"—", d?`${num(d.carts)} carts · ${esc(d.period)}`:"first daily run lands tomorrow 08:00")}
+    ${kpi("Recovered", d?lakh(d.to_date_converted_value):"—", d?`${num(d.to_date_converted_customers)} customers`:"", "var(--ok)")}
+    ${kpi("Recovery rate", d?rate(d.to_date_recovery_pct):"—", "of reachable abandonment, to date", "var(--cyan)")}
+    ${kpi("Yesterday", d?.yesterday?lakh(d.yesterday.actual):"—", d?.yesterday?`${num(d.yesterday.carts)} carts · ${num(d.yesterday.converted_so_far)} converted so far`:"")}
+    ${kpi("Last week", w?rate(w.to_date_recovery_pct):"—", w?`${lakh(w.to_date_converted_value)} on ${lakh(w.actual_abandonment)}`:"", "var(--violet)")}
+    ${kpi("Last month", m?rate(m.to_date_recovery_pct):"—", m?`${lakh(m.to_date_converted_value)} on ${lakh(m.actual_abandonment)}`:"", "var(--violet)")}
+  </div>
+  <div class="card"><h3>Who recovers it<em>${esc(chan?.period||"")}</em></h3>
+    ${table(["Channel","Recovered","Share"],[
+      [`<span style="color:var(--violet)">Stylist</span>`, inr(stylist), `${pct(stylist/tot)}<div class="bar"><i style="width:${100*stylist/tot}%"></i></div>`],
+      [`<span style="color:var(--cyan)">Online</span>`, inr(online), `${pct(online/tot)}<div class="bar"><i style="width:${100*online/tot}%"></i></div>`],
+      [`<span style="color:var(--cyan)">App</span>`, inr(app), `${pct(app/tot)}<div class="bar"><i style="width:${100*app/tot}%"></i></div>`]])}
+    <div class="note">Recovered = the abandoner's first order after the cart, at current value. Re-books of cancelled orders are folded into the channel they ended in.${chan?.cancelled_after_converting?" "+num(chan.cancelled_after_converting)+" converting orders were later cancelled and are excluded.":""} Fake = no phone or a dummy number; excluded from reachable abandonment.</div>
+  </div>
+  <div class="card"><h3>Weekly trend<em>previous Mon–Sun, newest last</em></h3>
+    ${table(["Week","Carts","Reachable","Fake %","Recovered","Value","Recovery"], h.filter(x=>x.tag==="weekly").slice(-12).map(row), "No weekly runs yet.")}
+  </div>
+  <div class="card"><h3>Monthly<em>calendar months</em></h3>
+    ${table(["Month","Carts","Reachable","Fake %","Recovered","Value","Recovery"], h.filter(x=>x.tag==="monthly").map(row), "No monthly runs yet.")}
+  </div>`;
+},
 overview(){
   const s = state.shopify, g = state.google;
   if(!s) return missing("shopify");
@@ -1055,7 +1090,7 @@ const missing = n => `<div class="card"><div class="empty">
 </div></div>`;
 
 function render(){
-  $("#title").textContent = state.view==="google" ? "Google Ads" : state.view==="quality" ? "Data quality" : state.view==="actual" ? "Actual revenue" : state.view==="fake" ? "Fake orders" : state.view==="history" ? "Retail history" : state.view==="meta" ? "Meta Ads" : state.view;
+  $("#title").textContent = state.view==="carts" ? "Abandoned carts" : state.view==="google" ? "Google Ads" : state.view==="quality" ? "Data quality" : state.view==="actual" ? "Actual revenue" : state.view==="fake" ? "Fake orders" : state.view==="history" ? "Retail history" : state.view==="meta" ? "Meta Ads" : state.view;
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on", a.dataset.v===state.view));
   $("#view").innerHTML = views[state.view] ? views[state.view]() : "";
   window.scrollTo(0,0);
@@ -1096,6 +1131,14 @@ window.addEventListener("hashchange",()=>{
   const v=location.hash.slice(1); if(views[v]){ state.view=v; render(); }
 });
 
+async function loadCarts(){
+  try{
+    const r = await fetch("./reports/abandoned-carts/history.jsonl?t="+Date.now());
+    if(!r.ok) throw new Error(r.status+" "+r.statusText);
+    return (await r.text()).trim().split("\n").filter(Boolean).map(l=>JSON.parse(l));
+  }catch(e){ state.errors.push("abandoned-carts/history.jsonl — "+e.message); return null; }
+}
+
 async function loadEretail(){
   try{
     const r = await fetch("./data/eretail/history.jsonl?t="+Date.now());
@@ -1117,11 +1160,11 @@ async function loadEretail(){
    and whenever the tab regains focus. */
 async function reload(silent){
   state.errors = [];
-  const [sh,go,er,mt,ga,gw] = await Promise.all([
+  const [sh,go,er,mt,ga,gw,ac] = await Promise.all([
     load("shopify"), load("google"), loadEretail(),
-    load("meta"), load("ga4-app"), load("ga4-web")]);
+    load("meta"), load("ga4-app"), load("ga4-web"), loadCarts()]);
   if(sh) state.shopify=sh; if(go) state.google=go; if(er) state.eretail=er;
-  if(mt) state.meta=mt; if(ga) state.ga4app=ga; if(gw) state.ga4web=gw;
+  if(mt) state.meta=mt; if(ga) state.ga4app=ga; if(gw) state.ga4web=gw; if(ac) state.carts=ac;
   stamp();
   render();
 }
@@ -1158,11 +1201,11 @@ function stamp(){
 }
 
 (async function init(){
-  const [sh,go,er,mt,ga,gw] = await Promise.all([
+  const [sh,go,er,mt,ga,gw,ac] = await Promise.all([
     load("shopify"), load("google"), loadEretail(),
-    load("meta"), load("ga4-app"), load("ga4-web")]);
+    load("meta"), load("ga4-app"), load("ga4-web"), loadCarts()]);
   state.shopify=sh; state.google=go; state.eretail=er;
-  state.meta=mt; state.ga4app=ga; state.ga4web=gw;
+  state.meta=mt; state.ga4app=ga; state.ga4web=gw; state.carts=ac;
 
   stamp();
   /* Poll often enough that a 30-minute Shopify job shows up without
