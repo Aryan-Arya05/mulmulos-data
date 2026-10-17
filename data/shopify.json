@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-10-16 → 2026-10-17 IST",
-  "fetchedAt": "2026-10-16T20:00:44.644Z",
-  "rowCount": 196,
+  "fetchedAt": "2026-10-17T02:05:20.005Z",
+  "rowCount": 201,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 3984078,
-    "orders": 188,
-    "digitalRevenue": 1285700,
-    "digitalShare": 0.32270954534524676,
-    "newCustomers": 101,
-    "returningCustomers": 87,
-    "newCustomerShare": 0.5372340425531915,
+    "revenue": 4090628,
+    "orders": 193,
+    "digitalRevenue": 1392250,
+    "digitalShare": 0.3403511636844025,
+    "newCustomers": 104,
+    "returningCustomers": 89,
+    "newCustomerShare": 0.538860103626943,
     "rebookOrders": 10,
     "rebookValue": 208835,
-    "revenueExcludingRebooks": 3775243,
+    "revenueExcludingRebooks": 3881793,
     "giftGrossValue": 0,
     "giftCashReceived": 0,
     "giftValueWaived": 0
@@ -36,56 +36,56 @@
       "bucket": "retail_assist",
       "revenue": 1277575,
       "orders": 59,
-      "share": 0.32067017764210437,
+      "share": 0.3123175707984202,
       "aov": 21653.813559322032
+    },
+    {
+      "bucket": "online",
+      "revenue": 999350,
+      "orders": 48,
+      "share": 0.2443023418409105,
+      "aov": 20819.791666666668
     },
     {
       "bucket": "stylist",
       "revenue": 972088,
       "orders": 46,
-      "share": 0.24399321499227675,
+      "share": 0.2376378394711032,
       "aov": 21132.347826086956
-    },
-    {
-      "bucket": "online",
-      "revenue": 892800,
-      "orders": 43,
-      "share": 0.22409199819883044,
-      "aov": 20762.79069767442
     },
     {
       "bucket": "app",
       "revenue": 392900,
       "orders": 16,
-      "share": 0.09861754714641631,
+      "share": 0.096048821843492,
       "aov": 24556.25
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 239880,
       "orders": 14,
-      "share": 0.060209664569820166,
+      "share": 0.05864136264651785,
       "aov": 17134.285714285714
     },
     {
       "bucket": "other_to_draft",
       "revenue": 132140,
       "orders": 6,
-      "share": 0.03316702132839769,
+      "share": 0.0323031084713643,
       "aov": 22023.333333333332
     },
     {
       "bucket": "app_to_draft",
       "revenue": 42450,
       "orders": 2,
-      "share": 0.010654911876725305,
+      "share": 0.010377379707956822,
       "aov": 21225
     },
     {
       "bucket": "online_to_draft",
       "revenue": 34245,
       "orders": 2,
-      "share": 0.00859546424542893,
+      "share": 0.008371575220235133,
       "aov": 17122.5
     }
   ],
@@ -8234,20 +8234,20 @@
   ],
   "actualRevenue": {
     "online": {
-      "orders": 43,
-      "grossSales": 893800,
+      "orders": 48,
+      "grossSales": 1000350,
       "discounts": 1000,
-      "tax": 137205.84,
+      "tax": 153712.29,
       "shipping": 0,
-      "netTotal": 892800,
+      "netTotal": 999350,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 1031005.84,
-      "actual": 1031005.84
+      "grossPlusTax": 1154062.29,
+      "actual": 1154062.29
     },
     "app": {
       "orders": 16,
@@ -13774,12 +13774,12 @@
     {
       "date": "2026-10-17",
       "bucket": "online",
-      "orders": 6,
-      "grossSales": 154600,
+      "orders": 11,
+      "grossSales": 261150,
       "discounts": 500,
-      "tax": 23817.6,
+      "tax": 40324.05,
       "shipping": 0,
-      "netTotal": 154100,
+      "netTotal": 260650,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
@@ -77544,6 +77544,56 @@
       "total": 9400,
       "cancelledAt": null,
       "state": "counted"
+    },
+    {
+      "name": "#ML248390",
+      "date": "2026-10-17",
+      "bucket": "online",
+      "gross": 16900,
+      "tax": 2577.97,
+      "total": 16900,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML248391",
+      "date": "2026-10-17",
+      "bucket": "online",
+      "gross": 19900,
+      "tax": 3150.57,
+      "total": 19900,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML248392",
+      "date": "2026-10-17",
+      "bucket": "online",
+      "gross": 25900,
+      "tax": 3950.85,
+      "total": 25900,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML248393",
+      "date": "2026-10-17",
+      "bucket": "online",
+      "gross": 23900,
+      "tax": 3783.84,
+      "total": 23900,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML248394",
+      "date": "2026-10-17",
+      "bucket": "online",
+      "gross": 19950,
+      "tax": 3043.22,
+      "total": 19950,
+      "cancelledAt": null,
+      "state": "counted"
     }
   ],
   "products": [
@@ -77628,6 +77678,18 @@
       "digitalShare": 0.4
     },
     {
+      "title": "Rimya Bemberg Raw Silk Red Kurta Set",
+      "category": "Kurta Sets",
+      "units": 4,
+      "revenue": 91700,
+      "byBucket": {
+        "online": 3,
+        "retail_assist": 1
+      },
+      "digitalUnits": 3,
+      "digitalShare": 0.75
+    },
+    {
       "title": "Chakori Linen Satin Lime Printed Kurta Set",
       "category": "Kurta Sets",
       "units": 4,
@@ -77640,6 +77702,19 @@
       },
       "digitalUnits": 1,
       "digitalShare": 0.25
+    },
+    {
+      "title": "Shaabni Bemberg Raw Silk Mustard Kaftan Set",
+      "category": "Kurta Sets",
+      "units": 4,
+      "revenue": 79600,
+      "byBucket": {
+        "stylist": 1,
+        "app": 1,
+        "online": 2
+      },
+      "digitalUnits": 3,
+      "digitalShare": 0.75
     },
     {
       "title": "Yaira Cupro Satin Fuchsia Kurta Set",
@@ -77656,29 +77731,29 @@
       "digitalShare": 0.5
     },
     {
-      "title": "Rimya Bemberg Raw Silk Red Kurta Set",
+      "title": "Iraa Cupro Satin Red Kurta Set",
       "category": "Kurta Sets",
-      "units": 3,
-      "revenue": 65800,
+      "units": 4,
+      "revenue": 95600,
       "byBucket": {
-        "online": 2,
-        "retail_assist": 1
-      },
-      "digitalUnits": 2,
-      "digitalShare": 0.6666666666666666
-    },
-    {
-      "title": "Shaabni Bemberg Raw Silk Mustard Kaftan Set",
-      "category": "Kurta Sets",
-      "units": 3,
-      "revenue": 59700,
-      "byBucket": {
-        "stylist": 1,
-        "app": 1,
+        "retail_assist": 3,
         "online": 1
       },
-      "digitalUnits": 2,
-      "digitalShare": 0.6666666666666666
+      "digitalUnits": 1,
+      "digitalShare": 0.25
+    },
+    {
+      "title": "Saazni Cupro Satin Fuchsia Kurta with Matcha Green Dhoti Pants",
+      "category": "Kurta Sets",
+      "units": 3,
+      "revenue": 59850,
+      "byBucket": {
+        "retail_assist": 1,
+        "stylist": 1,
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.3333333333333333
     },
     {
       "title": "Dariya Bemberg Giraffe Brown Kurta Set",
@@ -77716,17 +77791,6 @@
       "digitalShare": 0.6666666666666666
     },
     {
-      "title": "Iraa Cupro Satin Red Kurta Set",
-      "category": "Kurta Sets",
-      "units": 3,
-      "revenue": 71700,
-      "byBucket": {
-        "retail_assist": 3
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
       "title": "Rimya Bemberg Raw Silk Lime Kurta Set",
       "category": "Kurta Sets",
       "units": 3,
@@ -77760,18 +77824,6 @@
       },
       "digitalUnits": 1,
       "digitalShare": 0.5
-    },
-    {
-      "title": "Saazni Cupro Satin Fuchsia Kurta with Matcha Green Dhoti Pants",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 39900,
-      "byBucket": {
-        "retail_assist": 1,
-        "stylist": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
     },
     {
       "title": "Saazni Cupro Satin Orange Kurta with Red Dhoti Pants",
@@ -78005,6 +78057,17 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Arlette Cupro Satin Red Long Kaftan Set",
+      "category": "Co-ord Set",
+      "units": 2,
+      "revenue": 33800,
+      "byBucket": {
+        "online": 2
+      },
+      "digitalUnits": 2,
+      "digitalShare": 1
     },
     {
       "title": "Laado Cupro Satin Off White Jacket with Draped Pants",
@@ -79081,17 +79144,6 @@
       "revenue": 13950,
       "byBucket": {
         "app": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 1
-    },
-    {
-      "title": "Arlette Cupro Satin Red Long Kaftan Set",
-      "category": "Co-ord Set",
-      "units": 1,
-      "revenue": 16900,
-      "byBucket": {
-        "online": 1
       },
       "digitalUnits": 1,
       "digitalShare": 1
@@ -226446,6 +226498,46 @@
       "bucket": "app",
       "units": 1,
       "revenue": 9400
+    },
+    {
+      "date": "2026-10-17",
+      "title": "Arlette Cupro Satin Red Long Kaftan Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 16900
+    },
+    {
+      "date": "2026-10-17",
+      "title": "Shaabni Bemberg Raw Silk Mustard Kaftan Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 19900
+    },
+    {
+      "date": "2026-10-17",
+      "title": "Rimya Bemberg Raw Silk Red Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 25900
+    },
+    {
+      "date": "2026-10-17",
+      "title": "Iraa Cupro Satin Red Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 23900
+    },
+    {
+      "date": "2026-10-17",
+      "title": "Saazni Cupro Satin Fuchsia Kurta with Matcha Green Dhoti Pants",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 19950
     }
   ],
   "bucketDaily": [
@@ -237576,10 +237668,10 @@
     {
       "date": "2026-10-17",
       "bucket": "online",
-      "revenue": 154100,
-      "orders": 6,
-      "newCustomers": 3,
-      "returningCustomers": 3,
+      "revenue": 260650,
+      "orders": 11,
+      "newCustomers": 6,
+      "returningCustomers": 5,
       "waived": 0
     },
     {
@@ -259184,5 +259276,5 @@
       "orders": 1
     }
   ],
-  "mergedFrom": "2026-10-15 → 2026-10-16 IST"
+  "mergedFrom": "2026-10-16 → 2026-10-17 IST"
 }
