@@ -2,23 +2,23 @@
   "source": "GA4 Data API",
   "account": "web — property 353202736",
   "range": "2 days to yesterday",
-  "fetchedAt": "2026-10-21T20:18:43.907Z",
-  "rowCount": 2,
+  "fetchedAt": "2026-10-22T05:14:08.903Z",
+  "rowCount": 3,
   "conversionRate": "purchases ÷ sessions, computed here so the definition is explicit rather than inherited from a GA4 metric.",
   "retention": "Standard GA4 keeps event data 14 months maximum. Nothing can backfill beyond that.",
   "note": "Appbrew's own dashboard has overstated revenue 16–18% against Shopify. Shopify remains authoritative for money.",
   "totals": {
-    "sessions": 117555,
-    "users": 105640,
-    "addToCarts": 2517,
-    "checkouts": 559,
-    "purchases": 402,
-    "revenue": 9147374.699381996,
-    "conversionRate": 0.0034196758963889245,
-    "cartRate": 0.02141125430649483,
-    "cartToCheckout": 0.22208978943186333,
-    "checkoutToPurchase": 0.7191413237924866,
-    "aov": 22754.663431298497
+    "sessions": 148368,
+    "users": 133599,
+    "addToCarts": 2865,
+    "checkouts": 701,
+    "purchases": 462,
+    "revenue": 10442761.699064996,
+    "conversionRate": 0.003113879003558719,
+    "cartRate": 0.019310093820769977,
+    "cartToCheckout": 0.24467713787085515,
+    "checkoutToPurchase": 0.6590584878744651,
+    "aov": 22603.380301006484
   },
   "daily": [
     {
@@ -2501,137 +2501,151 @@
     },
     {
       "date": "2026-10-21",
-      "sessions": 51126,
-      "users": 46925,
-      "addToCarts": 1028,
-      "checkouts": 227,
-      "purchases": 196,
-      "revenue": 4306704.199918,
-      "conversionRate": 0.0038336658451668428,
-      "cartRate": 0.020107186167507726,
-      "cartToCheckout": 0.22081712062256809,
-      "checkoutToPurchase": 0.8634361233480177,
-      "aov": 21972.98061182653
+      "sessions": 66479,
+      "users": 60531,
+      "addToCarts": 1244,
+      "checkouts": 303,
+      "purchases": 241,
+      "revenue": 5228651.199511,
+      "conversionRate": 0.00362520495193971,
+      "cartRate": 0.018712676183456428,
+      "cartToCheckout": 0.24356913183279744,
+      "checkoutToPurchase": 0.7953795379537953,
+      "aov": 21695.648130751037
+    },
+    {
+      "date": "2026-10-22",
+      "sessions": 15460,
+      "users": 14353,
+      "addToCarts": 132,
+      "checkouts": 66,
+      "purchases": 15,
+      "revenue": 373440.00009,
+      "conversionRate": 0.0009702457956015524,
+      "cartRate": 0.008538163001293661,
+      "cartToCheckout": 0.5,
+      "checkoutToPurchase": 0.22727272727272727,
+      "aov": 24896.000006
     }
   ],
   "streams": [
     {
       "stream": "Shop Mul Mul - GA4",
-      "sessions": 117555,
-      "users": 105640,
-      "addToCarts": 2517,
-      "checkouts": 559,
-      "purchases": 402,
-      "revenue": 9147374.699381996,
-      "conversionRate": 0.0034196758963889245,
-      "cartRate": 0.02141125430649483,
-      "cartToCheckout": 0.22208978943186333,
-      "checkoutToPurchase": 0.7191413237924866,
-      "aov": 22754.663431298497
+      "sessions": 148368,
+      "users": 133599,
+      "addToCarts": 2865,
+      "checkouts": 701,
+      "purchases": 462,
+      "revenue": 10442761.699064996,
+      "conversionRate": 0.003113879003558719,
+      "cartRate": 0.019310093820769977,
+      "cartToCheckout": 0.24467713787085515,
+      "checkoutToPurchase": 0.6590584878744651,
+      "aov": 22603.380301006484
     }
   ],
   "channels": [
     {
-      "channel": "Organic Shopping",
-      "sessions": 42299,
-      "purchases": 43,
-      "revenue": 905594.9998979999,
-      "conversionRate": 0.0010165724958036834
+      "channel": "Direct",
+      "sessions": 54614,
+      "purchases": 73,
+      "revenue": 1706124.9999890001,
+      "conversionRate": 0.0013366536053026697
     },
     {
-      "channel": "Direct",
-      "sessions": 41959,
-      "purchases": 58,
-      "revenue": 1422895.000022,
-      "conversionRate": 0.001382301770776234
+      "channel": "Organic Shopping",
+      "sessions": 52116,
+      "purchases": 48,
+      "revenue": 1049894.9998980002,
+      "conversionRate": 0.0009210223347916187
     },
     {
       "channel": "Organic Social",
-      "sessions": 10043,
-      "purchases": 10,
-      "revenue": 216199.999937,
-      "conversionRate": 0.0009957184108334164
+      "sessions": 12372,
+      "purchases": 12,
+      "revenue": 256049.999925,
+      "conversionRate": 0.0009699321047526673
     },
     {
       "channel": "Cross-network",
-      "sessions": 7984,
-      "purchases": 17,
-      "revenue": 401299.999967,
-      "conversionRate": 0.002129258517034068
-    },
-    {
-      "channel": "Organic Search",
-      "sessions": 5189,
-      "purchases": 15,
-      "revenue": 426799.99999900005,
-      "conversionRate": 0.0028907303912121796
+      "sessions": 9754,
+      "purchases": 19,
+      "revenue": 450649.99991599994,
+      "conversionRate": 0.0019479188025425466
     },
     {
       "channel": "Unassigned",
-      "sessions": 4097,
-      "purchases": 244,
-      "revenue": 5276857.199564001,
-      "conversionRate": 0.059555772516475466
+      "sessions": 7253,
+      "purchases": 275,
+      "revenue": 5906114.1993660005,
+      "conversionRate": 0.03791534537432786
+    },
+    {
+      "channel": "Organic Search",
+      "sessions": 6073,
+      "purchases": 16,
+      "revenue": 453700.0000270001,
+      "conversionRate": 0.002634612218014161
     },
     {
       "channel": "(other)",
-      "sessions": 3593,
-      "purchases": 7,
-      "revenue": 175290.000077,
-      "conversionRate": 0.0019482326746451434
+      "sessions": 3991,
+      "purchases": 9,
+      "revenue": 215090.000025,
+      "conversionRate": 0.0022550739163117012
     },
     {
       "channel": "Paid Shopping",
-      "sessions": 2334,
-      "purchases": 3,
-      "revenue": 64514.099959,
-      "conversionRate": 0.0012853470437017994
+      "sessions": 3157,
+      "purchases": 4,
+      "revenue": 84414.09993299999,
+      "conversionRate": 0.0012670256572695597
     },
     {
       "channel": "Referral",
-      "sessions": 1811,
-      "purchases": 1,
-      "revenue": 83049.999982,
-      "conversionRate": 0.0005521811154058532
+      "sessions": 2329,
+      "purchases": 2,
+      "revenue": 145850.000009,
+      "conversionRate": 0.0008587376556462001
     },
     {
       "channel": "Paid Search",
-      "sessions": 1789,
+      "sessions": 2206,
       "purchases": 4,
       "revenue": 174873.39997600002,
-      "conversionRate": 0.0022358859698155395
+      "conversionRate": 0.001813236627379873
     },
     {
       "channel": "Paid Social",
-      "sessions": 589,
+      "sessions": 707,
       "purchases": 0,
       "revenue": 0,
       "conversionRate": 0
     },
     {
       "channel": "AI Assistant",
-      "sessions": 40,
+      "sessions": 48,
       "purchases": 0,
       "revenue": 0,
       "conversionRate": 0
     },
     {
       "channel": "Email",
-      "sessions": 26,
+      "sessions": 34,
       "purchases": 0,
       "revenue": 0,
       "conversionRate": 0
     },
     {
       "channel": "SMS",
-      "sessions": 9,
+      "sessions": 12,
       "purchases": 0,
       "revenue": 0,
       "conversionRate": 0
     },
     {
       "channel": "Organic Video",
-      "sessions": 6,
+      "sessions": 11,
       "purchases": 0,
       "revenue": 0,
       "conversionRate": 0
