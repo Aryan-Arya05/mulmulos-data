@@ -33,13 +33,6 @@ jobs:
           SHOPIFY_STORE: shopmulmul.myshopify.com
           SHOPIFY_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
         run: python scripts/abandoned_carts_report.py --period ${{ steps.p.outputs.period }} --out reports/abandoned-carts
-      - name: Commit report
-        run: |
-          git config user.name mulmulos-bot
-          git config user.email bot@mulmul.local
-          git add reports/abandoned-carts
-          git commit -m "abandoned carts: ${{ steps.p.outputs.period }} $(date -u +%F)" || exit 0
-          git push
       - name: Bake formula values (so previews don't show 0)
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq libreoffice-calc >/dev/null
@@ -52,3 +45,10 @@ jobs:
         with:
           name: abandoned-carts-${{ steps.p.outputs.period }}
           path: reports/abandoned-carts/*.xlsx
+      - name: Commit report
+        run: |
+          git config user.name mulmulos-bot
+          git config user.email bot@mulmul.local
+          git add reports/abandoned-carts
+          git commit -m "abandoned carts: ${{ steps.p.outputs.period }} $(date -u +%F)" || exit 0
+          git push
