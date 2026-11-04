@@ -69,7 +69,8 @@ def fetch(start_ist: date, end_ist: date):
     s_utc = datetime.combine(start_ist, datetime.min.time()) - IST
     e_utc = datetime.combine(end_ist + timedelta(days=1), datetime.min.time()) - IST
     q = f"created_at:>='{s_utc:%Y-%m-%dT%H:%M:%S}Z' AND created_at:<'{e_utc:%Y-%m-%dT%H:%M:%S}Z'"
-    oq = f"created_at:>='{s_utc:%Y-%m-%dT%H:%M:%S}Z'"
+    o_utc = s_utc - timedelta(days=3)
+    oq = f"created_at:>='{o_utc:%Y-%m-%dT%H:%M:%S}Z'"
     rows, after = [], None
     while True:
         d = gql(Q, {"first": 50, "after": after, "q": q, "oq": oq})["abandonedCheckouts"]
@@ -99,18 +100,33 @@ def dummy(p):
     d = d.lstrip("0") if len(d) > 10 else (d[1:] if d.startswith("0") else d)
     return len(d) != 10 or len(set(d)) <= 2 or d in ("9876543210", "1234567890") or d[0] not in "6789"
 
+REBOOK = {"web": "online_to_draft", "app": "app_to_draft", "draft": "other_to_draft"}
+
 def classify(r, cutoff):
     os_ = sorted([o for o in r["orders"] if r["cr"] <= o["at"] <= cutoff], key=lambda o: o["at"])
     if not os_: return None
     def bucket(o):
         if o["src"] == "draft": return "retail" if "REC AT" in o["note"].upper() else "stylist"
         return {"web": "online", "app": "app"}.get(o["src"], "other")
+    def rebook_of(draft):
+        # A draft is a re-book if the same customer had a web/app/draft order cancelled in the
+        # 3 days before it. Looks at ALL the customer's orders, including ones stamped a few
+        # minutes before the abandoned checkout (Shopify re-stamps the checkout on re-entry).
+        prior = [o for o in r["orders"] if o["canc"] and o["src"] in REBOOK
+                 and timedelta(0) <= (draft["at"] - o["at"]) <= timedelta(days=3)]
+        if not prior: return None
+        return REBOOK[max(prior, key=lambda o: o["at"])["src"]]
     first = os_[0]
-    if not first["canc"]: return dict(bucket=bucket(first), amt=first["amt"])
+    if not first["canc"]:
+        if first["src"] == "draft" and "REC AT" not in first["note"].upper():
+            rb = rebook_of(first)
+            if rb: return dict(bucket=rb, amt=first["amt"])
+        return dict(bucket=bucket(first), amt=first["amt"])
     for o in os_[1:]:
         if not o["canc"]:
-            if o["src"] == "draft" and (o["at"] - first["at"]) <= timedelta(days=3):
-                return dict(bucket={"web": "online_to_draft", "app": "app_to_draft"}.get(first["src"], "other_to_draft"), amt=o["amt"])
+            if o["src"] == "draft":
+                rb = rebook_of(o)
+                if rb: return dict(bucket=rb, amt=o["amt"])
             return dict(bucket=bucket(o), amt=o["amt"])
     return dict(bucket="cancelled", amt=0)
 
