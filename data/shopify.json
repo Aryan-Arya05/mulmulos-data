@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-11-08 → 2026-11-09 IST",
-  "fetchedAt": "2026-11-08T20:52:42.389Z",
-  "rowCount": 47,
+  "fetchedAt": "2026-11-09T03:38:22.694Z",
+  "rowCount": 50,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 1151058,
-    "orders": 47,
-    "digitalRevenue": 1039550,
-    "digitalShare": 0.9031256461446774,
-    "newCustomers": 15,
-    "returningCustomers": 32,
-    "newCustomerShare": 0.3191489361702128,
+    "revenue": 1215808,
+    "orders": 50,
+    "digitalRevenue": 1104300,
+    "digitalShare": 0.9082848607674896,
+    "newCustomers": 17,
+    "returningCustomers": 33,
+    "newCustomerShare": 0.34,
     "rebookOrders": 0,
     "rebookValue": 0,
-    "revenueExcludingRebooks": 1151058,
+    "revenueExcludingRebooks": 1215808,
     "giftGrossValue": 0,
     "giftCashReceived": 0,
     "giftValueWaived": 0
@@ -34,30 +34,30 @@
   "buckets": [
     {
       "bucket": "online",
-      "revenue": 830450,
-      "orders": 30,
-      "share": 0.7214666854320112,
-      "aov": 27681.666666666668
+      "revenue": 873300,
+      "orders": 32,
+      "share": 0.7182877559614677,
+      "aov": 27290.625
     },
     {
       "bucket": "app",
-      "revenue": 209100,
-      "orders": 12,
-      "share": 0.18165896071266607,
-      "aov": 17425
+      "revenue": 231000,
+      "orders": 13,
+      "share": 0.189997104806022,
+      "aov": 17769.23076923077
     },
     {
       "bucket": "stylist",
       "revenue": 74658,
       "orders": 3,
-      "share": 0.06486032849778205,
+      "share": 0.061406077275359267,
       "aov": 24886
     },
     {
       "bucket": "retail_assist",
       "revenue": 36850,
       "orders": 2,
-      "share": 0.03201402535754063,
+      "share": 0.030309061957151127,
       "aov": 18425
     }
   ],
@@ -8221,36 +8221,36 @@
   ],
   "actualRevenue": {
     "online": {
-      "orders": 30,
-      "grossSales": 831450,
+      "orders": 32,
+      "grossSales": 874300,
       "discounts": 1000,
-      "tax": 127709.84,
+      "tax": 134459.48,
       "shipping": 0,
-      "netTotal": 830450,
+      "netTotal": 873300,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 959159.84,
-      "actual": 959159.84
+      "grossPlusTax": 1008759.48,
+      "actual": 1008759.48
     },
     "app": {
-      "orders": 12,
-      "grossSales": 209600,
+      "orders": 13,
+      "grossSales": 231500,
       "discounts": 500,
-      "tax": 32040.180000000004,
+      "tax": 35380.86,
       "shipping": 0,
-      "netTotal": 209100,
+      "netTotal": 231000,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 241640.18,
-      "actual": 241640.18
+      "grossPlusTax": 266880.86,
+      "actual": 266880.86
     }
   },
   "revenueDaily": [
@@ -14497,12 +14497,28 @@
     {
       "date": "2026-11-09",
       "bucket": "online",
-      "orders": 4,
-      "grossSales": 65200,
+      "orders": 6,
+      "grossSales": 108050,
       "discounts": 500,
-      "tax": 9926.699999999999,
+      "tax": 16676.34,
       "shipping": 0,
-      "netTotal": 64700,
+      "netTotal": 107550,
+      "reversals": 0,
+      "reversalCount": 0,
+      "rebookedNotReversed": 0,
+      "rebookedCount": 0,
+      "cancelledOtherDay": 0,
+      "cancelledOtherDayCount": 0
+    },
+    {
+      "date": "2026-11-09",
+      "bucket": "app",
+      "orders": 1,
+      "grossSales": 21900,
+      "discounts": 0,
+      "tax": 3340.68,
+      "shipping": 0,
+      "netTotal": 21900,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
@@ -97331,6 +97347,36 @@
       "total": 9450,
       "cancelledAt": null,
       "state": "counted"
+    },
+    {
+      "name": "#ML252946",
+      "date": "2026-11-09",
+      "bucket": "online",
+      "gross": 36900,
+      "tax": 5842.01,
+      "total": 36900,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML252947",
+      "date": "2026-11-09",
+      "bucket": "online",
+      "gross": 5950,
+      "tax": 907.63,
+      "total": 5950,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML252948",
+      "date": "2026-11-09",
+      "bucket": "app",
+      "gross": 21900,
+      "tax": 3340.68,
+      "total": 21900,
+      "cancelledAt": null,
+      "state": "counted"
     }
   ],
   "products": [
@@ -97348,12 +97394,12 @@
     {
       "title": "Koyal Cupro Satin Matcha Green Kaftan Set",
       "category": "Co-ord Set",
-      "units": 3,
-      "revenue": 74850,
+      "units": 4,
+      "revenue": 99800,
       "byBucket": {
-        "online": 3
+        "online": 4
       },
-      "digitalUnits": 3,
+      "digitalUnits": 4,
       "digitalShare": 1
     },
     {
@@ -97378,6 +97424,17 @@
       },
       "digitalUnits": 2,
       "digitalShare": 0.6666666666666666
+    },
+    {
+      "title": "Reja Organza Electric Blue Co-ord Set",
+      "category": "Co-ord Set",
+      "units": 2,
+      "revenue": 43800,
+      "byBucket": {
+        "app": 2
+      },
+      "digitalUnits": 2,
+      "digitalShare": 1
     },
     {
       "title": "Dariya Bemberg Giraffe Lime Kurta Set",
@@ -97421,17 +97478,6 @@
         "online": 2
       },
       "digitalUnits": 2,
-      "digitalShare": 1
-    },
-    {
-      "title": "Reja Organza Electric Blue Co-ord Set",
-      "category": "Co-ord Set",
-      "units": 1,
-      "revenue": 21900,
-      "byBucket": {
-        "app": 1
-      },
-      "digitalUnits": 1,
       "digitalShare": 1
     },
     {
@@ -97835,6 +97881,28 @@
       "category": "Co-ord Set",
       "units": 1,
       "revenue": 9950,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Moor Denim Long Shirt Co-ord Set",
+      "category": "Co-ord Set",
+      "units": 1,
+      "revenue": 11950,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Mulmul Supima Cotton Zeta Kurta",
+      "category": "Kurta",
+      "units": 1,
+      "revenue": 5950,
       "byBucket": {
         "online": 1
       },
@@ -280117,6 +280185,38 @@
       "bucket": "online",
       "units": 1,
       "revenue": 9950
+    },
+    {
+      "date": "2026-11-09",
+      "title": "Moor Denim Long Shirt Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 11950
+    },
+    {
+      "date": "2026-11-09",
+      "title": "Koyal Cupro Satin Matcha Green Kaftan Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 24950
+    },
+    {
+      "date": "2026-11-09",
+      "title": "Mulmul Supima Cotton Zeta Kurta",
+      "category": "Kurta",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 5950
+    },
+    {
+      "date": "2026-11-09",
+      "title": "Reja Organza Electric Blue Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 21900
     }
   ],
   "bucketDaily": [
@@ -292759,10 +292859,19 @@
     {
       "date": "2026-11-09",
       "bucket": "online",
-      "revenue": 64700,
-      "orders": 4,
-      "newCustomers": 2,
+      "revenue": 107550,
+      "orders": 6,
+      "newCustomers": 4,
       "returningCustomers": 2,
+      "waived": 0
+    },
+    {
+      "date": "2026-11-09",
+      "bucket": "app",
+      "revenue": 21900,
+      "orders": 1,
+      "newCustomers": 0,
+      "returningCustomers": 1,
       "waived": 0
     }
   ],
@@ -318390,5 +318499,5 @@
       "orders": 1
     }
   ],
-  "mergedFrom": "2026-11-07 → 2026-11-08 IST"
+  "mergedFrom": "2026-11-08 → 2026-11-09 IST"
 }
