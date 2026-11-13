@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-11-12 → 2026-11-13 IST",
-  "fetchedAt": "2026-11-12T20:59:29.278Z",
-  "rowCount": 145,
+  "fetchedAt": "2026-11-13T04:02:07.767Z",
+  "rowCount": 148,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 3189239,
-    "orders": 143,
-    "digitalRevenue": 1270895,
-    "digitalShare": 0.39849475062859824,
+    "revenue": 3246889,
+    "orders": 146,
+    "digitalRevenue": 1328545,
+    "digitalShare": 0.4091747515852867,
     "newCustomers": 64,
-    "returningCustomers": 79,
-    "newCustomerShare": 0.44755244755244755,
+    "returningCustomers": 82,
+    "newCustomerShare": 0.4383561643835616,
     "rebookOrders": 1,
     "rebookValue": 23900,
-    "revenueExcludingRebooks": 3165339,
+    "revenueExcludingRebooks": 3222989,
     "giftGrossValue": 59700,
     "giftCashReceived": 38310,
     "giftValueWaived": 21390
@@ -36,49 +36,49 @@
       "bucket": "stylist",
       "revenue": 1088119,
       "orders": 48,
-      "share": 0.3411845270925133,
+      "share": 0.3351266396849415,
       "aov": 22669.145833333332
     },
     {
       "bucket": "online",
-      "revenue": 805995,
-      "orders": 40,
-      "share": 0.2527232985674639,
-      "aov": 20149.875
+      "revenue": 838795,
+      "orders": 42,
+      "share": 0.25833805836910345,
+      "aov": 19971.309523809523
     },
     {
       "bucket": "retail_assist",
       "revenue": 639800,
       "orders": 27,
-      "share": 0.20061212094797537,
+      "share": 0.19705016093867084,
       "aov": 23696.296296296296
     },
     {
       "bucket": "app",
-      "revenue": 464900,
-      "orders": 18,
-      "share": 0.14577145206113434,
-      "aov": 25827.777777777777
+      "revenue": 489750,
+      "orders": 19,
+      "share": 0.15083669321618323,
+      "aov": 25776.315789473683
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 128215,
       "orders": 7,
-      "share": 0.040202380567903505,
+      "share": 0.03948856890395699,
       "aov": 18316.428571428572
     },
     {
       "bucket": "gift",
       "revenue": 38310,
       "orders": 2,
-      "share": 0.012012270011748885,
+      "share": 0.01179898666076974,
       "aov": 19155
     },
     {
       "bucket": "other_to_draft",
       "revenue": 23900,
       "orders": 1,
-      "share": 0.007493950751260724,
+      "share": 0.007360892226374231,
       "aov": 23900
     }
   ],
@@ -8516,36 +8516,36 @@
   ],
   "actualRevenue": {
     "online": {
-      "orders": 40,
-      "grossSales": 806845,
+      "orders": 42,
+      "grossSales": 839645,
       "discounts": 1000,
-      "tax": 127041.95000000003,
+      "tax": 132045.34000000003,
       "shipping": 150,
-      "netTotal": 805995,
+      "netTotal": 838795,
       "reversals": 3500.85,
       "reversalCount": 1,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 933886.9500000001,
-      "actual": 930386.1000000001
+      "grossPlusTax": 971690.3400000001,
+      "actual": 968189.4900000001
     },
     "app": {
-      "orders": 18,
-      "grossSales": 465400,
+      "orders": 19,
+      "grossSales": 490250,
       "discounts": 500,
-      "tax": 71616.6,
+      "tax": 75407.28,
       "shipping": 0,
-      "netTotal": 464900,
+      "netTotal": 489750,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 537016.6,
-      "actual": 537016.6
+      "grossPlusTax": 565657.28,
+      "actual": 565657.28
     }
   },
   "revenueDaily": [
@@ -14920,12 +14920,28 @@
     {
       "date": "2026-11-13",
       "bucket": "online",
-      "orders": 6,
-      "grossSales": 99500,
+      "orders": 8,
+      "grossSales": 132300,
       "discounts": 0,
-      "tax": 15385.09,
+      "tax": 20388.48,
       "shipping": 150,
-      "netTotal": 99650,
+      "netTotal": 132450,
+      "reversals": 0,
+      "reversalCount": 0,
+      "rebookedNotReversed": 0,
+      "rebookedCount": 0,
+      "cancelledOtherDay": 0,
+      "cancelledOtherDayCount": 0
+    },
+    {
+      "date": "2026-11-13",
+      "bucket": "app",
+      "orders": 1,
+      "grossSales": 24850,
+      "discounts": 0,
+      "tax": 3790.68,
+      "shipping": 0,
+      "netTotal": 24850,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
@@ -100104,6 +100120,36 @@
       "total": 650,
       "cancelledAt": null,
       "state": "counted"
+    },
+    {
+      "name": "#ML253429",
+      "date": "2026-11-13",
+      "bucket": "online",
+      "gross": 7950,
+      "tax": 1212.71,
+      "total": 7950,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML253430",
+      "date": "2026-11-13",
+      "bucket": "app",
+      "gross": 24850,
+      "tax": 3790.68,
+      "total": 24850,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML253431",
+      "date": "2026-11-13",
+      "bucket": "online",
+      "gross": 24850,
+      "tax": 3790.68,
+      "total": 24850,
+      "cancelledAt": null,
+      "state": "counted"
     }
   ],
   "products": [
@@ -100168,6 +100214,18 @@
         "online": 1,
         "app": 1,
         "retail_assist": 1
+      },
+      "digitalUnits": 2,
+      "digitalShare": 0.6666666666666666
+    },
+    {
+      "title": "Dariya Bemberg Giraffe Brown Kurta Set",
+      "category": "Kurta Sets",
+      "units": 3,
+      "revenue": 74550,
+      "byBucket": {
+        "online": 2,
+        "stylist": 1
       },
       "digitalUnits": 2,
       "digitalShare": 0.6666666666666666
@@ -100243,18 +100301,6 @@
       },
       "digitalUnits": 2,
       "digitalShare": 1
-    },
-    {
-      "title": "Dariya Bemberg Giraffe Brown Kurta Set",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 49700,
-      "byBucket": {
-        "online": 1,
-        "stylist": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 0.5
     },
     {
       "title": "Laado Cupro Satin Emerald Green Short Kurta with Draped Pants",
@@ -101803,6 +101849,28 @@
       "revenue": 16950,
       "byBucket": {
         "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Mulmul Adheera Gold Mini Potli Bag",
+      "category": "Potli Bag",
+      "units": 1,
+      "revenue": 7950,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Bairi Bemberg Raw Silk Emerald Green Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 24850,
+      "byBucket": {
+        "app": 1
       },
       "digitalUnits": 1,
       "digitalShare": 1
@@ -288453,6 +288521,30 @@
       "bucket": "online",
       "units": 1,
       "revenue": 500
+    },
+    {
+      "date": "2026-11-13",
+      "title": "Mulmul Adheera Gold Mini Potli Bag",
+      "category": "Potli Bag",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 7950
+    },
+    {
+      "date": "2026-11-13",
+      "title": "Bairi Bemberg Raw Silk Emerald Green Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 24850
+    },
+    {
+      "date": "2026-11-13",
+      "title": "Dariya Bemberg Giraffe Brown Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 24850
     }
   ],
   "bucketDaily": [
@@ -301347,10 +301439,19 @@
     {
       "date": "2026-11-13",
       "bucket": "online",
-      "revenue": 99650,
-      "orders": 6,
+      "revenue": 132450,
+      "orders": 8,
       "newCustomers": 3,
-      "returningCustomers": 3,
+      "returningCustomers": 5,
+      "waived": 0
+    },
+    {
+      "date": "2026-11-13",
+      "bucket": "app",
+      "revenue": 24850,
+      "orders": 1,
+      "newCustomers": 0,
+      "returningCustomers": 1,
       "waived": 0
     }
   ],
@@ -327494,5 +327595,5 @@
       "orders": 1
     }
   ],
-  "mergedFrom": "2026-11-11 → 2026-11-12 IST"
+  "mergedFrom": "2026-11-12 → 2026-11-13 IST"
 }
