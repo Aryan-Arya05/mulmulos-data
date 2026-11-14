@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-11-13 → 2026-11-14 IST",
-  "fetchedAt": "2026-11-13T19:55:42.037Z",
-  "rowCount": 172,
+  "fetchedAt": "2026-11-14T04:00:11.080Z",
+  "rowCount": 176,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 3546978,
-    "orders": 168,
-    "digitalRevenue": 1191499.5,
-    "digitalShare": 0.3359196194619758,
-    "newCustomers": 66,
-    "returningCustomers": 102,
-    "newCustomerShare": 0.39285714285714285,
+    "revenue": 3645428,
+    "orders": 172,
+    "digitalRevenue": 1289949.5,
+    "digitalShare": 0.35385406048343293,
+    "newCustomers": 67,
+    "returningCustomers": 105,
+    "newCustomerShare": 0.38953488372093026,
     "rebookOrders": 8,
     "rebookValue": 137821,
-    "revenueExcludingRebooks": 3409157,
+    "revenueExcludingRebooks": 3507607,
     "giftGrossValue": 167350,
     "giftCashReceived": 59765,
     "giftValueWaived": 107585
@@ -36,56 +36,56 @@
       "bucket": "stylist",
       "revenue": 1100207.5,
       "orders": 54,
-      "share": 0.31018165322705693,
+      "share": 0.3018047537902271,
       "aov": 20374.212962962964
     },
     {
       "bucket": "online",
-      "revenue": 942450,
-      "orders": 42,
-      "share": 0.26570505934911354,
-      "aov": 22439.285714285714
+      "revenue": 983200,
+      "orders": 44,
+      "share": 0.2697076996171643,
+      "aov": 22345.454545454544
     },
     {
       "bucket": "retail_assist",
       "revenue": 632445,
       "orders": 31,
-      "share": 0.17830530665823133,
+      "share": 0.17348991668468008,
       "aov": 20401.451612903227
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 425240,
       "orders": 14,
-      "share": 0.11988797224003081,
+      "share": 0.11665022598169543,
       "aov": 30374.285714285714
     },
     {
       "bucket": "app",
-      "revenue": 249049.5,
-      "orders": 12,
-      "share": 0.07021456011286227,
-      "aov": 20754.125
+      "revenue": 306749.5,
+      "orders": 14,
+      "share": 0.08414636086626866,
+      "aov": 21910.678571428572
     },
     {
       "bucket": "other_to_draft",
       "revenue": 94621,
       "orders": 5,
-      "share": 0.026676511667114936,
+      "share": 0.02595607429360832,
       "aov": 18924.2
     },
     {
       "bucket": "gift",
       "revenue": 59765,
       "orders": 7,
-      "share": 0.01684955474773173,
+      "share": 0.01639450840888916,
       "aov": 8537.857142857143
     },
     {
       "bucket": "app_to_draft",
       "revenue": 43200,
       "orders": 3,
-      "share": 0.012179381997858459,
+      "share": 0.011850460357466942,
       "aov": 14400
     }
   ],
@@ -8573,36 +8573,36 @@
   ],
   "actualRevenue": {
     "online": {
-      "orders": 42,
-      "grossSales": 942300,
+      "orders": 44,
+      "grossSales": 983050,
       "discounts": 0,
-      "tax": 144080.12,
+      "tax": 150296.22,
       "shipping": 150,
-      "netTotal": 942450,
+      "netTotal": 983200,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 1086380.12,
-      "actual": 1086380.12
+      "grossPlusTax": 1133346.22,
+      "actual": 1133346.22
     },
     "app": {
-      "orders": 12,
-      "grossSales": 251050,
+      "orders": 14,
+      "grossSales": 308750,
       "discounts": 2000.5,
-      "tax": 40233.84,
+      "tax": 49035.53999999999,
       "shipping": 0,
-      "netTotal": 249049.5,
+      "netTotal": 306749.5,
       "reversals": 2127.97,
       "reversalCount": 0,
       "rebookedNotReversed": 2127.97,
       "rebookedCount": 1,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 291283.83999999997,
-      "actual": 289155.87
+      "grossPlusTax": 357785.54,
+      "actual": 355657.57
     }
   },
   "revenueDaily": [
@@ -15009,12 +15009,28 @@
     {
       "date": "2026-11-14",
       "bucket": "online",
-      "orders": 4,
-      "grossSales": 60700,
+      "orders": 6,
+      "grossSales": 101450,
       "discounts": 0,
-      "tax": 9259.32,
+      "tax": 15475.42,
       "shipping": 0,
-      "netTotal": 60700,
+      "netTotal": 101450,
+      "reversals": 0,
+      "reversalCount": 0,
+      "rebookedNotReversed": 0,
+      "rebookedCount": 0,
+      "cancelledOtherDay": 0,
+      "cancelledOtherDayCount": 0
+    },
+    {
+      "date": "2026-11-14",
+      "bucket": "app",
+      "orders": 2,
+      "grossSales": 57700,
+      "discounts": 0,
+      "tax": 8801.699999999999,
+      "shipping": 0,
+      "netTotal": 57700,
       "reversals": 0,
       "reversalCount": 0,
       "rebookedNotReversed": 0,
@@ -100683,6 +100699,46 @@
       "total": 19900,
       "cancelledAt": null,
       "state": "counted"
+    },
+    {
+      "name": "#ML253595",
+      "date": "2026-11-14",
+      "bucket": "app",
+      "gross": 25750,
+      "tax": 3927.97,
+      "total": 25750,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML253596",
+      "date": "2026-11-14",
+      "bucket": "app",
+      "gross": 31950,
+      "tax": 4873.73,
+      "total": 31950,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML253597",
+      "date": "2026-11-14",
+      "bucket": "online",
+      "gross": 23900,
+      "tax": 3645.76,
+      "total": 23900,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML253598",
+      "date": "2026-11-14",
+      "bucket": "online",
+      "gross": 16850,
+      "tax": 2570.34,
+      "total": 16850,
+      "cancelledAt": null,
+      "state": "counted"
     }
   ],
   "products": [
@@ -100841,6 +100897,31 @@
       "digitalShare": 0.3333333333333333
     },
     {
+      "title": "Shvi Cupro Satin Fuchsia Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "units": 3,
+      "revenue": 61800,
+      "byBucket": {
+        "retail_assist": 1,
+        "app": 1,
+        "online": 1
+      },
+      "digitalUnits": 2,
+      "digitalShare": 0.6666666666666666
+    },
+    {
+      "title": "Briti Supima Cotton Off White Kurta Set",
+      "category": "Kurta Sets",
+      "units": 3,
+      "revenue": 46600,
+      "byBucket": {
+        "app_to_draft": 2,
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.3333333333333333
+    },
+    {
       "title": "Laado Cupro Satin Emerald Green Short Kurta with Draped Pants",
       "category": "Co-ord Set",
       "units": 3,
@@ -100992,29 +101073,6 @@
       "revenue": 49800,
       "byBucket": {
         "retail_assist": 2
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
-      "title": "Shvi Cupro Satin Fuchsia Kurta With Farshi Salwar",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 37900,
-      "byBucket": {
-        "retail_assist": 1,
-        "app": 1
-      },
-      "digitalUnits": 1,
-      "digitalShare": 0.5
-    },
-    {
-      "title": "Briti Supima Cotton Off White Kurta Set",
-      "category": "Kurta Sets",
-      "units": 2,
-      "revenue": 29750,
-      "byBucket": {
-        "app_to_draft": 2
       },
       "digitalUnits": 0,
       "digitalShare": 0
@@ -102458,6 +102516,39 @@
       "revenue": 19900,
       "byBucket": {
         "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Odelle Lawn Printed Steel Blue Co-ord Set",
+      "category": "Co-ord Set",
+      "units": 1,
+      "revenue": 12900,
+      "byBucket": {
+        "app": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Arpina Supima Cotton Blue Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 12850,
+      "byBucket": {
+        "app": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Lali Velvet Purple Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 31950,
+      "byBucket": {
+        "app": 1
       },
       "digitalUnits": 1,
       "digitalShare": 1
@@ -290604,6 +290695,46 @@
       "bucket": "online",
       "units": 1,
       "revenue": 19900
+    },
+    {
+      "date": "2026-11-14",
+      "title": "Odelle Lawn Printed Steel Blue Co-ord Set",
+      "category": "Co-ord Set",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 12900
+    },
+    {
+      "date": "2026-11-14",
+      "title": "Arpina Supima Cotton Blue Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 12850
+    },
+    {
+      "date": "2026-11-14",
+      "title": "Lali Velvet Purple Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "app",
+      "units": 1,
+      "revenue": 31950
+    },
+    {
+      "date": "2026-11-14",
+      "title": "Shvi Cupro Satin Fuchsia Kurta With Farshi Salwar",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 23900
+    },
+    {
+      "date": "2026-11-14",
+      "title": "Briti Supima Cotton Off White Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 16850
     }
   ],
   "bucketDaily": [
@@ -303570,9 +303701,18 @@
     {
       "date": "2026-11-14",
       "bucket": "online",
-      "revenue": 60700,
-      "orders": 4,
-      "newCustomers": 2,
+      "revenue": 101450,
+      "orders": 6,
+      "newCustomers": 3,
+      "returningCustomers": 3,
+      "waived": 0
+    },
+    {
+      "date": "2026-11-14",
+      "bucket": "app",
+      "revenue": 57700,
+      "orders": 2,
+      "newCustomers": 0,
       "returningCustomers": 2,
       "waived": 0
     }
@@ -329915,5 +330055,5 @@
       "orders": 1
     }
   ],
-  "mergedFrom": "2026-11-12 → 2026-11-13 IST"
+  "mergedFrom": "2026-11-13 → 2026-11-14 IST"
 }
