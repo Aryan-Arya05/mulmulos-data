@@ -2,8 +2,8 @@
   "source": "Shopify Admin API",
   "account": "shopmulmul.myshopify.com",
   "range": "2026-11-19 → 2026-11-20 IST",
-  "fetchedAt": "2026-11-19T22:20:19.021Z",
-  "rowCount": 116,
+  "fetchedAt": "2026-11-20T04:50:03.511Z",
+  "rowCount": 119,
   "currency": "INR",
   "truncated": false,
   "rebookWindowDays": 3,
@@ -17,16 +17,16 @@
     "note": "Retail proper is not in Shopify — it lives in eRetail. Re-books are labelled, never subtracted, so totals reconcile against Shopify's own reports."
   },
   "totals": {
-    "revenue": 2426894,
-    "orders": 114,
-    "digitalRevenue": 591790,
-    "digitalShare": 0.24384666161768911,
-    "newCustomers": 55,
-    "returningCustomers": 59,
-    "newCustomerShare": 0.4824561403508772,
+    "revenue": 2480589,
+    "orders": 117,
+    "digitalRevenue": 630535,
+    "digitalShare": 0.25418761431256853,
+    "newCustomers": 57,
+    "returningCustomers": 60,
+    "newCustomerShare": 0.48717948717948717,
     "rebookOrders": 2,
     "rebookValue": 65390,
-    "revenueExcludingRebooks": 2361504,
+    "revenueExcludingRebooks": 2415199,
     "giftGrossValue": 169400,
     "giftCashReceived": 50820,
     "giftValueWaived": 118580
@@ -34,51 +34,51 @@
   "buckets": [
     {
       "bucket": "stylist",
-      "revenue": 1002344,
-      "orders": 44,
-      "share": 0.41301515434955133,
-      "aov": 22780.545454545456
+      "revenue": 1017294,
+      "orders": 45,
+      "share": 0.4101017943722237,
+      "aov": 22606.533333333333
     },
     {
       "bucket": "retail_assist",
       "revenue": 658750,
       "orders": 32,
-      "share": 0.2714374834665214,
+      "share": 0.26556192904185255,
       "aov": 20585.9375
     },
     {
       "bucket": "online",
-      "revenue": 399090,
-      "orders": 19,
-      "share": 0.1644447594332509,
-      "aov": 21004.736842105263
+      "revenue": 437835,
+      "orders": 21,
+      "share": 0.1765044511605913,
+      "aov": 20849.285714285714
     },
     {
       "bucket": "app",
       "revenue": 192700,
       "orders": 8,
-      "share": 0.07940190218443821,
+      "share": 0.07768316315197721,
       "aov": 24087.5
     },
     {
       "bucket": "other_to_draft",
       "revenue": 65390,
       "orders": 2,
-      "share": 0.02694390443093106,
+      "share": 0.026360674823600362,
       "aov": 32695
     },
     {
       "bucket": "draft_unclassified",
       "revenue": 57800,
       "orders": 3,
-      "share": 0.023816450162223814,
+      "share": 0.023300917644962546,
       "aov": 19266.666666666668
     },
     {
       "bucket": "gift",
       "revenue": 50820,
       "orders": 6,
-      "share": 0.02094034597308329,
+      "share": 0.02048706980479233,
       "aov": 8470
     }
   ],
@@ -124,6 +124,11 @@
       "orders": 1
     },
     {
+      "stylist": "Gift card",
+      "revenue": 30300,
+      "orders": 2
+    },
+    {
       "stylist": "Anjali",
       "revenue": 29900,
       "orders": 1
@@ -152,11 +157,6 @@
       "stylist": "Nidhi",
       "revenue": 16150,
       "orders": 2
-    },
-    {
-      "stylist": "Gift card",
-      "revenue": 15350,
-      "orders": 1
     },
     {
       "stylist": "Riya",
@@ -8770,20 +8770,20 @@
   ],
   "actualRevenue": {
     "online": {
-      "orders": 19,
-      "grossSales": 400090,
+      "orders": 21,
+      "grossSales": 438835,
       "discounts": 1000,
-      "tax": 63282.27,
+      "tax": 69192.52,
       "shipping": 0,
-      "netTotal": 399090,
+      "netTotal": 437835,
       "reversals": 2127.97,
       "reversalCount": 1,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
       "cancelledOtherDayCount": 0,
-      "grossPlusTax": 463372.27,
-      "actual": 461244.30000000005
+      "grossPlusTax": 508027.52,
+      "actual": 505899.55000000005
     },
     "app": {
       "orders": 8,
@@ -15390,6 +15390,22 @@
       "netTotal": 192700,
       "reversals": 3158.49,
       "reversalCount": 1,
+      "rebookedNotReversed": 0,
+      "rebookedCount": 0,
+      "cancelledOtherDay": 0,
+      "cancelledOtherDayCount": 0
+    },
+    {
+      "date": "2026-11-20",
+      "bucket": "online",
+      "orders": 2,
+      "grossSales": 38745,
+      "discounts": 0,
+      "tax": 5910.25,
+      "shipping": 0,
+      "netTotal": 38745,
+      "reversals": 0,
+      "reversalCount": 0,
       "rebookedNotReversed": 0,
       "rebookedCount": 0,
       "cancelledOtherDay": 0,
@@ -103476,6 +103492,26 @@
       "total": 25000,
       "cancelledAt": null,
       "state": "counted"
+    },
+    {
+      "name": "#ML254301",
+      "date": "2026-11-20",
+      "bucket": "online",
+      "gross": 15845,
+      "tax": 2417.03,
+      "total": 15845,
+      "cancelledAt": null,
+      "state": "counted"
+    },
+    {
+      "name": "#ML254302",
+      "date": "2026-11-20",
+      "bucket": "online",
+      "gross": 22900,
+      "tax": 3493.22,
+      "total": 22900,
+      "cancelledAt": null,
+      "state": "counted"
     }
   ],
   "products": [
@@ -103620,6 +103656,18 @@
       },
       "digitalUnits": 0,
       "digitalShare": 0
+    },
+    {
+      "title": "Gift box",
+      "category": "Gift Box",
+      "units": 2,
+      "revenue": 990,
+      "byBucket": {
+        "stylist": 1,
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 0.5
     },
     {
       "title": "Kaina Cupro Satin Printed Off White Kurta with Bell Bottom pants",
@@ -104450,17 +104498,6 @@
       "digitalShare": 0
     },
     {
-      "title": "Gift box",
-      "category": "Gift Box",
-      "units": 1,
-      "revenue": 495,
-      "byBucket": {
-        "stylist": 1
-      },
-      "digitalUnits": 0,
-      "digitalShare": 0
-    },
-    {
       "title": "Mulmul Linen Satin Chakori Steel Blue Kurta",
       "category": "Kurta",
       "units": 1,
@@ -104943,6 +104980,39 @@
       },
       "digitalUnits": 1,
       "digitalShare": 1
+    },
+    {
+      "title": "Elra Supima Cotton Yellow Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 15350,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Tori Pima Satin Mustard Strappy Long Kurta Set",
+      "category": "Co-ord Set",
+      "units": 1,
+      "revenue": 22900,
+      "byBucket": {
+        "online": 1
+      },
+      "digitalUnits": 1,
+      "digitalShare": 1
+    },
+    {
+      "title": "Noreya Lawn Fuschia Kurta Set",
+      "category": "Kurta Sets",
+      "units": 1,
+      "revenue": 14950,
+      "byBucket": {
+        "stylist": 1
+      },
+      "digitalUnits": 0,
+      "digitalShare": 0
     }
   ],
   "categories": [
@@ -310309,6 +310379,38 @@
       "bucket": "online",
       "units": 1,
       "revenue": 25000
+    },
+    {
+      "date": "2026-11-20",
+      "title": "Elra Supima Cotton Yellow Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 15350
+    },
+    {
+      "date": "2026-11-20",
+      "title": "Gift box",
+      "category": "Gift Box",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 495
+    },
+    {
+      "date": "2026-11-20",
+      "title": "Tori Pima Satin Mustard Strappy Long Kurta Set",
+      "category": "Co-ord Set",
+      "bucket": "online",
+      "units": 1,
+      "revenue": 22900
+    },
+    {
+      "date": "2026-11-20",
+      "title": "Noreya Lawn Fuschia Kurta Set",
+      "category": "Kurta Sets",
+      "bucket": "stylist",
+      "units": 1,
+      "revenue": 14950
     }
   ],
   "bucketDaily": [
@@ -323639,6 +323741,24 @@
       "orders": 3,
       "newCustomers": 0,
       "returningCustomers": 3,
+      "waived": 0
+    },
+    {
+      "date": "2026-11-20",
+      "bucket": "online",
+      "revenue": 38745,
+      "orders": 2,
+      "newCustomers": 1,
+      "returningCustomers": 1,
+      "waived": 0
+    },
+    {
+      "date": "2026-11-20",
+      "bucket": "stylist",
+      "revenue": 14950,
+      "orders": 1,
+      "newCustomers": 1,
+      "returningCustomers": 0,
       "waived": 0
     }
   ],
@@ -337874,6 +337994,12 @@
       "stylist": "Kshish",
       "revenue": 3434,
       "orders": 1
+    },
+    {
+      "date": "2026-11-20",
+      "stylist": "Gift card",
+      "revenue": 14950,
+      "orders": 1
     }
   ],
   "storeDaily": [
@@ -350874,5 +351000,5 @@
       "orders": 1
     }
   ],
-  "mergedFrom": "2026-11-18 → 2026-11-19 IST"
+  "mergedFrom": "2026-11-19 → 2026-11-20 IST"
 }
